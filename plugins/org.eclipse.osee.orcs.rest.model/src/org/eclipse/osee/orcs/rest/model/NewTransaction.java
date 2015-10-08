@@ -19,22 +19,22 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class NewTransaction {
 
    private String comment;
-   private String authorId;
+   private String author;
 
    public String getComment() {
       return comment;
    }
 
-   public String getAuthorId() {
-      return authorId;
+   public String getAuthor() {
+      return author;
    }
 
    public void setComment(String comment) {
       this.comment = comment;
    }
 
-   public void setAuthorId(String authorId) {
-      this.authorId = authorId;
+   public void setAuthor(String author) {
+      this.author = author;
    }
 
 }

@@ -91,6 +91,21 @@ public class TransactionFactoryImpl implements TransactionFactory {
    }
 
    @Override
+   public TransactionBuilder createTransaction(BranchId branch, ArtifactReadable author, String comment) throws OseeCoreException {
+      return createTransaction(branch, author.getLocalId(), comment);
+   }
+
+   @Override
+   public TransactionBuilder createTransaction(Long branchId, ArtifactReadable author, String comment) throws OseeCoreException {
+      return createTransaction(branchId, author.getLocalId(), comment);
+   }
+
+   @Override
+   public TransactionBuilder createTransaction(Long branchId, Long author, String comment) throws OseeCoreException {
+      return createTransaction(TokenFactory.createBranch(branchId, ""), author, comment);
+   }
+
+   @Override
    public Callable<Void> setTransactionComment(TransactionId transaction, String comment) {
       return txCallableFactory.setTransactionComment(session, transaction, comment);
    }

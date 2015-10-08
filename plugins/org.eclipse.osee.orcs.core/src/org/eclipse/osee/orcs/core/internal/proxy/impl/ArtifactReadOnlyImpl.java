@@ -48,7 +48,7 @@ import org.eclipse.osee.orcs.data.RelationReadable;
 /**
  * @author Megumi Telles
  */
-public class ArtifactReadOnlyImpl extends AbstractProxied<Artifact> implements ArtifactReadable {
+public class ArtifactReadOnlyImpl extends AbstractProxied<Artifact>implements ArtifactReadable {
 
    private final RelationManager relationManager;
    private final ArtifactTypeToken artifactType;

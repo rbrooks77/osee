@@ -56,6 +56,8 @@ public class TransactionFactoryImplTest {
    @Mock private TxData txData;
    @Mock private QueryFactory queryFactory;
    @Mock private BranchQuery branchQuery;
+
+   private final Long author = 2L;
    // @formatter:on
 
    private final BranchId expectedBranch = CoreBranches.COMMON;
@@ -70,13 +72,14 @@ public class TransactionFactoryImplTest {
       when(branchQuery.exists()).thenReturn(true);
       factory = new TransactionFactoryImpl(session, txDataManager, txCallableFactory, orcsApi, orcsBranch, keyValueOps,
          txDataStore);
+      when(expectedAuthor.getLocalId()).thenReturn(5L);
    }
 
    @Test
    public void testNullAuthor() {
       thrown.expect(OseeArgumentException.class);
       thrown.expectMessage("author cannot be null");
-      factory.createTransaction(expectedBranch, null, "my comment");
+      factory.createTransaction(expectedBranch, (Long) null, "my comment");
    }
 
    @Test
@@ -98,7 +101,7 @@ public class TransactionFactoryImplTest {
       String expectedComment = "This is my comment";
 
       when(txDataManager.createTxData(session, expectedBranch)).thenReturn(txData);
-      when(txData.getAuthor()).thenReturn(expectedAuthor);
+      when(txData.getAuthor()).thenReturn(author);
       when(txData.getBranch()).thenReturn(expectedBranch);
       when(txData.getComment()).thenReturn(expectedComment);
 
