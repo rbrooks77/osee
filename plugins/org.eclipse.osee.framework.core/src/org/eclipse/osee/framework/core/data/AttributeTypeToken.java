@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.osee.framework.core.data;
 
+import org.codehaus.jackson.annotate.JsonProperty;
 import java.io.InputStream;
 import java.util.Date;
 import javax.ws.rs.core.MediaType;
@@ -81,7 +82,7 @@ public interface AttributeTypeToken<T> extends AttributeTypeId, FullyNamed, HasD
       return valueOf(Long.valueOf(id), name, "", null, MediaType.TEXT_PLAIN);
    }
 
-   public static <T> AttributeTypeToken<T> valueOf(Long id, String name) {
+   public static <T> AttributeTypeToken<T> valueOf(@JsonProperty("id") Long id, @JsonProperty("name") String name) {
       return valueOf(id, name, "", null, MediaType.TEXT_PLAIN);
    }
 
@@ -89,7 +90,7 @@ public interface AttributeTypeToken<T> extends AttributeTypeId, FullyNamed, HasD
       return valueOf(Long.valueOf(id), name, description, null, MediaType.TEXT_PLAIN);
    }
 
-   public static <T> AttributeTypeToken<T> valueOf(Long id, String name, String description) {
+   public static <T> AttributeTypeToken<T> create(Long id, String name, String description) {
       return valueOf(id, name, description, null, MediaType.TEXT_PLAIN);
    }
 

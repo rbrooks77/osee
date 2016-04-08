@@ -162,7 +162,7 @@ public final class AtsAttributeTypes {
    }
 
    public static <T> AttributeTypeToken<T> createType(Long id, String name, String description) {
-      AttributeTypeToken<T> type = AttributeTypeToken.valueOf(id, "ats." + name, description);
+      AttributeTypeToken<T> type = AttributeTypeToken.create(id, "ats." + name, description);
       nameToTypeMap.put(type.getName(), type);
       return type;
    }

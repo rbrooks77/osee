@@ -42,7 +42,7 @@ public class AtsAttributeValueColumnHandler implements IAtsColumn {
 
    @Override
    public String getColumnText(IAtsObject atsObject) {
-      return getColumnText(atsObject, column.getAttrTypeId(), isActionRollup(), isInheritParent(), atsApi);
+      return getColumnText(atsObject, column.getAttributeType(), isActionRollup(), isInheritParent(), atsApi);
    }
 
    private Boolean isInheritParent() {
@@ -55,7 +55,7 @@ public class AtsAttributeValueColumnHandler implements IAtsColumn {
       return actionRollup == null ? false : actionRollup;
    }
 
-   public static String getColumnText(IAtsObject atsObject, long attrTypeId, boolean isActionRollup, boolean isInheritParent, AtsApi atsApi) {
+   public static String getColumnText(IAtsObject atsObject, AttributeTypeId attributeType, boolean isActionRollup, boolean isInheritParent, AtsApi atsApi) {
       try {
          if (atsApi.getStoreService().isDeleted(atsObject)) {
             return "<deleted>";
@@ -80,7 +80,7 @@ public class AtsAttributeValueColumnHandler implements IAtsColumn {
             Set<String> strs = new HashSet<>();
             strs.add(atsObject.getName());
             for (IAtsTeamWorkflow team : teams) {
-               String str = getColumnText(team, attrTypeId, isActionRollup, isInheritParent, atsApi);
+               String str = getColumnText(team, attributeType, isActionRollup, isInheritParent, atsApi);
                if (Strings.isValid(str)) {
                   strs.add(str);
                }
@@ -93,12 +93,8 @@ public class AtsAttributeValueColumnHandler implements IAtsColumn {
       return "";
    }
 
-   public static String getColumnText(IAtsObject atsObject, AttributeTypeToken attributeType, boolean isActionRollup, boolean inheritParent, AtsApi atsApi) {
-      return getColumnText(atsObject, attributeType.getId(), isActionRollup, inheritParent, atsApi);
-   }
-
    @Override
    public String toString() {
-      return "AtsAttributeValueColumnHandler [attrType=" + column.getAttrTypeName() + "]";
+      return "AtsAttributeValueColumnHandler [attrType=" + column.getAttributeType() + "]";
    }
 }

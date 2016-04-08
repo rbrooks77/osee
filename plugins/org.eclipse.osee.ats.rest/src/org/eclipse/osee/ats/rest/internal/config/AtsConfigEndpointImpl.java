@@ -255,8 +255,7 @@ public final class AtsConfigEndpointImpl implements AtsConfigEndpointApi {
          }
 
          AtsAttributeValueColumn valueColumn = new AtsAttributeValueColumn();
-         valueColumn.setAttrTypeId(attrType.getId());
-         valueColumn.setAttrTypeName(attrType.getName());
+         valueColumn.setAttributeType(attrType);
          valueColumn.setWidth(width);
          valueColumn.setAlign(columnAlign);
          valueColumn.setVisible(true);

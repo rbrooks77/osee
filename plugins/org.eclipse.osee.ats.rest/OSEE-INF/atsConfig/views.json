@@ -4,8 +4,7 @@
 		"name": "Legacy PCR Id",
 		"id": "ats.Legacy PCR Id",
 		"namespace": "org.eclipse.osee.ats.WorldXViewer",
-		"attrTypeId": 1152921504606847219,
-		"attrTypeName": "ats.Legacy PCR Id",
+		"attributeType": 1152921504606847219,
 		"width": 40,
 		"align": "Left",
 		"visible": false,
@@ -20,8 +19,7 @@
 		"name": "Points Numeric",
 		"id": "ats.Points Numeric",
 		"namespace": "org.eclipse.osee.ats.WorldXViewer",
-		"attrTypeId": 1728793301637070003,
-		"attrTypeName": "ats.Points Numeric",
+		"attributeType": 1728793301637070003,
 		"width": 40,
 		"align": "Left",
 		"visible": false,
@@ -35,8 +33,7 @@
 		"id": "framework.artifact.name.Title",
 		"name": "Title",
 		"namespace": "org.eclipse.osee.ats.WorldXViewer",
-		"attrTypeId": 1152921504606847088,
-		"attrTypeName": "Name",
+		"attributeType": 1152921504606847088,
 		"width": 150,
 		"align": "Left",
 		"visible": true,
@@ -47,8 +44,7 @@
 		"actionRollup": true
 	}, {
 		"align": "Left",
-		"attrTypeId": 1728793301637070003,
-		"attrTypeName": "ats.Points Numeric",
+		"attributeType": 1728793301637070003,
 		"columnMultiEdit": true,
 		"description": "Numeric Point Value",
 		"namespace": "org.eclipse.osee.ats.WorldXViewer",
@@ -57,8 +53,7 @@
 		"width": 40
 	}, {
 		"align": "Left",
-		"attrTypeId": 6025996821081174931,
-		"attrTypeName": "ats.IPT",
+		"attributeType": 6025996821081174931,
 		"columnMultiEdit": true,
 		"description": "Integrated Product Team",
 		"namespace": "org.eclipse.osee.ats.WorldXViewer",
@@ -68,8 +63,7 @@
 		"inheritParent": true
 	}, {
 		"align": "Left",
-		"attrTypeId": 1152922093379125418,
-		"attrTypeName": "ats.Originating PCR Id",
+		"attributeType": 1152922093379125418,
 		"columnMultiEdit": true,
 		"description": "",
 		"namespace": "org.eclipse.osee.ats.WorldXViewer",
@@ -78,8 +72,7 @@
 		"width": 60
 	}, {
 		"align": "Left",
-		"attrTypeId": 1152922093378076842,
-		"attrTypeName": "ats.Duplicated PCR Id",
+		"attributeType": 1152922093378076842,
 		"columnMultiEdit": true,
 		"description": "",
 		"namespace": "org.eclipse.osee.ats.WorldXViewer",
@@ -88,8 +81,7 @@
 		"width": 60
 	}, {
 		"align": "Left",
-		"attrTypeId": 1152921949227188394,
-		"attrTypeName": "ats.Applicable To Program",
+		"attributeType": 1152921949227188394,
 		"columnMultiEdit": true,
 		"description": "",
 		"namespace": "org.eclipse.osee.ats.WorldXViewer",
@@ -98,8 +90,7 @@
 		"width": 60
 	}, {
 		"align": "Left",
-		"attrTypeId": 1152922093379715242,
-		"attrTypeName": "ats.Rationale",
+		"attributeType": 1152922093379715242,
 		"columnMultiEdit": true,
 		"description": "",
 		"namespace": "org.eclipse.osee.ats.WorldXViewer",
@@ -108,8 +99,7 @@
 		"width": 100
 	}, {
 		"align": "Left",
-		"attrTypeId": 1152922093370736810,
-		"attrTypeName": "ats.PCR Tool Id",
+		"attributeType": 1152922093370736810,
 		"columnMultiEdit": true,
 		"description": "",
 		"namespace": "org.eclipse.osee.ats.WorldXViewer",
@@ -118,9 +108,8 @@
 		"width": 60
 	}, {
 		"align": "Left",
-		"attrTypeId": 2421093774890249189,
+		"attributeType": 2421093774890249189,
 		"name": "Unplanned Work",
-		"attrTypeName": "ats.Unplanned Work",
 		"columnMultiEdit": true,
 		"description": "",
 		"namespace": "org.eclipse.osee.ats.WorldXViewer",

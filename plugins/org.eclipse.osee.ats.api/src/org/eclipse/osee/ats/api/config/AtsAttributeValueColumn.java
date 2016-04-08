@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.osee.ats.api.config;
 
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.eclipse.osee.ats.api.column.AtsValueColumn;
 import org.eclipse.osee.ats.api.util.ColumnType;
 import org.eclipse.osee.framework.core.data.AttributeTypeToken;
@@ -19,8 +20,7 @@ import org.eclipse.osee.framework.jdk.core.util.Strings;
  * @author Donald G. Dunne
  */
 public class AtsAttributeValueColumn extends AtsValueColumn {
-   private long attrTypeId;
-   private String attrTypeName;
+   private AttributeTypeToken attributeType;
 
    public AtsAttributeValueColumn() {
       // For JaxRs Instantiation
@@ -28,29 +28,25 @@ public class AtsAttributeValueColumn extends AtsValueColumn {
 
    public AtsAttributeValueColumn(AttributeTypeToken attributeType, String id, String name, int width, String align, boolean show, ColumnType sortDataType, boolean multiColumnEditable, String description, Boolean actionRollup, Boolean inheritParent) {
       super(id, name, width, align, show, sortDataType, multiColumnEditable, description, actionRollup, inheritParent);
-      this.attrTypeId = attributeType.getId();
-      this.attrTypeName = attributeType.getName();
+      this.attributeType = attributeType;
    }
 
-   public long getAttrTypeId() {
-      return attrTypeId;
+   public AtsAttributeValueColumn(@JsonProperty("id") AttributeTypeToken attributeType) {
+      // For JaxRs Instantiation
+      this.attributeType = attributeType;
    }
 
-   public void setAttrTypeId(long attrTypeId) {
-      this.attrTypeId = attrTypeId;
+   public AttributeTypeToken getAttributeType() {
+      return attributeType;
    }
 
-   public String getAttrTypeName() {
-      return attrTypeName;
-   }
-
-   public void setAttrTypeName(String attrTypeName) {
-      this.attrTypeName = attrTypeName;
+   public void setAttributeType(AttributeTypeToken attributeType) {
+      this.attributeType = attributeType;
    }
 
    @Override
    public String toString() {
-      return "AtsAttributeValueColumn [name=" + getName() + ", namespace=" + getNamespace() + ", attrTypeId=" + attrTypeId + ", attrTypeName=" + attrTypeName + "]";
+      return "AtsAttributeValueColumn [name=" + getName() + ", namespace=" + getNamespace() + ", attrType=" + attributeType + "]";
    }
 
    @Override
@@ -58,10 +54,9 @@ public class AtsAttributeValueColumn extends AtsValueColumn {
       String result = null;
       if (Strings.isValid(super.getId())) {
          result = super.getId();
-      } else if (Strings.isValid(attrTypeName)) {
-         result = attrTypeName;
+      } else if (attributeType != null) {
+         result = attributeType.getName();
       }
       return result;
    }
-
 }
