@@ -31,8 +31,8 @@ public class RelationFilterUtil {
    public static final RelationMatcher EXCLUDE_DELETED = new ExcludeDeletedRelationFilter();
    public static final RelationMatcher INCLUDE_ALL = new DefaultRelationFilter();
 
-   public static RelationMatcher createFindFirstRelatedArtIdMatcher(ArtifactId aArtifactId, RelationSide side) {
-      return new FirstSideRelatedArtIdMatcher(aArtifactId, side.isSideA());
+   public static RelationMatcher createFindFirstRelatedArtIdMatcher(ArtifactId artifactId, RelationSide side) {
+      return new FirstSideRelatedArtIdMatcher(artifactId, side.isSideA());
    }
 
    public static RelationMatcher createFindFirstRelationLinkIdMatcher(int relLinkId) {

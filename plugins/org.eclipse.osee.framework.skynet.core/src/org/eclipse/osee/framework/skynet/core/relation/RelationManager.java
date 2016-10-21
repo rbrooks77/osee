@@ -609,7 +609,7 @@ public class RelationManager {
       if (relationId != 0) {
          relation = getLoadedRelationById(relationId, aArtifactId, bArtifactId, branch);
       } else {
-         relation = getLoadedRelation(relationType, aArtifactId, bArtifactId, branch);
+         relation = getLoadedRelation(relationType, aArtifactId, bArtifactId);
       }
       if (relation == null) {
          relation = new RelationLink(aArtifactId, bArtifactId, branch, relationType, relationId, gammaId, rationale,
@@ -621,14 +621,12 @@ public class RelationManager {
       return relation;
    }
 
-   public static RelationLink getLoadedRelation(IRelationType relationType, ArtifactToken aArtifactId, ArtifactToken bArtifactId, BranchId branch) {
-      return relationCache.getLoadedRelation(relationType, aArtifactId.getId().intValue(),
-         bArtifactId.getId().intValue(), branch);
+   public static RelationLink getLoadedRelation(IRelationType relationType, ArtifactToken aArtifactId, ArtifactToken bArtifactId) {
+      return relationCache.getLoadedRelation(relationType, aArtifactId, bArtifactId);
    }
 
-   public static RelationLink getLoadedRelationById(int relLinkId, ArtifactId aArtifactId, ArtifactId bArtifactId, BranchId branch) {
-      return relationCache.getByRelIdOnArtifact(relLinkId, aArtifactId.getId().intValue(),
-         bArtifactId.getId().intValue(), branch);
+   public static RelationLink getLoadedRelationById(int relLinkId, ArtifactToken aArtifactId, ArtifactToken bArtifactId, BranchId branch) {
+      return relationCache.getByRelIdOnArtifact(relLinkId, aArtifactId, bArtifactId);
    }
 
    public static List<RelationLink> getRelationsAll(Artifact artifact, DeletionFlag deletionFlag) {

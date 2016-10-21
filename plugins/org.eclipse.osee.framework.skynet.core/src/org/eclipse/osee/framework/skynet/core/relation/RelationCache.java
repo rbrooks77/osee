@@ -19,7 +19,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
 import org.eclipse.osee.framework.core.data.ArtifactId;
 import org.eclipse.osee.framework.core.data.ArtifactToken;
-import org.eclipse.osee.framework.core.data.BranchId;
 import org.eclipse.osee.framework.core.data.RelationTypeId;
 import org.eclipse.osee.framework.core.enums.DeletionFlag;
 import org.eclipse.osee.framework.core.enums.RelationSide;
@@ -102,21 +101,17 @@ public class RelationCache {
    /**
     * Find RelationById Related On ArtA or ArtB
     */
-   public RelationLink getByRelIdOnArtifact(int relLinkId, int aArtifactId, int bArtifactId, BranchId branch) {
+   public RelationLink getByRelIdOnArtifact(int relLinkId, ArtifactToken artifactA, ArtifactToken artifactB) {
       RelationMatcher relIdMatcher = RelationFilterUtil.createFindFirstRelationLinkIdMatcher(relLinkId);
       List<RelationLink> links = new ArrayList<>();
-      findRelations(links, ArtifactToken.valueOf(aArtifactId, branch), relIdMatcher);
+      findRelations(links, artifactA, relIdMatcher);
       if (links.isEmpty()) {
-         findRelations(links, ArtifactToken.valueOf(bArtifactId, branch), relIdMatcher);
+         findRelations(links, artifactB, relIdMatcher);
       }
       return links.isEmpty() ? null : links.iterator().next();
    }
 
    public RelationLink getLoadedRelation(ArtifactToken artifact, ArtifactId aArtifactId, ArtifactId bArtifactId, RelationTypeId relationType, DeletionFlag deletionFlag) {
-      return getLoadedRelation(artifact, aArtifactId.getId(), bArtifactId.getId(), relationType, deletionFlag);
-   }
-
-   public RelationLink getLoadedRelation(ArtifactToken artifact, long aArtifactId, long bArtifactId, RelationTypeId relationType, DeletionFlag deletionFlag) {
       Set<RelationLink> itemsFound = new HashSet<>();
 
       RelationMatcher artIdMatcher = new RelationMatcher() {
@@ -150,18 +145,15 @@ public class RelationCache {
       return size != 0 ? relations.iterator().next() : null;
    }
 
-   public RelationLink getLoadedRelation(RelationTypeId relationType, int aArtifactId, int bArtifactId, BranchId branch) {
-      ArtifactId artifactA = ArtifactId.valueOf(aArtifactId);
-      ArtifactId artifactB = ArtifactId.valueOf(bArtifactId);
-
+   public RelationLink getLoadedRelation(RelationTypeId relationType, ArtifactToken artifactA, ArtifactToken artifactB) {
       RelationMatcher bArtIdMatcher =
          RelationFilterUtil.createFindFirstRelatedArtIdMatcher(artifactB, RelationSide.SIDE_B);
       List<RelationLink> links = new ArrayList<>();
-      findRelations(links, ArtifactToken.valueOf(aArtifactId, branch), relationType, bArtIdMatcher);
+      findRelations(links, artifactA, relationType, bArtIdMatcher);
       if (links.isEmpty()) {
          RelationMatcher aArtIdMatcher =
             RelationFilterUtil.createFindFirstRelatedArtIdMatcher(artifactA, RelationSide.SIDE_A);
-         findRelations(links, ArtifactToken.valueOf(bArtifactId, branch), relationType, aArtIdMatcher);
+         findRelations(links, artifactB, relationType, aArtIdMatcher);
       }
       return links.isEmpty() ? null : links.iterator().next();
    }

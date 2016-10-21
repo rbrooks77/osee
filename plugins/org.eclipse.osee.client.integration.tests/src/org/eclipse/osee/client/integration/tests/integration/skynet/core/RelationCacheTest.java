@@ -19,6 +19,7 @@ import org.eclipse.osee.client.test.framework.OseeClientIntegrationRule;
 import org.eclipse.osee.client.test.framework.OseeLogMonitor;
 import org.eclipse.osee.client.test.framework.OseeLogMonitorRule;
 import org.eclipse.osee.framework.core.data.ApplicabilityId;
+import org.eclipse.osee.framework.core.data.ArtifactToken;
 import org.eclipse.osee.framework.core.data.BranchId;
 import org.eclipse.osee.framework.core.data.GammaId;
 import org.eclipse.osee.framework.core.enums.CoreArtifactTypes;
@@ -54,6 +55,9 @@ public class RelationCacheTest {
 
    private final Artifact artifact1 = new Artifact(branch1);
    private final Artifact artifact2 = new Artifact(branch2);
+   private final ArtifactToken art22 = ArtifactToken.valueOf(22, branch1);
+   private final ArtifactToken art44 = ArtifactToken.valueOf(44, branch1);
+   private final ArtifactToken art77 = ArtifactToken.valueOf(77, branch2);
 
    private List<RelationLink> sourceLinksRelType1;
    private List<RelationLink> sourceLinksRelType2;
@@ -204,40 +208,36 @@ public class RelationCacheTest {
       relCache.cache(artifact2, link22);
 
       RelationLink actual = null;
+      ArtifactToken art1WrongBranch = ArtifactToken.valueOf(artifact1, branch2);
+      ArtifactToken art2WrongBranch = ArtifactToken.valueOf(artifact2, branch1);
 
       // Find Relation Link Id 1 -
-      actual = relCache.getByRelIdOnArtifact(1, artifact1.getArtId(), 0, artifact1.getBranch());
+      actual = relCache.getByRelIdOnArtifact(1, artifact1, ArtifactToken.SENTINEL);
       Assert.assertNull(actual);
 
-      actual = relCache.getByRelIdOnArtifact(1, artifact1.getArtId(), 0, artifact2.getBranch());
+      actual = relCache.getByRelIdOnArtifact(1, art1WrongBranch, ArtifactToken.SENTINEL);
       Assert.assertNull(actual);
 
-      actual = relCache.getByRelIdOnArtifact(1, artifact2.getArtId(), 0, artifact1.getBranch());
+      actual = relCache.getByRelIdOnArtifact(1, art2WrongBranch, ArtifactToken.SENTINEL);
       Assert.assertNull(actual);
 
-      actual = relCache.getByRelIdOnArtifact(1, artifact2.getArtId(), 0, artifact2.getBranch());
+      actual = relCache.getByRelIdOnArtifact(1, artifact2, ArtifactToken.SENTINEL);
       Assert.assertEquals(link21, actual);
       Assert.assertFalse(link22.equals(actual));
 
-      actual = relCache.getByRelIdOnArtifact(1, 0, artifact2.getArtId(), artifact2.getBranch());
+      actual = relCache.getByRelIdOnArtifact(1, ArtifactToken.SENTINEL, artifact2);
       Assert.assertEquals(link21, actual);
       Assert.assertFalse(link22.equals(actual));
 
       // Find Relation Link Id 0 -
-      actual = relCache.getByRelIdOnArtifact(0, 0, artifact2.getArtId(), artifact2.getBranch());
+      actual = relCache.getByRelIdOnArtifact(0, ArtifactToken.SENTINEL, artifact2);
       Assert.assertNull(actual);
 
-      actual = relCache.getByRelIdOnArtifact(0, 0, artifact2.getArtId(), artifact1.getBranch());
-      Assert.assertNull(actual);
-
-      actual = relCache.getByRelIdOnArtifact(0, 0, artifact1.getArtId(), artifact2.getBranch());
-      Assert.assertNull(actual);
-
-      actual = relCache.getByRelIdOnArtifact(0, 0, artifact1.getArtId(), artifact1.getBranch());
+      actual = relCache.getByRelIdOnArtifact(0, ArtifactToken.SENTINEL, artifact1);
       Assert.assertEquals(link11, actual);
       Assert.assertFalse(link12.equals(actual));
 
-      actual = relCache.getByRelIdOnArtifact(0, artifact1.getArtId(), 0, artifact1.getBranch());
+      actual = relCache.getByRelIdOnArtifact(0, artifact1, ArtifactToken.SENTINEL);
       Assert.assertEquals(link11, actual);
       Assert.assertFalse(link12.equals(actual));
    }
@@ -264,23 +264,30 @@ public class RelationCacheTest {
 
       RelationLink actual = null;
       // Find relation link 11
-      actual = relCache.getLoadedRelation(artifact1, art1Id, 44, relType1, DeletionFlag.INCLUDE_DELETED);
+      actual = relCache.getLoadedRelation(artifact1, artifact1, art44, relType1, DeletionFlag.INCLUDE_DELETED);
       Assert.assertNull(actual);
 
-      actual = relCache.getLoadedRelation(artifact1, art1Id, 22, relType1, DeletionFlag.INCLUDE_DELETED);
+      actual = relCache.getLoadedRelation(artifact1, artifact1, art22, relType1, DeletionFlag.INCLUDE_DELETED);
       Assert.assertEquals(link11, actual);
 
       // Find relation link 22
-      actual = relCache.getLoadedRelation(artifact2, 77, art2Id, relType2, DeletionFlag.EXCLUDE_DELETED);
+      actual = relCache.getLoadedRelation(artifact2, art77, artifact2, relType2, DeletionFlag.EXCLUDE_DELETED);
       Assert.assertNull(actual);
 
-      actual = relCache.getLoadedRelation(artifact2, 77, art2Id, relType2, DeletionFlag.INCLUDE_DELETED);
+      actual = relCache.getLoadedRelation(artifact2, art77, artifact2, relType2, DeletionFlag.INCLUDE_DELETED);
       Assert.assertEquals(link22, actual);
    }
 
    @Test
    public void testGetLoadedRelationNoId() {
       RelationCache relCache = new RelationCache();
+
+      ArtifactToken art11 = ArtifactToken.valueOf(11, branch1);
+
+      ArtifactToken art22WrongBranch = ArtifactToken.valueOf(22, branch2);
+      ArtifactToken art551 = ArtifactToken.valueOf(551, branch2);
+      ArtifactToken art661 = ArtifactToken.valueOf(661, branch2);
+      ArtifactToken art661WrongBranch = ArtifactToken.valueOf(661, branch1);
 
       RelationLink link11 = TestUtil.createRelationLink(0, 11, 22, branch1, relType1);
       RelationLink link12 = TestUtil.createRelationLink(1, 11, 22, branch1, relType1);
@@ -301,34 +308,34 @@ public class RelationCacheTest {
       RelationLink actual = null;
 
       //  Must match branch
-      actual = relCache.getLoadedRelation(relType1, artifact1.getArtId(), 22, artifact2.getBranch());
+      actual = relCache.getLoadedRelation(relType1, artifact1, art22WrongBranch);
       Assert.assertNull(actual);
 
-      actual = relCache.getLoadedRelation(relType2, artifact1.getArtId(), 22, artifact1.getBranch());
+      actual = relCache.getLoadedRelation(relType2, artifact1, art22);
       Assert.assertNull(actual);
 
-      actual = relCache.getLoadedRelation(relType1, artifact1.getArtId(), 22, artifact1.getBranch());
+      actual = relCache.getLoadedRelation(relType1, artifact1, art22);
       Assert.assertEquals(link11, actual);
       Assert.assertFalse(link12.equals(actual));
 
-      actual = relCache.getLoadedRelation(relType1, 22, artifact1.getArtId(), artifact1.getBranch());
+      actual = relCache.getLoadedRelation(relType1, art22, artifact1);
       Assert.assertEquals(link13, actual);
 
-      actual = relCache.getLoadedRelation(relType1, artifact1.getArtId(), 11, artifact1.getBranch());
+      actual = relCache.getLoadedRelation(relType1, artifact1, art11);
       Assert.assertEquals(link13, actual);
 
       // Find  Must match branch
-      actual = relCache.getLoadedRelation(relType2, artifact2.getArtId(), 661, artifact1.getBranch());
+      actual = relCache.getLoadedRelation(relType2, artifact2, art661WrongBranch);
       Assert.assertNull(actual);
 
-      actual = relCache.getLoadedRelation(relType2, artifact2.getArtId(), 661, artifact2.getBranch());
+      actual = relCache.getLoadedRelation(relType2, artifact2, art661);
       Assert.assertEquals(link21, actual);
       Assert.assertFalse(link22.equals(actual));
 
-      actual = relCache.getLoadedRelation(relType2, 661, artifact2.getArtId(), artifact2.getBranch());
+      actual = relCache.getLoadedRelation(relType2, art661, artifact2);
       Assert.assertEquals(link23, actual);
 
-      actual = relCache.getLoadedRelation(relType2, artifact2.getArtId(), 551, artifact2.getBranch());
+      actual = relCache.getLoadedRelation(relType2, artifact2, art551);
       Assert.assertEquals(link23, actual);
    }
 
