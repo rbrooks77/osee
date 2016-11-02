@@ -19,7 +19,7 @@ import org.eclipse.osee.framework.jdk.core.type.NamedId;
 /**
  * @author Donald G. Dunne
  */
-public interface IAtsObject extends NamedId, HasDescription {
+public interface IAtsObject extends NamedId, ArtifactId, HasDescription {
 
    default ArtifactToken getStoreObject() {
       return null;

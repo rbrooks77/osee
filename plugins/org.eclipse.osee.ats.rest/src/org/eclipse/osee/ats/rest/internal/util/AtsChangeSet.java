@@ -124,12 +124,6 @@ public class AtsChangeSet extends AbstractAtsChangeSet {
    }
 
    @Override
-   public void setSoleAttributeValue(IAtsObject atsObject, AttributeTypeToken attributeType, Object value) {
-      getTransaction().setSoleAttributeValue(getArtifact(atsObject), attributeType, value);
-      add(atsObject);
-   }
-
-   @Override
    public void deleteAttribute(IAtsObject atsObject, AttributeTypeToken attributeType, Object value) {
       getTransaction().deleteAttributesWithValue(getArtifact(atsObject), attributeType, value);
       add(atsObject);

@@ -56,8 +56,6 @@ public interface IAtsChangeSet {
 
    void setSoleAttributeValue(IAtsWorkItem workItem, AttributeTypeToken attributeType, String value);
 
-   void setSoleAttributeValue(IAtsObject atsObject, AttributeTypeToken attributeType, Object value);
-
    void setSoleAttributeValue(ArtifactId artifact, AttributeTypeToken attributeType, Object value);
 
    void addAttribute(IAtsObject atsObject, AttributeTypeToken attributeType, Object value);

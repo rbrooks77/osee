@@ -41,6 +41,12 @@ public interface ArtifactId extends Id {
       return valueOf(id.getId());
    }
 
+   @Override
+   @Deprecated // this method is in the process of being removed
+   default String getGuid() {
+      throw new UnsupportedOperationException();
+   }
+
    public static ArtifactId valueOf(int id) {
       return valueOf(Long.valueOf(id));
    }
