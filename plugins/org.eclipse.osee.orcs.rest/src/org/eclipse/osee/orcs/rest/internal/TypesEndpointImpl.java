@@ -141,6 +141,8 @@ public class TypesEndpointImpl implements TypesEndpoint {
       return Response.ok().entity(jaxEnumAttribute.getEntries()).build();
    }
 
+         //    artifact.getSoleAttributeValue(attributeType)
+
    public static final String LOAD_OSEE_TYPE_DEF_NAME_AND_ID =
       "select attr.value, attr.art_id, attr.attr_id, attr.attr_type_id from osee_attribute attr, osee_txs txs where txs.BRANCH_ID = ? " + //
          "and attr.gamma_id = txs.gamma_id and txs.TX_CURRENT = 1 and attr.art_id " + //

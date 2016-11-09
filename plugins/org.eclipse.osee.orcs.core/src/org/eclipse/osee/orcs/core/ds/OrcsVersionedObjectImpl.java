@@ -142,38 +142,9 @@ public abstract class OrcsVersionedObjectImpl<T extends Id> implements OrcsData<
    }
 
    @Override
-   public int hashCode() {
-      return getLocalId().hashCode();
-   }
-
-   @Override
-   public boolean equals(Object obj) {
-      if (obj instanceof OrcsVersionedObjectImpl<?>) {
-         OrcsVersionedObjectImpl<?> other = (OrcsVersionedObjectImpl<?>) obj;
-         if (!getLocalId().equals(other.getLocalId())) {
-            return false;
-         }
-         if (baseModType != other.baseModType) {
-            return false;
-         }
-         if (baseType.notEqual(other.baseType)) {
-            return false;
-         }
-         if (version == null) {
-            return false;
-         }
-         return true;
-      } else if (obj instanceof Id) {
-         return ((Id) obj).getId().equals(getLocalId().longValue());
-      }
-      return false;
-   }
-
-   @Override
    public String toString() {
       return "OrcsVersionedObject [" + super.toString() + ", type=" + type + ", baseType=" + baseType + ", modType=" + currentModType + ", previousModType=" + previousModType + ", baseModType=" + baseModType + ", version=" + version + "]";
    }
-
    @Override
    public Integer getLocalId() {
       return localId;
