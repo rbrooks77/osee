@@ -222,4 +222,8 @@ public interface BranchEndpoint {
    @Path("log")
    @Consumes({MediaType.TEXT_PLAIN})
    Response logBranchActivity(String comment);
+
+   @PUT
+   @Path("{branch}/deep/attribute/{attributeType}")
+   Response deepAttribute(@PathParam("branch") BranchId branch, @PathParam("attributeType") AttributeTypeId attributeType, String[] values);
 }

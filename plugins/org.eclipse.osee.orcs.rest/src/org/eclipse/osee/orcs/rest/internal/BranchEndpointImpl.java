@@ -772,4 +772,9 @@ public class BranchEndpointImpl implements BranchEndpoint {
          branch.isValid() ? IOseeBranch.create(branch, branchName) : IOseeBranch.create(branchName);
       return branchOps.createProgramBranch(branchToken, account);
    }
+
+   @Override
+   public Response deepAttribute(BranchId branch, AttributeTypeId attributeType, String[] values) {
+      return null;
+   }
 }

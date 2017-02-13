@@ -53,6 +53,7 @@ public class QueryModule implements HasStatistics<QueryStatistics> {
       tupleQuery = queryEngine.createTupleQuery();
       applicabilityDsQuery = queryEngine.createApplicabilityDsQuery();
       this.orcsTypes = orcsTypes;
+      this.queryEngine = queryEngine;
    }
 
    public QueryFactory createQueryFactory(OrcsSession session) {
