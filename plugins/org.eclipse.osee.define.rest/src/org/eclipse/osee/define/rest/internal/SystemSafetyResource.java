@@ -108,3 +108,10 @@ public final class SystemSafetyResource {
       }
       return strB.toString();
 }
+
+   @Path("fix")
+   @GET
+   @Produces(MediaType.TEXT_HTML)
+   public String fixApplic() {
+      return String.valueOf(orcsApi.getQueryFactory().deepQuery().fixApplicOnDelete());
+   }

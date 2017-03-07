@@ -19,6 +19,7 @@ import org.eclipse.osee.framework.core.data.AttributeTypeId;
 import org.eclipse.osee.framework.jdk.core.type.Pair;
 import org.eclipse.osee.jdbc.JdbcClient;
 import org.eclipse.osee.jdbc.JdbcStatement;
+import org.eclipse.osee.jdbc.OseePreparedStatement;
 import org.eclipse.osee.orcs.data.ArtifactTypes;
 import org.eclipse.osee.orcs.db.internal.sql.join.IdJoinQuery;
 import org.eclipse.osee.orcs.search.DeepQuery;
@@ -64,5 +65,26 @@ public class DeepQueryImpl implements DeepQuery {
          arifactTypeJoin.delete();
       }
       return attributeValues;
+   }
+
+   @Override
+   public int fixApplicOnDelete() {
+      int counter = 0;
+      try (JdbcStatement chStmt = jdbcClient.getStatement()) {
+         String SELECT_LOST_APPLIC =
+            "select txs1.app_id, txs2.branch_id, txs2.transaction_id, txs2.gamma_id from osee_txs txs1, osee_txs txs2 where txs1.branch_id = txs2.branch_id and txs1.gamma_id = txs2.gamma_id and txs1.app_id <> txs2.app_id and txs2.mod_type = 3 and txs2.app_id = 1 and txs2.tx_current = 2";
+         chStmt.runPreparedQuery(JDBC__MAX_FETCH_SIZE, SELECT_LOST_APPLIC);
+         String UPDATE_APPLIC =
+            "UPDATE osee_txs SET app_id = ? WHERE branch_id = ? AND transaction_id = ? AND gamma_id = ?";
+         OseePreparedStatement addressing = jdbcClient.getBatchStatement(UPDATE_APPLIC);
+         while (chStmt.next()) {
+            addressing.addToBatch(chStmt.getLong("app_id"), chStmt.getLong("branch_id"),
+               chStmt.getLong("transaction_id"), chStmt.getLong("gamma_id"));
+            counter++;
+         }
+         addressing.execute();
+
+      }
+      return counter;
    }
 }

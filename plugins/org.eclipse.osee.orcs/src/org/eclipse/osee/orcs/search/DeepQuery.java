@@ -29,4 +29,6 @@ public interface DeepQuery {
    DeepQuery andIsOfType(ArtifactTypeId... artifactTypes);
 
    List<Pair<ArtifactId, String>> collect(AttributeTypeId attributeType);
+
+   int fixApplicOnDelete();
 }
