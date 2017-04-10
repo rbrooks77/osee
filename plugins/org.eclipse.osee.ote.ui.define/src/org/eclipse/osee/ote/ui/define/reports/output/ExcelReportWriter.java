@@ -24,7 +24,7 @@ import org.eclipse.osee.ote.ui.define.internal.Activator;
  * @author Roberto E. Escobar
  */
 public class ExcelReportWriter implements IReportWriter {
-   private ISheetWriter sheetWriter;
+   private final ISheetWriter sheetWriter;
    private final StringWriter stringWriter;
    private String result;
    private String title;
@@ -32,11 +32,7 @@ public class ExcelReportWriter implements IReportWriter {
    public ExcelReportWriter() {
       this.title = Long.toString(new Date().getTime());
       this.stringWriter = new StringWriter();
-      try {
-         this.sheetWriter = new ExcelXmlWriter(stringWriter);
-      } catch (IOException ex) {
-         OseeLog.log(Activator.class, Level.SEVERE, ex);
-      }
+      this.sheetWriter = new ExcelXmlWriter(stringWriter);
    }
 
    @Override

@@ -11,44 +11,23 @@
 package org.eclipse.osee.framework.jdk.core.util.io.xml;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
 import org.eclipse.osee.framework.jdk.core.util.Strings;
-import org.eclipse.osee.framework.jdk.core.util.io.CharBackedInputStream;
 
 /**
  * @author Ryan D. Brooks
  */
 public final class TextSheetWriter extends AbstractSheetWriter {
-
-   private final Map<String, CharBackedInputStream> sheetMap;
-   private CharBackedInputStream currentStream;
+   private Appendable out;
    private boolean wasDataAdded;
    private final String lineSeparator;
    private int columnCount;
 
    public TextSheetWriter() {
-      sheetMap = new LinkedHashMap<>();
       lineSeparator = System.getProperty("line.separator", "\r\n");
-      currentStream = null;
-      wasDataAdded = false;
    }
 
    public boolean hasData() {
       return wasDataAdded;
-   }
-
-   public CharBackedInputStream getInputStream() {
-      return currentStream;
-   }
-
-   public Set<String> getSheetNames() {
-      return sheetMap.keySet();
-   }
-
-   public CharBackedInputStream getSheetBackerByName(String tabName) {
-      return sheetMap.get(tabName);
    }
 
    @Override
@@ -61,10 +40,10 @@ public final class TextSheetWriter extends AbstractSheetWriter {
       if (data instanceof String) {
          String dataStr = (String) data;
          if (Strings.isValid(dataStr)) {
-            currentStream.append(dataStr);
+            out.append(dataStr);
          }
          if (cellIndex < columnCount - 1) {
-            currentStream.append("\t");
+            out.append("\t");
          }
          wasDataAdded = true;
       }
@@ -72,13 +51,13 @@ public final class TextSheetWriter extends AbstractSheetWriter {
 
    @Override
    protected void writeEndRow() throws IOException {
-      currentStream.append(lineSeparator);
+      out.append(lineSeparator);
       wasDataAdded = true;
    }
 
    @Override
    public void endSheet() {
-      currentStream = null;
+      out = null;
    }
 
    @Override
@@ -87,10 +66,13 @@ public final class TextSheetWriter extends AbstractSheetWriter {
    }
 
    @Override
-   public void startSheet(String worksheetName, int columnCount) throws IOException {
+   public void startSheet(String worksheetName, int columnCount) {
       this.columnCount = columnCount;
-      currentStream = new CharBackedInputStream();
-      sheetMap.put(worksheetName, currentStream);
+   }
+
+   @Override
+   public void startSheet(String worksheetName, int columnCount, Appendable out) {
+      this.out = out;
    }
 
    @Override

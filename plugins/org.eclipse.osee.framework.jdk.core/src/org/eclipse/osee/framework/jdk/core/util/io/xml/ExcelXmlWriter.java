@@ -11,10 +11,11 @@
 package org.eclipse.osee.framework.jdk.core.util.io.xml;
 
 import java.io.BufferedWriter;
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -74,9 +75,11 @@ public final class ExcelXmlWriter extends AbstractSheetWriter {
          "<Style ss:ID=\"OseeCentered\"><Alignment ss:Horizontal=\"Center\" ss:Vertical=\"Bottom\"/></Style>\n" + //
          "<Style ss:ID=\"OseeWraped\"><Alignment ss:Vertical=\"Top\" ss:WrapText=\"1\"/></Style>";
 
-   private final BufferedWriter out;
+   private Appendable out;
    private boolean inSheet;
    private final String emptyStringRepresentation;
+   private final String style;
+   private final int defaultFontSize;
    private int previouslyWrittenCellIndex;
 
    private boolean applyStyle = false;
@@ -93,12 +96,24 @@ public final class ExcelXmlWriter extends AbstractSheetWriter {
    private int numSheetsWritten = 0;
    private int activeSheetNum = -1;
 
-   public ExcelXmlWriter(File file) throws IOException {
-      this(new FileWriter(file));
+   public ExcelXmlWriter() {
+      this(null, defaultEmptyStringXmlRep);
    }
 
-   public ExcelXmlWriter(Writer writer) throws IOException {
-      this(writer, null);
+   public ExcelXmlWriter(File file) {
+      this(toAppendable(file), null, defaultEmptyStringXmlRep);
+   }
+
+   private static Appendable toAppendable(File file) {
+      try {
+         return new BufferedWriter(new FileWriter(file));
+      } catch (IOException ex) {
+         throw OseeCoreException.wrap(ex);
+      }
+   }
+
+   public ExcelXmlWriter(Appendable out) {
+      this(out, null, defaultEmptyStringXmlRep);
    }
 
    /**
@@ -107,39 +122,62 @@ public final class ExcelXmlWriter extends AbstractSheetWriter {
     * @param writer output
     * @param style Excel Style XML of form <Styles><Style/><Style/></Styles>
     */
-   public ExcelXmlWriter(Writer writer, String style) throws IOException {
-      this(writer, style, defaultEmptyStringXmlRep);
+   public ExcelXmlWriter(Appendable out, String style) {
+      this(out, style, defaultEmptyStringXmlRep);
    }
 
-   public ExcelXmlWriter(Writer writer, String style, String emptyStringRepresentation) throws IOException {
-      this(writer, style, emptyStringRepresentation, DEFAULT_FONT_SIZE);
+   public ExcelXmlWriter(Appendable out, String style, String emptyStringRepresentation) {
+      this(out, style, emptyStringRepresentation, DEFAULT_FONT_SIZE);
    }
 
-   public ExcelXmlWriter(Writer writer, String style, String emptyStringRepresentation, int defaultFontSize) throws IOException {
-      out = new BufferedWriter(writer);
+   public ExcelXmlWriter(Appendable out, String style, String emptyStringRepresentation, int defaultFontSize) {
       mStyleMap = new HashMap<>();
+      this.out = out;
       this.emptyStringRepresentation = emptyStringRepresentation;
-      out.write(XML_HEADER);
+      this.style = style;
+      this.defaultFontSize = defaultFontSize;
+      initWorkbook(out);
+   }
 
-      out.write("<Styles>\n");
+   private void initWorkbook(Appendable out) {
+      if (out != null) {
+         this.out = out;
+         try {
+            out.append(XML_HEADER);
 
-      out.write(String.format(DEFAULT_OSEE_STYLES, defaultFontSize));
-      if (Strings.isValid(style)) {
-         if (stylePattern.matcher(style).matches()) {
-            out.write(style);
-         } else {
-            throw new IllegalArgumentException("incomingStyle must match the pattern " + stylePattern);
+            out.append("<Styles>\n");
+
+            out.append(String.format(DEFAULT_OSEE_STYLES, defaultFontSize));
+            if (Strings.isValid(style)) {
+               if (stylePattern.matcher(style).matches()) {
+                  out.append(style);
+               } else {
+                  throw new IllegalArgumentException("incomingStyle must match the pattern " + stylePattern);
+               }
+            }
+            out.append("</Styles>\n");
+         } catch (IOException ex) {
+            OseeCoreException.wrapAndThrow(ex);
          }
       }
-      out.write("</Styles>\n");
    }
 
    @Override
    public void startSheet(String worksheetName, int columnCount) throws IOException {
-      startSheet(worksheetName, ExcelColumn.newEmptyColumns(columnCount));
+      startSheet(worksheetName, null, ExcelColumn.newEmptyColumns(columnCount));
+   }
+
+   @Override
+   public void startSheet(String worksheetName, int columnCount, Appendable out) throws IOException {
+      startSheet(worksheetName, out, ExcelColumn.newEmptyColumns(columnCount));
    }
 
    public void startSheet(String worksheetName, ExcelColumn... columns) throws IOException {
+      startSheet(worksheetName, null, columns);
+   }
+
+   public void startSheet(String worksheetName, Appendable newOut, ExcelColumn... columns) throws IOException {
+      initWorkbook(newOut);
       if (inSheet) {
          throw new OseeCoreException("Cannot start a new sheet until the current sheet is closed");
       }
@@ -147,22 +185,21 @@ public final class ExcelXmlWriter extends AbstractSheetWriter {
          worksheetName = worksheetName.substring(0, 31);
       }
       numColumns = columns.length;
+      rowBuffer = new String[numColumns];
 
-      out.write(" <Worksheet ss:Name=\"");
-      out.write(worksheetName);
-      out.write("\">\n");
+      out.append(" <Worksheet ss:Name=\"");
+      out.append(worksheetName);
+      out.append("\">\n");
 
-      out.write("  <Table x:FullColumns=\"1\" x:FullRows=\"1\" ss:ExpandedColumnCount=\"");
-      out.write(String.valueOf(numColumns));
-      out.write("\">\n");
+      out.append("  <Table x:FullColumns=\"1\" x:FullRows=\"1\" ss:ExpandedColumnCount=\"");
+      out.append(String.valueOf(numColumns));
+      out.append("\">\n");
 
       for (ExcelColumn column : columns) {
          column.writeColumnDefinition(out);
       }
 
       if (columns[0].getName() != null) {
-
-         rowBuffer = new String[numColumns];
          for (ExcelColumn column : columns) {
             writeCell(column.getName());
          }
@@ -174,8 +211,8 @@ public final class ExcelXmlWriter extends AbstractSheetWriter {
 
    @Override
    public void endSheet() throws IOException {
-      out.write("  </Table>\n");
-      out.write(" </Worksheet>\n");
+      out.append("  </Table>\n");
+      out.append(" </Worksheet>\n");
       inSheet = false;
       numColumns = -1;
       ++numSheetsWritten;
@@ -188,25 +225,27 @@ public final class ExcelXmlWriter extends AbstractSheetWriter {
             endSheet();
          }
          if (activeSheetNum >= 0) {
-            out.write(" <ExcelWorkbook xmlns=\"urn:schemas-microsoft-com:office:excel\">\n");
-            out.write("  <ActiveSheet>" + activeSheetNum + "</ActiveSheet>\n");
-            out.write(" </ExcelWorkbook>\n");
+            out.append(" <ExcelWorkbook xmlns=\"urn:schemas-microsoft-com:office:excel\">\n");
+            out.append("  <ActiveSheet>" + activeSheetNum + "</ActiveSheet>\n");
+            out.append(" </ExcelWorkbook>\n");
          }
-         out.write("</Workbook>\n");
+         out.append("</Workbook>\n");
       } finally {
-         Lib.close(out);
+         if (out instanceof Closeable) {
+            Lib.close((Closeable) out);
+         }
       }
    }
 
    @Override
    protected void startRow() throws IOException {
-      out.write("   <Row");
+      out.append("   <Row");
       if (rowHeight != 0.0) {
-         out.write(String.format(" ss:AutoFitHeight=\"0\" ss:Height=\"%f\"", rowHeight));
+         out.append(String.format(" ss:AutoFitHeight=\"0\" ss:Height=\"%f\"", rowHeight));
       }
-      out.write(">\n");
+      out.append(">\n");
 
-      rowBuffer = new String[numColumns];
+      Arrays.fill(rowBuffer, null);
 
       previouslyWrittenCellIndex = -1;
    }
@@ -215,11 +254,10 @@ public final class ExcelXmlWriter extends AbstractSheetWriter {
    public void writeEndRow() throws IOException {
       for (int i = 0; i < numColumns; i++) {
          if (rowBuffer[i] != null && rowBuffer[i].length() > 0) {
-            out.write(rowBuffer[i]);
+            out.append(rowBuffer[i]);
          }
       }
-      out.write("   </Row>\n");
-      rowBuffer = null;
+      out.append("   </Row>\n");
    }
 
    @Override
@@ -354,10 +392,6 @@ public final class ExcelXmlWriter extends AbstractSheetWriter {
          sb.append(" ss:MergeAcross=\"" + colSpanWidth + "\"");
       }
       applyStyle = mStyleMap.size() > 0 || mColSpanMap.size() > 0;
-   }
-
-   public BufferedWriter getOut() {
-      return out;
    }
 
    /*

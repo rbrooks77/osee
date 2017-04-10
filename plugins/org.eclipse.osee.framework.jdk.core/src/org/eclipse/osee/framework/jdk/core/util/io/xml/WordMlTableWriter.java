@@ -26,24 +26,26 @@ public class WordMlTableWriter extends AbstractSheetWriter {
    private static final String CELL_END = "</w:t></w:r></w:p></w:tc>";
    private static final String ROW_START = "<w:tr>";
    private static final String ROW_END = "</w:tr>";
-   private final Appendable str;
+   private Appendable out;
    private int columnSize;
    private boolean startTable;
 
-   public WordMlTableWriter(Appendable str) {
-      this.str = str;
-   }
-
    @Override
    public void startSheet(String worksheetName, int columnCount) throws IOException {
-      str.append(TABLE_START);
+      out.append(TABLE_START);
       columnSize = columnCount;
       startTable = true;
    }
 
    @Override
+   public void startSheet(String worksheetName, int columnCount, Appendable out) throws IOException {
+      this.out = out;
+      startSheet(worksheetName, columnCount);
+   }
+
+   @Override
    public void endSheet() throws IOException {
-      str.append(TABLE_END);
+      out.append(TABLE_END);
    }
 
    @Override
@@ -53,30 +55,30 @@ public class WordMlTableWriter extends AbstractSheetWriter {
          writeTableGridData();
       }
 
-      str.append(ROW_START);
+      out.append(ROW_START);
    }
 
    @Override
    public void writeEndRow() throws IOException {
-      str.append(ROW_END);
+      out.append(ROW_END);
    }
 
    private void writeTableGridData() throws IOException {
-      str.append(START_TABLE_GRID);
+      out.append(START_TABLE_GRID);
 
       for (int i = 0; i < columnSize; i++) {
-         str.append(TABLE_GRID);
+         out.append(TABLE_GRID);
       }
-      str.append(END_TABLE_GRID);
+      out.append(END_TABLE_GRID);
    }
 
    @Override
    public void writeCellText(Object cellData, int cellIndex) throws IOException {
       if (cellData instanceof String) {
          String cellDataStr = (String) cellData;
-         str.append(CELL_STRART);
-         str.append(cellDataStr);
-         str.append(CELL_END);
+         out.append(CELL_STRART);
+         out.append(cellDataStr);
+         out.append(CELL_END);
       }
    }
 

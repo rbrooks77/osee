@@ -11,6 +11,9 @@
 
 package org.eclipse.osee.framework.jdk.core.util.io.xml;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
 
@@ -24,6 +27,11 @@ public abstract class AbstractSheetWriter implements ISheetWriter {
    public AbstractSheetWriter() {
       startRow = true;
       implicitCellIndex = 0;
+   }
+
+   @Override
+   public void startSheet(String worksheetName, int columnCount, File file) throws IOException {
+      startSheet(worksheetName, columnCount, file == null ? null : new BufferedWriter(new FileWriter(file)));
    }
 
    /**
@@ -50,7 +58,7 @@ public abstract class AbstractSheetWriter implements ISheetWriter {
       endRow();
    }
 
-   /*
+   /**
     * when calling writeCell with an index, the implicit index will be set to one greater than the given index
     */
    @Override
@@ -68,7 +76,7 @@ public abstract class AbstractSheetWriter implements ISheetWriter {
       writeEndRow();
    }
 
-   /*
+   /**
     * every time you call writeCell, the implicit index will be incremented
     */
    @Override

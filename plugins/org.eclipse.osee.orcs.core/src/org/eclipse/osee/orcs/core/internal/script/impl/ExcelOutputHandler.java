@@ -95,11 +95,7 @@ public class ExcelOutputHandler extends OrcsScriptOutputHandler {
    public void onEvalStart() {
       super.onEvalStart();
       initalizeData();
-      try {
-         writer = new ExcelXmlWriter(context.getWriter());
-      } catch (IOException ex) {
-         throw new OseeCoreException(ex);
-      }
+      writer = new ExcelXmlWriter(context.getWriter());
    }
 
    @Override

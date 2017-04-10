@@ -44,4 +44,8 @@ public interface Log {
    void error(String format, Object... args);
 
    void error(Throwable th, String format, Object... args);
+
+   default void error(Throwable th) {
+      error(th, th.toString());
+   }
 }
