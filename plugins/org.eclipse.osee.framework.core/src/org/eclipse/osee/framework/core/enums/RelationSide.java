@@ -19,7 +19,8 @@ import org.eclipse.osee.framework.jdk.core.util.Strings;
  */
 public enum RelationSide {
    SIDE_A,
-   SIDE_B;
+   SIDE_B,
+   BOTH;
 
    public RelationSide oppositeSide() {
       return this == SIDE_A ? SIDE_B : SIDE_A;

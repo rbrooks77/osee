@@ -16,6 +16,9 @@ package org.eclipse.osee.orcs.search;
  */
 public interface Query {
 
+   /**
+    * Count search results
+    */
    int getCount();
 
    boolean exists();

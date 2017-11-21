@@ -25,6 +25,9 @@ import org.eclipse.osee.framework.core.data.IRelationType;
 import org.eclipse.osee.framework.core.data.RelationTypeSide;
 import org.eclipse.osee.framework.core.data.TransactionId;
 import org.eclipse.osee.framework.core.enums.QueryOption;
+import org.eclipse.osee.framework.core.data.RelationTypeId;
+import org.eclipse.osee.framework.core.data.ValueKind;
+import org.eclipse.osee.framework.core.enums.RelationSide;
 import org.eclipse.osee.framework.jdk.core.type.ResultSet;
 import org.eclipse.osee.orcs.data.ArtifactReadable;
 import org.eclipse.osee.orcs.data.AttributeReadable;
@@ -58,6 +61,27 @@ public interface QueryBuilder extends Query {
    ArtifactId asArtifactId();
 
    List<Map<String, Object>> asArtifactMaps();
+
+   List<Map<String, Object>> load();
+
+   /**
+    * same as select(attributeType, ValueKind.Value)
+    */
+   QueryBuilder select(AttributeTypeId attributeType);
+
+   QueryBuilder select(AttributeTypeId attributeType, ValueKind valueKind);
+
+   QueryBuilder select(AttributeTypeId attributeType, ValueKind[] valueKinds);
+
+   /**
+    * Follows the relation and does not collect any data (no valueKind), so it is only useful if followed by a select
+    * call
+    */
+   QueryBuilder follow(RelationTypeId relationType, RelationSide side);
+
+   QueryBuilder follow(RelationTypeId relationType, RelationSide side, ValueKind valueKind);
+
+   QueryBuilder follow(RelationTypeId relationType, RelationSide side, ValueKind[] valueKinds);
 
    /**
     * @return a single ArtifactId if exactly one found. Return ArtifactId.SENTINEL is none found, else throw exception

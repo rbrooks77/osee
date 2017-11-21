@@ -32,8 +32,8 @@ public interface RelationTypeId extends Id {
 
    public static RelationTypeId valueOf(Long id) {
       final class RelationTypeIdImpl extends BaseId implements RelationTypeId {
-         public RelationTypeIdImpl(Long txId) {
-            super(txId);
+         public RelationTypeIdImpl(Long id) {
+            super(id);
          }
       }
       return new RelationTypeIdImpl(id);
