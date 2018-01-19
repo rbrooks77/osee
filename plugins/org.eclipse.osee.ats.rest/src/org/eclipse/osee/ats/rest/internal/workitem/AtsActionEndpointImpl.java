@@ -85,7 +85,6 @@ import org.eclipse.osee.framework.jdk.core.util.Collections;
 import org.eclipse.osee.framework.jdk.core.util.Conditions;
 import org.eclipse.osee.framework.jdk.core.util.Lib;
 import org.eclipse.osee.framework.jdk.core.util.Strings;
-import org.eclipse.osee.jaxrs.mvc.IdentityView;
 import org.eclipse.osee.orcs.OrcsApi;
 import org.eclipse.osee.orcs.data.ArtifactReadable;
 import org.eclipse.osee.orcs.data.AttributeTypes;
@@ -126,16 +125,13 @@ public final class AtsActionEndpointImpl implements AtsActionEndpointApi {
 
    /**
     * @param ids (artId, atsId) of action to display
-    * @return html representation of the action
     */
    @Override
    @Path("{ids}")
-   @IdentityView
    @GET
    @Produces({MediaType.APPLICATION_JSON})
    public List<IAtsWorkItem> getAction(@PathParam("ids") String ids) {
-      List<IAtsWorkItem> workItems = atsQueryService.getWorkItemsByIds(ids);
-      return workItems;
+      return atsQueryService.getWorkItemsByIds(ids);
    }
 
    /**
@@ -153,7 +149,6 @@ public final class AtsActionEndpointImpl implements AtsActionEndpointApi {
 
    /**
     * @param ids (artId, atsId) of action to display
-    * @return html representation of the action
     */
    @Override
    @Path("{ids}/child")

@@ -37,7 +37,6 @@ import org.eclipse.osee.ats.api.workflow.WorkItemWriterOptions;
 import org.eclipse.osee.ats.rest.IAtsServer;
 import org.eclipse.osee.ats.rest.internal.config.ConfigJsonWriter;
 import org.eclipse.osee.ats.rest.internal.util.ActionPage;
-import org.eclipse.osee.ats.rest.internal.util.TargetedVersion;
 import org.eclipse.osee.framework.core.data.ArtifactToken;
 import org.eclipse.osee.framework.core.data.AttributeId;
 import org.eclipse.osee.framework.core.data.AttributeTypeToken;
@@ -46,7 +45,6 @@ import org.eclipse.osee.framework.core.util.JsonUtil;
 import org.eclipse.osee.framework.jdk.core.type.ResultSet;
 import org.eclipse.osee.framework.jdk.core.util.DateUtil;
 import org.eclipse.osee.framework.jdk.core.util.Strings;
-import org.eclipse.osee.jaxrs.mvc.IdentityView;
 import org.eclipse.osee.orcs.OrcsApi;
 import org.eclipse.osee.orcs.data.ArtifactReadable;
 import org.eclipse.osee.orcs.data.AttributeReadable;
@@ -91,15 +89,6 @@ public class WorkItemJsonWriter implements MessageBodyWriter<IAtsWorkItem> {
       return assignableFrom && MediaType.APPLICATION_JSON_TYPE.equals(mediaType);
    }
 
-   private static boolean matches(Class<? extends Annotation> toMatch, Annotation[] annotations) {
-      for (Annotation annotation : annotations) {
-         if (annotation.annotationType().isAssignableFrom(toMatch)) {
-            return true;
-         }
-      }
-      return false;
-   }
-
    private AttributeTypes getAttributeTypes() {
       return orcsApi.getOrcsTypes().getAttributeTypes();
    }
@@ -109,8 +98,7 @@ public class WorkItemJsonWriter implements MessageBodyWriter<IAtsWorkItem> {
       JsonGenerator writer = null;
       try {
          writer = jsonFactory.createGenerator(entityStream);
-         addWorkItem(atsApi, orcsApi, config, annotations, writer, matches(IdentityView.class, annotations),
-            getAttributeTypes(), Collections.emptyList());
+         addWorkItem(atsApi, orcsApi, config, annotations, writer, getAttributeTypes(), Collections.emptyList());
       } finally {
          if (writer != null) {
             writer.flush();
@@ -118,8 +106,7 @@ public class WorkItemJsonWriter implements MessageBodyWriter<IAtsWorkItem> {
       }
    }
 
-   protected static void addWorkItem(AtsApi atsApi, OrcsApi orcsApi, IAtsWorkItem workItem, Annotation[] annotations, JsonGenerator writer, boolean identityView, AttributeTypes attributeTypes, List<WorkItemWriterOptions> options) throws IOException, JsonGenerationException, JsonProcessingException {
-
+   protected static void addWorkItem(AtsApi atsApi, OrcsApi orcsApi, IAtsWorkItem workItem, Annotation[] annotations, JsonGenerator writer, AttributeTypes attributeTypes, List<WorkItemWriterOptions> options) throws JsonGenerationException, IOException {
       ArtifactReadable workItemArt = (ArtifactReadable) workItem.getStoreObject();
       writer.writeStartObject();
       writer.writeNumberField("id", workItem.getId());
@@ -129,47 +116,43 @@ public class WorkItemJsonWriter implements MessageBodyWriter<IAtsWorkItem> {
       writer.writeStringField("ArtifactType", workItemArt.getArtifactType().getName());
       String actionUrl = AtsUtil.getActionUrl(atsId, ATS_UI_ACTION_PREFIX, atsApi);
       writer.writeStringField("actionLocation", actionUrl);
-      if (!identityView) {
-         ConfigJsonWriter.addAttributeData(writer, attributeTypes, workItemArt, options, atsApi, orcsApi);
-         writer.writeStringField("TeamName", ActionPage.getTeamStr(atsApi, orcsApi, workItemArt));
-         writer.writeStringField("Assignees", workItem.getStateMgr().getAssigneesStr());
-         if (options.contains(WorkItemWriterOptions.WriteRelatedAsTokens)) {
-            writer.writeArrayFieldStart("AssigneesTokens");
-            for (IAtsUser assignee : workItem.getStateMgr().getAssignees()) {
-               writer.writeStartObject();
-               writer.writeStringField("id", assignee.getIdString());
-               writer.writeStringField("name", assignee.getName());
-               writer.writeEndObject();
-            }
-            writer.writeEndArray();
+      ConfigJsonWriter.addAttributeData(writer, attributeTypes, workItemArt, options, atsApi, orcsApi);
+      writer.writeStringField("TeamName", ActionPage.getTeamStr(atsApi, orcsApi, workItemArt));
+      writer.writeStringField("Assignees", workItem.getStateMgr().getAssigneesStr());
+      if (options.contains(WorkItemWriterOptions.WriteRelatedAsTokens)) {
+         writer.writeArrayFieldStart("AssigneesTokens");
+         for (IAtsUser assignee : workItem.getStateMgr().getAssignees()) {
+            writer.writeStartObject();
+            writer.writeStringField("id", assignee.getIdString());
+            writer.writeStringField("name", assignee.getName());
+            writer.writeEndObject();
          }
-         writer.writeStringField("ChangeType", workItemArt.getSoleAttributeAsString(AtsAttributeTypes.ChangeType, ""));
-         writer.writeStringField("Priority", workItemArt.getSoleAttributeAsString(AtsAttributeTypes.PriorityType, ""));
-         writer.writeStringField("State", workItem.getStateMgr().getCurrentStateName());
-         if (options.contains(WorkItemWriterOptions.DatesAsLong)) {
-            writer.writeStringField("CreatedDate", String.valueOf(workItem.getCreatedDate().getTime()));
-         } else {
-            writer.writeStringField("CreatedDate", DateUtil.get(workItem.getCreatedDate(), DateUtil.MMDDYY));
-         }
-         writer.writeStringField("CreatedBy", workItem.getCreatedBy().getName());
+         writer.writeEndArray();
       }
-      if (!identityView || matches(TargetedVersion.class, annotations)) {
-         IAtsTeamWorkflow teamWf = workItem.getParentTeamWorkflow();
-         if (teamWf != null) {
-            IAtsVersion version = atsApi.getVersionService().getTargetedVersion(teamWf);
-            writer.writeStringField("TargetedVersion", version == null ? "" : version.getName());
-            if (options.contains(WorkItemWriterOptions.WriteRelatedAsTokens)) {
-               writer.writeObjectFieldStart("TargetedVersionToken");
-               writer.writeStringField("id", version == null ? "" : version.getIdString());
-               writer.writeStringField("name", version == null ? "" : version.getName());
-               writer.writeEndObject();
-            }
+      writer.writeStringField("ChangeType", workItemArt.getSoleAttributeAsString(AtsAttributeTypes.ChangeType, ""));
+      writer.writeStringField("Priority", workItemArt.getSoleAttributeAsString(AtsAttributeTypes.PriorityType, ""));
+      writer.writeStringField("State", workItem.getStateMgr().getCurrentStateName());
+      if (options.contains(WorkItemWriterOptions.DatesAsLong)) {
+         writer.writeStringField("CreatedDate", String.valueOf(workItem.getCreatedDate().getTime()));
+      } else {
+         writer.writeStringField("CreatedDate", DateUtil.get(workItem.getCreatedDate(), DateUtil.MMDDYY));
+      }
+      writer.writeStringField("CreatedBy", workItem.getCreatedBy().getName());
+      IAtsTeamWorkflow teamWf = workItem.getParentTeamWorkflow();
+      if (teamWf != null) {
+         IAtsVersion version = atsApi.getVersionService().getTargetedVersion(teamWf);
+         writer.writeStringField("TargetedVersion", version == null ? "" : version.getName());
+         if (options.contains(WorkItemWriterOptions.WriteRelatedAsTokens)) {
+            writer.writeObjectFieldStart("TargetedVersionToken");
+            writer.writeStringField("id", version == null ? "" : version.getIdString());
+            writer.writeStringField("name", version == null ? "" : version.getName());
+            writer.writeEndObject();
          }
       }
       writer.writeEndObject();
    }
 
-   protected static void addWorkItemWithIds(AtsApi atsApi, OrcsApi orcsApi, IAtsWorkItem workItem, Annotation[] annotations, JsonGenerator writer, boolean identityView, List<WorkItemWriterOptions> options) throws IOException, JsonGenerationException, JsonProcessingException {
+   protected static void addWorkItemWithIds(AtsApi atsApi, OrcsApi orcsApi, IAtsWorkItem workItem, JsonGenerator writer, List<WorkItemWriterOptions> options) throws IOException, JsonGenerationException, JsonProcessingException {
       ArtifactReadable workItemArt = (ArtifactReadable) workItem.getStoreObject();
       writer.writeStartObject();
       writer.writeNumberField("id", workItem.getId());
@@ -178,21 +161,19 @@ public class WorkItemJsonWriter implements MessageBodyWriter<IAtsWorkItem> {
       writer.writeStringField("ArtifactType", workItemArt.getArtifactType().getName());
       String actionUrl = AtsUtil.getActionUrl(atsId, ATS_UI_ACTION_PREFIX, atsApi);
       writer.writeStringField("actionLocation", actionUrl);
-      if (!identityView) {
-         ConfigJsonWriter.addAttributeDataWithIds(writer, workItemArt, options, atsApi, orcsApi);
-         writer.writeStringField("TeamName", ActionPage.getTeamStr(atsApi, orcsApi, workItemArt));
-         writeAssignees(writer, workItemArt, workItem);
-         writeType(writer, workItemArt, workItem, "ChangeType", AtsAttributeTypes.ChangeType);
-         writeType(writer, workItemArt, workItem, "Priority", AtsAttributeTypes.PriorityType);
-         writeState(writer, workItemArt, workItem);
-         if (options.contains(WorkItemWriterOptions.DatesAsLong)) {
-            writer.writeStringField("CreatedDate", String.valueOf(workItem.getCreatedDate().getTime()));
-         } else {
-            writer.writeStringField("CreatedDate", DateUtil.get(workItem.getCreatedDate(), DateUtil.MMDDYY));
-         }
-         writer.writeStringField("CreatedBy", workItem.getCreatedBy().getName());
-         writeTargetedVersion(atsApi, writer, workItemArt, workItem, options);
+      ConfigJsonWriter.addAttributeDataWithIds(writer, workItemArt, options, atsApi, orcsApi);
+      writer.writeStringField("TeamName", ActionPage.getTeamStr(atsApi, orcsApi, workItemArt));
+      writeAssignees(writer, workItemArt, workItem);
+      writeType(writer, workItemArt, workItem, "ChangeType", AtsAttributeTypes.ChangeType);
+      writeType(writer, workItemArt, workItem, "Priority", AtsAttributeTypes.PriorityType);
+      writeState(writer, workItemArt, workItem);
+      if (options.contains(WorkItemWriterOptions.DatesAsLong)) {
+         writer.writeStringField("CreatedDate", String.valueOf(workItem.getCreatedDate().getTime()));
+      } else {
+         writer.writeStringField("CreatedDate", DateUtil.get(workItem.getCreatedDate(), DateUtil.MMDDYY));
       }
+      writer.writeStringField("CreatedBy", workItem.getCreatedBy().getName());
+      writeTargetedVersion(atsApi, writer, workItemArt, workItem, options);
       writer.writeEndObject();
    }
 

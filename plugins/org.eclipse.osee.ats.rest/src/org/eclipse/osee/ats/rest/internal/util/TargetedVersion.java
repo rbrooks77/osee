@@ -18,8 +18,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * Annotation on resource methods used to indicate that the return type should be rendered as an identity pojo - id/name
- * only.
+ * Annotation on resource methods used to request inclusion of the TargetedVersion field of the parent TeamWorkflow
  *
  * @author Roberto E. Escobar
  */

@@ -32,7 +32,6 @@ import org.eclipse.osee.ats.api.workflow.WorkItemWriterOptions;
 import org.eclipse.osee.ats.rest.IAtsServer;
 import org.eclipse.osee.framework.core.util.JsonUtil;
 import org.eclipse.osee.framework.jdk.core.util.Lib;
-import org.eclipse.osee.jaxrs.mvc.IdentityView;
 import org.eclipse.osee.orcs.OrcsApi;
 import org.eclipse.osee.orcs.data.AttributeTypes;
 
@@ -81,15 +80,6 @@ public class WorkItemsJsonWriter implements MessageBodyWriter<Collection<IAtsWor
       return Lib.isCollectionOfType(type, genericType, IAtsWorkItem.class);
    }
 
-   private boolean matches(Class<? extends Annotation> toMatch, Annotation[] annotations) {
-      for (Annotation annotation : annotations) {
-         if (annotation.annotationType().isAssignableFrom(toMatch)) {
-            return true;
-         }
-      }
-      return false;
-   }
-
    private AttributeTypes getAttributeTypes() {
       return orcsApi.getOrcsTypes().getAttributeTypes();
    }
@@ -122,11 +112,10 @@ public class WorkItemsJsonWriter implements MessageBodyWriter<Collection<IAtsWor
          }
          for (IAtsWorkItem workItem : workItems) {
             if (valuesWithIds) {
-               WorkItemJsonWriter.addWorkItemWithIds(atsApi, orcsApi, workItem, annotations, writer,
-                  matches(IdentityView.class, annotations), options);
+               WorkItemJsonWriter.addWorkItemWithIds(atsApi, orcsApi, workItem, writer, options);
             } else {
-               WorkItemJsonWriter.addWorkItem(atsApi, orcsApi, workItem, annotations, writer,
-                  matches(IdentityView.class, annotations), getAttributeTypes(), options);
+               WorkItemJsonWriter.addWorkItem(atsApi, orcsApi, workItem, annotations, writer, getAttributeTypes(),
+                  options);
             }
          }
          writer.writeEndArray();

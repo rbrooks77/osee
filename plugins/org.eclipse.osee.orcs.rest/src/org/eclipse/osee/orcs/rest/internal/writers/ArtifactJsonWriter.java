@@ -26,7 +26,6 @@ import javax.ws.rs.ext.Provider;
 import org.eclipse.osee.framework.core.data.AttributeTypeToken;
 import org.eclipse.osee.framework.core.util.JsonUtil;
 import org.eclipse.osee.framework.jdk.core.type.ResultSet;
-import org.eclipse.osee.jaxrs.mvc.IdentityView;
 import org.eclipse.osee.orcs.OrcsApi;
 import org.eclipse.osee.orcs.data.ArtifactReadable;
 import org.eclipse.osee.orcs.data.AttributeReadable;
@@ -91,30 +90,26 @@ public class ArtifactJsonWriter implements MessageBodyWriter<Object> {
             //         writer.setPrettyPrinter(new DefaultPr)
             writer.writeStartObject();
             writer.writeNumberField("uuid", artifact.getUuid());
-            if (matches(IdentityView.class, annotations)) {
-               writer.writeStringField("Name", artifact.getName());
-            } else {
-               AttributeTypes attributeTypes = getAttibuteTypes();
-               Collection<AttributeTypeToken> attrTypes = attributeTypes.getAll();
-               ResultSet<? extends AttributeReadable<Object>> attributes = artifact.getAttributes();
-               if (!attributes.isEmpty()) {
-                  for (AttributeTypeToken attrType : attrTypes) {
-                     if (artifact.isAttributeTypeValid(attrType)) {
-                        List<Object> attributeValues = artifact.getAttributeValues(attrType);
-                        if (!attributeValues.isEmpty()) {
+            AttributeTypes attributeTypes = getAttibuteTypes();
+            Collection<AttributeTypeToken> attrTypes = attributeTypes.getAll();
+            ResultSet<? extends AttributeReadable<Object>> attributes = artifact.getAttributes();
+            if (!attributes.isEmpty()) {
+               for (AttributeTypeToken attrType : attrTypes) {
+                  if (artifact.isAttributeTypeValid(attrType)) {
+                     List<Object> attributeValues = artifact.getAttributeValues(attrType);
+                     if (!attributeValues.isEmpty()) {
 
-                           if (attributeValues.size() > 1) {
-                              writer.writeArrayFieldStart(attrType.getName());
-                              for (Object value : attributeValues) {
-                                 writer.writeObject(value);
-                              }
-                              writer.writeEndArray();
-                           } else if (attributeValues.size() == 1) {
-                              Object value = attributeValues.iterator().next();
-                              writer.writeObjectField(attrType.getName(), value);
+                        if (attributeValues.size() > 1) {
+                           writer.writeArrayFieldStart(attrType.getName());
+                           for (Object value : attributeValues) {
+                              writer.writeObject(value);
                            }
-
+                           writer.writeEndArray();
+                        } else if (attributeValues.size() == 1) {
+                           Object value = attributeValues.iterator().next();
+                           writer.writeObjectField(attrType.getName(), value);
                         }
+
                      }
                   }
                }

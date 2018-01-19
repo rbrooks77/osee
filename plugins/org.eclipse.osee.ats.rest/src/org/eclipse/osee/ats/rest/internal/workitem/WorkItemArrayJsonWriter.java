@@ -27,7 +27,6 @@ import org.eclipse.osee.ats.api.IAtsWorkItem;
 import org.eclipse.osee.ats.api.workflow.WorkItemArray;
 import org.eclipse.osee.ats.rest.IAtsServer;
 import org.eclipse.osee.framework.core.util.JsonUtil;
-import org.eclipse.osee.jaxrs.mvc.IdentityView;
 import org.eclipse.osee.orcs.OrcsApi;
 import org.eclipse.osee.orcs.data.AttributeTypes;
 
@@ -68,15 +67,6 @@ public class WorkItemArrayJsonWriter implements MessageBodyWriter<WorkItemArray>
       return assignableFrom && MediaType.APPLICATION_JSON_TYPE.equals(mediaType);
    }
 
-   private boolean matches(Class<? extends Annotation> toMatch, Annotation[] annotations) {
-      for (Annotation annotation : annotations) {
-         if (annotation.annotationType().isAssignableFrom(toMatch)) {
-            return true;
-         }
-      }
-      return false;
-   }
-
    private AttributeTypes getAttributeTypes() {
       return orcsApi.getOrcsTypes().getAttributeTypes();
    }
@@ -89,8 +79,8 @@ public class WorkItemArrayJsonWriter implements MessageBodyWriter<WorkItemArray>
          writer.writeStartObject();
          writer.writeArrayFieldStart("workItems");
          for (IAtsWorkItem workItem : workItemArray.getWorkItems()) {
-            WorkItemJsonWriter.addWorkItem(atsApi, orcsApi, workItem, annotations, writer,
-               matches(IdentityView.class, annotations), getAttributeTypes(), Collections.emptyList());
+            WorkItemJsonWriter.addWorkItem(atsApi, orcsApi, workItem, annotations, writer, getAttributeTypes(),
+               Collections.emptyList());
          }
          writer.writeEndArray();
          writer.writeEndObject();

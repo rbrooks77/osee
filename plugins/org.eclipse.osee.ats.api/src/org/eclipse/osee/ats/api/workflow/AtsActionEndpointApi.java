@@ -43,12 +43,11 @@ public interface AtsActionEndpointApi {
 
    /**
     * @param ids (atsId, artId) of action to display
-    * @return html representation of the action
     */
    @Path("{ids}")
    @GET
    @Produces({MediaType.APPLICATION_JSON})
-   List<IAtsWorkItem> getAction(@PathParam("ids") String ids);
+   public abstract List<ArtifactToken> getAction(@PathParam("ids") String ids);
 
    /**
     * @param ids (atsId, artId) of action to display
