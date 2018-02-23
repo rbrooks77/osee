@@ -19,6 +19,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.osee.framework.core.data.ApplicabilityId;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.osee.framework.core.data.ArtifactId;
 import org.eclipse.osee.framework.core.data.ArtifactTypeToken;
 import org.eclipse.osee.framework.core.data.AttributeTypeToken;
@@ -73,6 +77,7 @@ public class TxDataManager {
    private final RelationManager relationManager;
    private final TupleDataFactory tupleFactory;
    private final TxDataLoader loader;
+   private final ConcurrentMap<Long, Lock> hotBranches = new ConcurrentHashMap<>();
 
    public TxDataManager(ExternalArtifactManager proxyManager, ArtifactFactory artifactFactory, RelationManager relationManager, TupleDataFactory tupleFactory, TxDataLoader loader) {
       this.proxyManager = proxyManager;
@@ -104,6 +109,10 @@ public class TxDataManager {
    }
 
    public void startTx(TxData txData) {
+      Long branchId = txData.getBranchId();
+      hotBranches.putIfAbsent(branchId, new ReentrantLock());
+      Lock lock = hotBranches.get(branchId);
+      lock.lock();
       Conditions.checkExpressionFailOnTrue(txData.isCommitInProgress(), "Commit is already in progress");
       txData.setCommitInProgress(true);
       txData.setTxState(TxState.COMMIT_STARTED);
@@ -111,6 +120,8 @@ public class TxDataManager {
 
    public void endTx(TxData txData) {
       txData.setCommitInProgress(false);
+      Lock lock = hotBranches.get(txData.getBranchId());
+      lock.unlock();
    }
 
    public Iterable<Artifact> getForWrite(TxData txData, Iterable<? extends ArtifactId> ids) {
