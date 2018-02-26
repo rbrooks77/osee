@@ -23,7 +23,7 @@ public interface IndexerCollector {
 
    void onIndexTaskComplete(int indexerId, long waitTime, long processingTime);
 
-   void onIndexItemAdded(int indexerId, long itemId, String word, long codedTag);
+   void onIndexItemAdded(int indexerId, long itemId, long codedTag);
 
    void onIndexItemComplete(int indexerId, long itemId, int totalTags, long processingTime);
 

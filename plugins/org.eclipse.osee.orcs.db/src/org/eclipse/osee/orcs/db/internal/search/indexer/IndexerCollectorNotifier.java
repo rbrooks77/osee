@@ -89,10 +89,10 @@ public class IndexerCollectorNotifier implements IndexerCollector {
    }
 
    @Override
-   public void onIndexItemAdded(int indexerId, long itemId, String word, long codedTag) {
+   public void onIndexItemAdded(int indexerId, long itemId, long codedTag) {
       for (IndexerCollector collector : listeners) {
          try {
-            collector.onIndexItemAdded(indexerId, itemId, word, codedTag);
+            collector.onIndexItemAdded(indexerId, itemId, codedTag);
          } catch (Exception ex) {
             handleError(collector, ex);
          }

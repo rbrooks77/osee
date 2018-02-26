@@ -20,10 +20,9 @@ import java.util.Scanner;
 import org.eclipse.osee.framework.jdk.core.type.Pair;
 import org.eclipse.osee.framework.jdk.core.util.Lib;
 import org.eclipse.osee.framework.jdk.core.util.io.xml.XmlTextInputStream;
-import org.eclipse.osee.orcs.db.internal.search.SearchAsserts;
 import org.eclipse.osee.orcs.db.internal.search.language.EnglishLanguage;
 import org.eclipse.osee.orcs.db.mocks.MockLog;
-import org.eclipse.osee.orcs.db.mocks.MockTagCollector;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -31,7 +30,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 /**
  * Test Case for {@link TagProcessor}
- * 
+ *
  * @author Roberto E. Escobar
  */
 @RunWith(Parameterized.class)
@@ -52,10 +51,9 @@ public class TagProcessorTest {
 
    @Test
    public void testCollectFromString() {
-      List<Pair<String, Long>> actual = new ArrayList<>();
-      TagCollector tagCollector = new MockTagCollector(actual);
-      tagProcessor.collectFromString(expectedParsed, tagCollector);
-      SearchAsserts.assertTagsEqual(expected, actual);
+      List<Long> actualTags = new ArrayList<>();
+      tagProcessor.collectFromString(expectedParsed, actualTags::add);
+      Assert.assertEquals(expected, actualTags);
    }
 
    @Test
@@ -63,10 +61,9 @@ public class TagProcessorTest {
       InputStream inputStream = null;
       try {
          inputStream = new XmlTextInputStream(rawData);
-         List<Pair<String, Long>> actual = new ArrayList<>();
-         TagCollector tagCollector = new MockTagCollector(actual);
-         tagProcessor.collectFromInputStream(inputStream, tagCollector);
-         SearchAsserts.assertTagsEqual(expected, actual);
+         List<Long> actualTags = new ArrayList<>();
+         tagProcessor.collectFromInputStream(inputStream, actualTags::add);
+         Assert.assertEquals(expected, actualTags);
       } finally {
          Lib.close(inputStream);
       }
@@ -74,17 +71,10 @@ public class TagProcessorTest {
 
    @Test
    public void testCollectFromScanner() throws UnsupportedEncodingException {
-      Scanner sourceScanner = null;
-      try {
-         sourceScanner = new Scanner(new XmlTextInputStream(rawData), "UTF-8");
-         List<Pair<String, Long>> actual = new ArrayList<>();
-         TagCollector tagCollector = new MockTagCollector(actual);
-         tagProcessor.collectFromScanner(sourceScanner, tagCollector);
-         SearchAsserts.assertTagsEqual(expected, actual);
-      } finally {
-         if (sourceScanner != null) {
-            sourceScanner.close();
-         }
+      try (Scanner sourceScanner = new Scanner(new XmlTextInputStream(rawData), "UTF-8")) {
+         List<Long> actualTags = new ArrayList<>();
+         tagProcessor.collectFromScanner(sourceScanner, actualTags::add);
+         Assert.assertEquals(expected, actualTags);
       }
    }
 

@@ -11,6 +11,7 @@
 package org.eclipse.osee.orcs.db.internal.search.tagger;
 
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 /**
  * @author Roberto E. Escobar
@@ -56,7 +57,7 @@ public class TagEncoder {
     * represent up to 12 characters (5-bits per character). Longer search tags will be turned into consecutive search
     * tags
     */
-   public void encode(String text, TagCollector collector) {
+   public void encode(String text, Consumer<Long> consumer) {
       int tagBitsPos = 0;
       long tagBits = 0;
       for (int index = 0; index < text.length(); index++) {
@@ -64,7 +65,7 @@ public class TagEncoder {
 
          if (c == '\t' || c == '\n' || c == '\r' || tagBitsPos == 60) {
             if (tagBitsPos > 10) {
-               collector.addTag(text, tagBits);
+               consumer.accept(tagBits);
             }
             tagBits = 0;
             tagBitsPos = 0;
@@ -82,7 +83,7 @@ public class TagEncoder {
          }
       }
       if (tagBits != 0) {
-         collector.addTag(text, tagBits);
+         consumer.accept(tagBits);
       }
    }
 
@@ -98,7 +99,7 @@ public class TagEncoder {
          "ImportTraceUnitsTest3"};
       for (String text : tests) {
          System.out.print(text + "   ");
-         tagEncoder.encode(text, (word, codedTag) -> System.out.print(codedTag));
+         tagEncoder.encode(text, tag -> System.out.print(tag + "  "));
          System.out.println();
       }
    }

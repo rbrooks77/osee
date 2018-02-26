@@ -20,7 +20,6 @@ import org.eclipse.osee.framework.core.enums.TableEnum;
 import org.eclipse.osee.framework.jdk.core.util.Strings;
 import org.eclipse.osee.orcs.core.ds.criteria.CriteriaAttributeKeywords;
 import org.eclipse.osee.orcs.db.internal.search.tagger.HasTagProcessor;
-import org.eclipse.osee.orcs.db.internal.search.tagger.TagCollector;
 import org.eclipse.osee.orcs.db.internal.search.tagger.TagProcessor;
 import org.eclipse.osee.orcs.db.internal.sql.AbstractSqlWriter;
 import org.eclipse.osee.orcs.db.internal.sql.SqlHandler;
@@ -77,7 +76,7 @@ public class AttributeTokenSqlHandler extends SqlHandler<CriteriaAttributeKeywor
       String jIdAlias = null;
       for (String value : values) {
          List<Long> tags = new ArrayList<>();
-         tokenize(value, tags);
+         getTagProcessor().collectFromString(value, tags::add);
          int tagsSize = tags.size();
          writer.write("  ( \n");
          if (tagsSize == 0) {
@@ -163,15 +162,5 @@ public class AttributeTokenSqlHandler extends SqlHandler<CriteriaAttributeKeywor
    @Override
    public int getPriority() {
       return SqlHandlerPriority.ATTRIBUTE_TOKENIZED_VALUE.ordinal();
-   }
-
-   private void tokenize(String value, final Collection<Long> codedTags) {
-      TagCollector collector = new TagCollector() {
-         @Override
-         public void addTag(String word, Long codedTag) {
-            codedTags.add(codedTag);
-         }
-      };
-      getTagProcessor().collectFromString(value, collector);
    }
 }

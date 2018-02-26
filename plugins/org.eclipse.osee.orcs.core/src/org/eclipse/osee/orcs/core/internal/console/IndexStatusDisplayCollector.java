@@ -103,9 +103,9 @@ public final class IndexStatusDisplayCollector extends IndexerCollectorAdapter {
    }
 
    @Override
-   public void onIndexItemAdded(int indexerId, long itemId, String word, long codedTag) {
+   public void onIndexItemAdded(int indexerId, long itemId, long codedTag) {
       if (printTags) {
-         console.writeln("indexerId:[%s] itemId:[%s] word:[%s] tag:[%s]", indexerId, itemId, word, codedTag);
+         console.writeln("indexerId:[%s] itemId:[%s] tag:[%s]", indexerId, itemId, codedTag);
       }
    }
 }

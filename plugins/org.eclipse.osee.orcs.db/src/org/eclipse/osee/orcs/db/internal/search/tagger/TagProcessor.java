@@ -12,6 +12,7 @@ package org.eclipse.osee.orcs.db.internal.search.tagger;
 
 import java.io.InputStream;
 import java.util.Scanner;
+import java.util.function.Consumer;
 import org.eclipse.osee.framework.jdk.core.util.Strings;
 import org.eclipse.osee.orcs.db.internal.search.util.WordsUtil;
 
@@ -28,22 +29,22 @@ public class TagProcessor {
       this.encoder = encoder;
    }
 
-   public void collectFromString(String value, TagCollector tagCollector) {
+   public void collectFromString(String value, Consumer<Long> consumer) {
       if (Strings.isValid(value)) {
          Scanner scanner = new Scanner(value);
          while (scanner.hasNext()) {
-            processWord(scanner.next(), tagCollector);
+            processWord(scanner.next(), consumer);
          }
          scanner.close();
       }
    }
 
-   public void collectFromInputStream(InputStream inputStream, TagCollector tagCollector) {
+   public void collectFromInputStream(InputStream inputStream, Consumer<Long> consumer) {
       if (inputStream != null) {
          Scanner scanner = new Scanner(inputStream, "UTF-8");
          try {
             while (scanner.hasNext()) {
-               processWord(scanner.next(), tagCollector);
+               processWord(scanner.next(), consumer);
             }
          } finally {
             scanner.close();
@@ -51,7 +52,7 @@ public class TagProcessor {
       }
    }
 
-   public void collectFromScanner(Scanner sourceScanner, TagCollector tagCollector) {
+   public void collectFromScanner(Scanner sourceScanner, Consumer<Long> consumer) {
       try {
          while (sourceScanner.hasNext()) {
             String entry = sourceScanner.next();
@@ -59,7 +60,7 @@ public class TagProcessor {
                Scanner innerScanner = new Scanner(entry);
                while (innerScanner.hasNext()) {
                   String entry1 = innerScanner.next();
-                  processWord(entry1, tagCollector);
+                  processWord(entry1, consumer);
                }
                innerScanner.close();
             }
@@ -69,13 +70,13 @@ public class TagProcessor {
       }
    }
 
-   private void processWord(String original, TagCollector tagCollector) {
+   private void processWord(String original, Consumer<Long> consumer) {
       if (Strings.isValid(original) && (original.length() >= 2 || 0 == WordsUtil.countPuntuation(original))) {
          original = original.toLowerCase();
          for (String toEncode : WordsUtil.splitOnPunctuation(original)) {
             if (language.isWord(toEncode)) {
                String target = language.toSingular(toEncode);
-               encoder.encode(target, tagCollector);
+               encoder.encode(target, consumer);
             }
          }
       }

@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 import org.eclipse.osee.framework.core.enums.QueryOption;
 import org.eclipse.osee.framework.jdk.core.type.MatchLocation;
 import org.eclipse.osee.framework.jdk.core.util.Lib;
@@ -30,11 +31,11 @@ public class XmlTagger extends AbstractTagger {
    }
 
    @Override
-   public void tagIt(InputStream provider, TagCollector collector) throws Exception {
+   public void tagIt(InputStream provider, Consumer<Long> consumer) throws Exception {
       InputStream inputStream = null;
       try {
          inputStream = getStream(provider);
-         getTagProcessor().collectFromInputStream(inputStream, collector);
+         getTagProcessor().collectFromInputStream(inputStream, consumer);
       } finally {
          Lib.close(inputStream);
       }

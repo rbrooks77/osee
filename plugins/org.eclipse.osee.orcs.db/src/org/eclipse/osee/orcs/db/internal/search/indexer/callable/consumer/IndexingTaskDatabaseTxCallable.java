@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Consumer;
 import org.eclipse.osee.framework.core.data.GammaId;
 import org.eclipse.osee.framework.core.enums.JoinItem;
 import org.eclipse.osee.framework.jdk.core.type.OseeCoreException;
@@ -31,7 +32,6 @@ import org.eclipse.osee.orcs.core.ds.OrcsDataHandler;
 import org.eclipse.osee.orcs.data.AttributeTypes;
 import org.eclipse.osee.orcs.db.internal.callable.AbstractDatastoreTxCallable;
 import org.eclipse.osee.orcs.db.internal.search.indexer.IndexedResourceLoader;
-import org.eclipse.osee.orcs.db.internal.search.tagger.TagCollector;
 import org.eclipse.osee.orcs.db.internal.search.tagger.Tagger;
 import org.eclipse.osee.orcs.db.internal.search.tagger.TaggingEngine;
 import org.eclipse.osee.orcs.search.IndexerCollector;
@@ -231,13 +231,13 @@ public final class IndexingTaskDatabaseTxCallable extends AbstractDatastoreTxCal
       }
    }
 
-   private void notifyOnIndexItemAdded(long gammaId, String word, long codedTag) {
+   private void notifyOnIndexItemAdded(long gammaId, long codedTag) {
       if (collector != null) {
-         collector.onIndexItemAdded(getTagQueueQueryId(), gammaId, word, codedTag);
+         collector.onIndexItemAdded(getTagQueueQueryId(), gammaId, codedTag);
       }
    }
 
-   private final class SearchTagCollector implements TagCollector {
+   private final class SearchTagCollector implements Consumer<Long> {
 
       private Long gammaId;
       private Set<Long> currentTag;
@@ -257,11 +257,11 @@ public final class IndexingTaskDatabaseTxCallable extends AbstractDatastoreTxCal
       }
 
       @Override
-      public void addTag(String word, Long codedTag) {
+      public void accept(Long codedTag) {
          if (currentTag != null && gammaId != null) {
             if (currentTag.add(codedTag)) {
                totalTags++;
-               notifyOnIndexItemAdded(gammaId, word, codedTag);
+               notifyOnIndexItemAdded(gammaId, codedTag);
             }
          }
       }

@@ -36,7 +36,7 @@ public class IndexerCollectorAdapter implements IndexerCollector {
    }
 
    @Override
-   public void onIndexItemAdded(int indexerId, long itemId, String word, long codedTag) {
+   public void onIndexItemAdded(int indexerId, long itemId, long codedTag) {
       // Empty
    }
 

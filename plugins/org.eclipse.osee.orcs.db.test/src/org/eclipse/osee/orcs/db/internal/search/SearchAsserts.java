@@ -25,25 +25,12 @@ public final class SearchAsserts {
       // Test Utility Class
    }
 
-   public static void assertTagsEqual(List<Pair<String, Long>> expected, List<Pair<String, Long>> actual) {
-      Assert.assertEquals(expected.size(), actual.size());
-
-      for (int index = 0; index < expected.size(); index++) {
-         assertEquals(expected.get(index), actual.get(index));
-      }
-   }
-
    public static void assertEquals(List<MatchLocation> expected, List<MatchLocation> actual) {
       Assert.assertEquals(expected.size(), actual.size());
 
       for (int index = 0; index < expected.size(); index++) {
          assertEquals(expected.get(index), actual.get(index));
       }
-   }
-
-   public static void assertEquals(Pair<String, Long> expected, Pair<String, Long> actual) {
-      Assert.assertEquals(expected.getFirst(), actual.getFirst());
-      Assert.assertEquals(expected.getSecond(), actual.getSecond());
    }
 
    public static void assertEquals(MatchLocation expected, MatchLocation actual) {

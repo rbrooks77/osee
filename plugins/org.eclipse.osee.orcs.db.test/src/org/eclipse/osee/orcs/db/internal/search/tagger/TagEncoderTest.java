@@ -13,9 +13,8 @@ package org.eclipse.osee.orcs.db.internal.search.tagger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.eclipse.osee.framework.jdk.core.type.Pair;
 import org.eclipse.osee.orcs.db.internal.search.SearchAsserts;
-import org.eclipse.osee.orcs.db.mocks.MockTagCollector;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -23,17 +22,17 @@ import org.junit.runners.Parameterized.Parameters;
 
 /**
  * Test Case for {@link TagEncoder}
- * 
+ *
  * @author Roberto E. Escobar
  */
 @RunWith(Parameterized.class)
 public class TagEncoderTest {
 
-   private final List<Pair<String, Long>> expected;
+   private final List<Long> expected;
    private final String toEncode;
    private final TagEncoder encoder;
 
-   public TagEncoderTest(String toEncode, List<Pair<String, Long>> expected) {
+   public TagEncoderTest(String toEncode, List<Long> expected) {
       this.toEncode = toEncode;
       this.expected = expected;
       this.encoder = new TagEncoder();
@@ -41,9 +40,9 @@ public class TagEncoderTest {
 
    @Test
    public void testTagEncoder() {
-      List<Pair<String, Long>> actualTags = new ArrayList<>();
-      encoder.encode(toEncode, new MockTagCollector(actualTags));
-      SearchAsserts.assertTagsEqual(expected, actualTags);
+      List<Long> actualTags = new ArrayList<>();
+      encoder.encode(toEncode, actualTags::add);
+      Assert.assertEquals(expected, actualTags);
    }
 
    @Parameters
@@ -55,5 +54,4 @@ public class TagEncoderTest {
          SearchAsserts.asTags("what happens when we have a long string", 2080358399, -545259521, 290692031)});
       return data;
    }
-
 }
