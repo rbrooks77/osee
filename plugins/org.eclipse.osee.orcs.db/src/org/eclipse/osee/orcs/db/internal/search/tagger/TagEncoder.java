@@ -78,7 +78,7 @@ public class TagEncoder {
             } else {
                tagBits |= pos << tagBitsPos;
             }
-            tagBitsPos += 4;
+            tagBitsPos += 5;
          }
       }
       if (tagBits != 0) {
@@ -88,8 +88,14 @@ public class TagEncoder {
 
    public static final void main(String[] args) {
       TagEncoder tagEncoder = new TagEncoder();
-      String tests[] =
-         new String[] {"111j1", "111k1", "text", "11$1111,111.1111", "11-1111(111)1111", "ImportTraceUnitsTest2.txt"};
+      String tests[] = new String[] {
+         "111j1",
+         "111k1",
+         "text",
+         "11$1111,111.1111",
+         "11-1111(111)1111",
+         "ImportTraceUnitsTest2",
+         "ImportTraceUnitsTest3"};
       for (String text : tests) {
          System.out.print(text + "   ");
          tagEncoder.encode(text, (word, codedTag) -> System.out.print(codedTag));
