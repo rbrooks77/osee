@@ -19,6 +19,7 @@ public enum TableEnum {
    BRANCH_TABLE("osee_branch", "br", ObjectType.BRANCH),
    CHAR_JOIN_TABLE("osee_join_char_id", "jch"),
    ID_JOIN_TABLE("osee_join_id", "jid"),
+   SEARCH_HASH_TABLE("osee_search_hash", "hsh"),
    JOIN_ID4_TABLE("osee_join_id4", "jart"),
    MERGE_TABLE("osee_merge", "mbr"),
    RELATION_TABLE("osee_relation_link", "rel", ObjectType.RELATION),

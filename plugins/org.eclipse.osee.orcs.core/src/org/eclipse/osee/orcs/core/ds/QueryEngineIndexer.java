@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.concurrent.Future;
 import org.eclipse.osee.framework.core.data.AttributeTypeId;
 import org.eclipse.osee.framework.core.data.Branch;
+import org.eclipse.osee.framework.core.data.GammaId;
 import org.eclipse.osee.framework.core.executor.CancellableCallable;
 import org.eclipse.osee.orcs.OrcsSession;
 import org.eclipse.osee.orcs.data.AttributeTypes;
@@ -45,4 +46,8 @@ public interface QueryEngineIndexer {
    void indexAttrTypeIds(OrcsSession session, AttributeTypes attributeTypes, Iterable<Long> attrTypeIds);
 
    void indexAttrTypeMissingOnly(AttributeTypes attributeTypes, Iterable<Long> attrTypeIds);
+
+   int createTermHashes(Iterable<GammaId> gammaIds);
+
+   int createTermHashes(AttributeTypeId attributeType);
 }

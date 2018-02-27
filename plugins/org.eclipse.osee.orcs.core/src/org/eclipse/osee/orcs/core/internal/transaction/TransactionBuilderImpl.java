@@ -37,11 +37,11 @@ import org.eclipse.osee.framework.core.enums.CoreArtifactTokens;
 import org.eclipse.osee.framework.core.enums.CoreArtifactTypes;
 import org.eclipse.osee.framework.core.enums.CoreAttributeTypes;
 import org.eclipse.osee.framework.core.enums.CoreTupleTypes;
+import org.eclipse.osee.framework.core.enums.QueryOption;
 import org.eclipse.osee.framework.core.enums.RelationSorter;
 import org.eclipse.osee.framework.core.enums.TableEnum;
 import org.eclipse.osee.framework.jdk.core.type.Id;
 import org.eclipse.osee.framework.jdk.core.type.OseeCoreException;
-import org.eclipse.osee.framework.jdk.core.type.ResultSet;
 import org.eclipse.osee.framework.jdk.core.util.Conditions;
 import org.eclipse.osee.orcs.KeyValueOps;
 import org.eclipse.osee.orcs.OrcsApi;
@@ -151,12 +151,12 @@ public class TransactionBuilderImpl implements TransactionBuilder {
 
    @Override
    public List<ArtifactToken> createArtifacts(ArtifactTypeId artifactType, ArtifactId parent, List<String> names) {
-      ResultSet<ArtifactReadable> results =
-         queryFactory.fromBranch(getBranch()).andTypeEquals(artifactType).and(CoreAttributeTypes.Name,
-            names).getResults();
-      if (!results.isEmpty()) {
-         throw new OseeCoreException("Found %s artifacts of type %s with duplicate names: %s", results.size(),
-            artifactType, results.getList());
+      List<ArtifactToken> duplicates =
+         queryFactory.fromBranch(getBranch()).andTypeEquals(artifactType).andAttribute(CoreAttributeTypes.Name, names,
+            QueryOption.TOKENIZE_WHITESPACE, false).loadArtifactTokens();
+      if (!duplicates.isEmpty()) {
+         throw new OseeCoreException("Found %s artifacts of type %s with duplicate names: %s", duplicates.size(),
+            artifactType, duplicates);
       }
 
       List<ArtifactToken> tokens = new ArrayList<>(names.size());

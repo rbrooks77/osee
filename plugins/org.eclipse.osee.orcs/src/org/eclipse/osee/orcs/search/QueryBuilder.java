@@ -22,11 +22,11 @@ import org.eclipse.osee.framework.core.data.ArtifactTypeToken;
 import org.eclipse.osee.framework.core.data.AttributeTypeId;
 import org.eclipse.osee.framework.core.data.AttributeTypeToken;
 import org.eclipse.osee.framework.core.data.IRelationType;
+import org.eclipse.osee.framework.core.data.RelationTypeId;
 import org.eclipse.osee.framework.core.data.RelationTypeSide;
 import org.eclipse.osee.framework.core.data.TransactionId;
-import org.eclipse.osee.framework.core.enums.QueryOption;
-import org.eclipse.osee.framework.core.data.RelationTypeId;
 import org.eclipse.osee.framework.core.data.ValueKind;
+import org.eclipse.osee.framework.core.enums.QueryOption;
 import org.eclipse.osee.framework.core.enums.RelationSide;
 import org.eclipse.osee.framework.jdk.core.type.ResultSet;
 import org.eclipse.osee.orcs.data.ArtifactReadable;
@@ -132,7 +132,7 @@ public interface QueryBuilder extends Query {
 
    public <T> void selectAtt(AttributeTypeToken<T> attributeType, Consumer<T> consumer);
 
-   public static AttributeTypeToken ANY_ATTRIBUTE_TYPE =
+   public static AttributeTypeToken<Object> ANY_ATTRIBUTE_TYPE =
       AttributeTypeToken.valueOf(Long.MIN_VALUE, "Any Attribute Type");
 
    QueryBuilder includeDeletedArtifacts();
@@ -338,6 +338,12 @@ public interface QueryBuilder extends Query {
    QueryBuilder follow(RelationTypeSide relationTypeSide, ArtifactTypeToken artifacType);
 
    QueryBuilder followNoSelect(RelationTypeSide relationTypeSide, ArtifactTypeToken artifacType);
+
+   QueryBuilder andAttribute(AttributeTypeId attributeType, String value, QueryOption option, boolean caseSensitive);
+
+   QueryBuilder andAttribute(AttributeTypeId attributeType, Collection<String> values, QueryOption option, boolean caseSensitive);
+
+   QueryBuilder andAttribute(String value, QueryOption option, boolean caseSensitive);
 
    /**
     * @deprecated use follow instead, currently still needed only for ORCS script

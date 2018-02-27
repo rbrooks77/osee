@@ -10,15 +10,19 @@
  *******************************************************************************/
 package org.eclipse.osee.orcs.rest.model;
 
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.eclipse.osee.framework.core.data.AttributeTypeId;
+import org.eclipse.osee.framework.core.data.GammaId;
 
 /**
  * @author Roberto E. Escobar
@@ -35,6 +39,13 @@ public interface IndexerEndpoint {
    @Path("resources")
    @Consumes(MediaType.APPLICATION_JSON)
    Response indexResources(IndexResources options);
+
+   @POST
+   @Path("attributeType/{attributeType}")
+   int createTermHashes(@PathParam("attributeType") AttributeTypeId attributeType);
+
+   @POST
+   int createTermHashes(List<GammaId> gammaIds);
 
    @DELETE
    @Path("queue")

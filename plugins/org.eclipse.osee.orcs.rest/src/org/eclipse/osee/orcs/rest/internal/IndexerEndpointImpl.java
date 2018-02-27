@@ -19,8 +19,10 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import org.eclipse.osee.framework.core.data.AttributeTypeId;
 import org.eclipse.osee.framework.core.data.Branch;
 import org.eclipse.osee.framework.core.data.BranchId;
+import org.eclipse.osee.framework.core.data.GammaId;
 import org.eclipse.osee.framework.jdk.core.type.ResultSet;
 import org.eclipse.osee.framework.jdk.core.util.Collections;
 import org.eclipse.osee.jaxrs.OseeWebApplicationException;
@@ -101,4 +103,13 @@ public class IndexerEndpointImpl implements IndexerEndpoint {
       return asResponse(modified);
    }
 
+   @Override
+   public int createTermHashes(AttributeTypeId attributeType) {
+      return getIndexer().createTermHashes(attributeType);
+   }
+
+   @Override
+   public int createTermHashes(List<GammaId> gammaIds) {
+      return getIndexer().createTermHashes(gammaIds);
+   }
 }

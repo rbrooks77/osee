@@ -25,6 +25,7 @@ import org.eclipse.osee.framework.core.data.BranchId;
 import org.eclipse.osee.framework.core.data.TransactionId;
 import org.eclipse.osee.framework.core.data.TransactionToken;
 import org.eclipse.osee.framework.core.data.UserId;
+import org.eclipse.osee.framework.core.enums.QueryOption;
 import org.eclipse.osee.framework.jdk.core.type.MatchLocation;
 import org.eclipse.osee.framework.jdk.core.type.ResultSet;
 import org.eclipse.osee.orcs.OrcsApi;
@@ -147,7 +148,7 @@ public class ArtifactEndpointImpl implements ArtifactEndpoint {
       }
       if (attributeType.isValid()) {
          if (exists) {
-            query.andAttributeIs(attributeType, value);
+            query.andAttribute(attributeType, value, QueryOption.WHOLE_MATCH, false);
          } else {
             query.andNotExists(attributeType, value);
          }

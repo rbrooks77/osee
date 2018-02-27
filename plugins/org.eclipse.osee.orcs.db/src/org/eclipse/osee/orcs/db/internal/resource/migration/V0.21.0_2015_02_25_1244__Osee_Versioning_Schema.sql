@@ -1,3 +1,9 @@
+CREATE TABLE OSEE_SEARCH_HASH (
+	app_id ${db.bigint} NOT NULL,
+	hash ${db.bigint} NOT NULL,
+	gamma_id ${db.bigint} NOT NULL,
+	CONSTRAINT SEARCH_HASH__A_H_G_PK PRIMARY KEY (app_id, hash, gamma_id))
+	${db.organization_index};
 
 -- OSEE_ARTIFACT
 CREATE TABLE OSEE_ARTIFACT ( 

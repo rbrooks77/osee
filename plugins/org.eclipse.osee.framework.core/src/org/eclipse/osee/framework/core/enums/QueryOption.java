@@ -14,6 +14,7 @@ package org.eclipse.osee.framework.core.enums;
  * @author John Misinco
  */
 public enum QueryOption {
+   NONE,
    CASE__MATCH,
    CASE__IGNORE,
 
@@ -27,7 +28,12 @@ public enum QueryOption {
 
    // matching the token order
    TOKEN_MATCH_ORDER__ANY,
-   TOKEN_MATCH_ORDER__MATCH;
+   TOKEN_MATCH_ORDER__MATCH,
+
+   // can be used to match one value or any values (i.e. using OR) but not all values (i.e. using AND)
+   WHOLE_MATCH,
+   TOKENIZE_WHITESPACE,
+   TOKENIZE_NON_ALPHANUMERIC;
 
    public static QueryOption getTokenOrderType(boolean matchOrder) {
       return matchOrder ? TOKEN_MATCH_ORDER__MATCH : TOKEN_MATCH_ORDER__ANY;
