@@ -219,8 +219,8 @@ public class ArtifactQuery {
    }
 
    public static List<ArtifactId> getArtifactIdsFromTypeAndName(ArtifactTypeId artifactType, String artifactName, BranchId branch) {
-      return new ArtifactQueryBuilder(artifactType, branch, ALL,
-         new AttributeCriteria(CoreAttributeTypes.Name, artifactName)).selectArtifacts(2);
+      return getArtifactEndpoint(branch).getArtifactIdsByAttribute(CoreAttributeTypes.Name, artifactName, true,
+         artifactType);
    }
 
    /**
@@ -258,8 +258,10 @@ public class ArtifactQuery {
    }
 
    private static Artifact getArtifactFromTypeAndAttribute(ArtifactTypeId artifactType, AttributeTypeId attributeType, String attributeValue, BranchId branch, QueryType queryType) {
-      return new ArtifactQueryBuilder(artifactType, branch, ALL,
-         new AttributeCriteria(attributeType, attributeValue)).getOrCheckArtifact(queryType);
+      List<Artifact> artifacts = getArtifactListFrom(
+         getArtifactEndpoint(branch).getArtifactIdsByAttribute(attributeType, attributeValue, true, artifactType),
+         branch);
+      return getOrCheckArtifact(queryType, artifacts);
    }
 
    public static List<Artifact> getArtifactListFromTypeAndName(ArtifactTypeId artifactType, String artifactName, BranchId branch) {
@@ -267,8 +269,9 @@ public class ArtifactQuery {
    }
 
    public static List<Artifact> getArtifactListFromTypeAndAttribute(ArtifactTypeId artifactType, AttributeTypeId attributeType, String attributeValue, BranchId branch) {
-      return new ArtifactQueryBuilder(artifactType, branch, ALL,
-         new AttributeCriteria(attributeType, attributeValue)).getArtifacts(100, null);
+      return getArtifactListFrom(
+         getArtifactEndpoint(branch).getArtifactIdsByAttribute(attributeType, attributeValue, true, artifactType),
+         branch);
    }
 
    /**
