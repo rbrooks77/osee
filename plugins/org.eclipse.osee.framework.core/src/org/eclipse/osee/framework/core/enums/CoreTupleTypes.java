@@ -35,7 +35,8 @@ public final class CoreTupleTypes {
       Tuple2Type.valueOf(CoreTupleFamilyTypes.ProductLineFamily, 13L);
    public static final Tuple2Type<BranchId, ArtifactId> BranchView = Tuple2Type.valueOf(ProductLineFamily, 11L);
    public static final Tuple2Type<ArtifactId, ArtifactId> VersionConfig = Tuple2Type.valueOf(ProductLineFamily, 12L);
-
+   public static final Tuple2Type<ArtifactId, ArtifactId> ArtifactReference =
+      Tuple2Type.valueOf(CoreTupleFamilyTypes.DefaultFamily, 14L);
    // Data Maintenance
    public static final Tuple3Type<String, Long, Long> FixedMaintenanceData =
       Tuple3Type.valueOf(DefaultFamily, 5L, TupleTypeImpl.KeyedString, Function.identity(), Function.identity());
