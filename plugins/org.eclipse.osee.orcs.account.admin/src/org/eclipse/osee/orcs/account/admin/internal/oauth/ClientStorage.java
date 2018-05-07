@@ -28,6 +28,7 @@ import org.eclipse.osee.account.admin.OseePrincipal;
 import org.eclipse.osee.framework.core.data.ArtifactId;
 import org.eclipse.osee.framework.core.data.BranchId;
 import org.eclipse.osee.framework.core.data.UserId;
+import org.eclipse.osee.framework.core.enums.CoreArtifactTokens;
 import org.eclipse.osee.framework.core.enums.CoreAttributeTypes;
 import org.eclipse.osee.framework.core.enums.SystemUser;
 import org.eclipse.osee.framework.core.util.JsonUtil;
@@ -147,7 +148,7 @@ public class ClientStorage {
 
    public ArtifactId storeTypes(ByteSource resource) {
       TransactionBuilder tx = newTransaction(null, "Initialize OAuth Type Definitions");
-      ArtifactId artifactId = tx.createArtifact(OAUTH_TYPES);
+      ArtifactId artifactId = tx.createArtifact(CoreArtifactTokens.OseeTypesFolder, OAUTH_TYPES);
       InputStream stream = null;
       try {
          stream = resource.openStream();

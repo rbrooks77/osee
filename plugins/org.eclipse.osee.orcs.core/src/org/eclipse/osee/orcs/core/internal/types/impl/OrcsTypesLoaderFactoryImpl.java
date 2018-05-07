@@ -19,7 +19,6 @@ import org.eclipse.osee.orcs.core.internal.types.BranchHierarchyProvider;
 import org.eclipse.osee.orcs.core.internal.types.OrcsTypesIndex;
 import org.eclipse.osee.orcs.core.internal.types.OrcsTypesLoader;
 import org.eclipse.osee.orcs.core.internal.types.OrcsTypesLoaderFactory;
-import org.eclipse.osee.orcs.core.internal.types.OrcsTypesResourceProvider;
 
 /**
  * @author Roberto E. Escobar
@@ -36,23 +35,17 @@ public class OrcsTypesLoaderFactoryImpl implements OrcsTypesLoaderFactory {
 
    @Override
    public OrcsTypesLoader createTypesLoader(final OrcsSession session, final OrcsTypesDataStore ds) {
-      return createTypesLoader(session, new OrcsTypesResourceProvider() {
-
-         @Override
-         public IResource getOrcsTypesResource() throws Exception {
-            return ds.getOrcsTypesLoader(session);
-         }
-      });
+      return createTypesLoader(session, ds.getOrcsTypesLoader(session));
    }
 
    @Override
-   public OrcsTypesLoader createTypesLoader(final OrcsSession session, final OrcsTypesResourceProvider provider) {
+   public OrcsTypesLoader createTypesLoader(final OrcsSession session, IResource resource) {
       return new OrcsTypesLoader() {
 
          @Override
          public Callable<OrcsTypesIndex> createLoader() {
             OrcsTypesIndexer indexer = new OrcsTypesIndexer(logger, hierarchyProvider);
-            return new CreateOrcsTypesIndexCallable(logger, indexer, provider);
+            return new CreateOrcsTypesIndexCallable(indexer, resource);
          }
       };
    }

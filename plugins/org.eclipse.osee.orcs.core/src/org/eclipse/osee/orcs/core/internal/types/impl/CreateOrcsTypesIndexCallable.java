@@ -11,26 +11,23 @@
 package org.eclipse.osee.orcs.core.internal.types.impl;
 
 import org.eclipse.osee.framework.core.executor.CancellableCallable;
-import org.eclipse.osee.logger.Log;
+import org.eclipse.osee.framework.resource.management.IResource;
 import org.eclipse.osee.orcs.core.internal.types.OrcsTypesIndex;
-import org.eclipse.osee.orcs.core.internal.types.OrcsTypesResourceProvider;
 
 /**
  * @author Roberto E. Escobar
  */
 public class CreateOrcsTypesIndexCallable extends CancellableCallable<OrcsTypesIndex> {
-
    private final OrcsTypesIndexer indexer;
-   private final OrcsTypesResourceProvider provider;
+   private final IResource resource;
 
-   public CreateOrcsTypesIndexCallable(Log logger, OrcsTypesIndexer indexer, OrcsTypesResourceProvider provider) {
-      super();
+   public CreateOrcsTypesIndexCallable(OrcsTypesIndexer indexer, IResource resource) {
       this.indexer = indexer;
-      this.provider = provider;
+      this.resource = resource;
    }
 
    @Override
    public OrcsTypesIndex call() throws Exception {
-      return indexer.index(provider.getOrcsTypesResource());
+      return indexer.index(resource);
    }
 }

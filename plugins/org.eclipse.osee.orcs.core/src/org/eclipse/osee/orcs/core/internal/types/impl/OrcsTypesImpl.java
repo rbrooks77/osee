@@ -31,7 +31,6 @@ import org.eclipse.osee.orcs.OrcsTypes;
 import org.eclipse.osee.orcs.core.ds.OrcsTypesDataStore;
 import org.eclipse.osee.orcs.core.internal.types.OrcsTypesIndexProvider;
 import org.eclipse.osee.orcs.core.internal.types.OrcsTypesLoaderFactory;
-import org.eclipse.osee.orcs.core.internal.types.OrcsTypesResourceProvider;
 import org.eclipse.osee.orcs.data.ArtifactTypes;
 import org.eclipse.osee.orcs.data.AttributeTypes;
 import org.eclipse.osee.orcs.data.EnumTypes;
@@ -95,13 +94,7 @@ public class OrcsTypesImpl implements OrcsTypes {
 
    @Override
    public void loadTypes(final IResource resource) {
-      indexProvider.setLoader(loaderFactory.createTypesLoader(session, new OrcsTypesResourceProvider() {
-
-         @Override
-         public IResource getOrcsTypesResource() {
-            return resource;
-         }
-      }));
+      indexProvider.setLoader(loaderFactory.createTypesLoader(session, resource));
    }
 
    @Override

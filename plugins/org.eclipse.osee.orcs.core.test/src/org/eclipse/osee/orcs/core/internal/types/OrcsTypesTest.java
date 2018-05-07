@@ -115,18 +115,18 @@ public class OrcsTypesTest {
 
       when(session.getGuid()).thenReturn(SESSION_ID);
 
-      module = new OrcsTypesModule(logger, dataStore, hierarchyProvider);
-      module.start(session);
-
-      orcsTypes = module.createOrcsTypes(session);
       resources = new ArrayList<>();
 
       URI uri = new URI("osee:/types.test.data.osee");
-
       IResource resource = new MultiResource(uri, resources);
       when(dataStore.getOrcsTypesLoader(session)).thenReturn(resource);
 
       resources.add(getResource(TEST_TYPE_MODEL));
+
+      module = new OrcsTypesModule(logger, dataStore, hierarchyProvider);
+      module.start(session);
+
+      orcsTypes = module.createOrcsTypes(session);
 
       branchHierachies = ArrayListMultimap.create();
 

@@ -12,7 +12,6 @@ package org.eclipse.osee.orcs.core.internal.types.impl;
 
 import java.util.concurrent.FutureTask;
 import org.eclipse.osee.framework.jdk.core.type.LazyObject;
-import org.eclipse.osee.framework.jdk.core.type.OseeCoreException;
 import org.eclipse.osee.framework.resource.management.IResource;
 import org.eclipse.osee.orcs.core.internal.types.OrcsTypesIndex;
 import org.eclipse.osee.orcs.core.internal.types.OrcsTypesIndexProvider;
@@ -52,11 +51,7 @@ public class OrcsTypesIndexProviderImpl extends LazyObject<OrcsTypesIndex> imple
 
    @Override
    public IResource getOrcsTypesResource() {
-      try {
-         return get().getOrcsTypesResource();
-      } catch (Exception ex) {
-         throw OseeCoreException.wrap(ex);
-      }
+      return get().getOrcsTypesResource();
    }
 
    @Override
