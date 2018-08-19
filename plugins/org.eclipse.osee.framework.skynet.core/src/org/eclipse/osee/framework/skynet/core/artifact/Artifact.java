@@ -1655,6 +1655,10 @@ public class Artifact extends NamedIdBase implements ArtifactToken, Adaptable, F
       ensureAttributesLoaded();
       return getAttributes(attributeType).size();
    }
+   
+   public final boolean hasAttribute(IAttributeType attributeType) {
+      return getAttributeCount(attributeType) != 0;
+   }
 
    /**
     * Return relations that exist between artifacts
