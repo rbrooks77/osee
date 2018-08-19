@@ -12,9 +12,9 @@ package org.eclipse.osee.ats.api.user;
 
 import java.util.Collection;
 import java.util.List;
-import javax.ws.rs.core.HttpHeaders;
 import org.eclipse.osee.ats.api.IAtsWorkItem;
 import org.eclipse.osee.framework.core.data.ArtifactId;
+import org.eclipse.osee.framework.core.data.UserId;
 import org.eclipse.osee.framework.core.enums.Active;
 
 /**
@@ -59,14 +59,14 @@ public interface IAtsUserService {
    IAtsUser getUserByAccountId(Long accountId);
 
    /**
-    * @return user specified by osee.account_id or null
+    * @param accountId UserId or null
+    * @return if accountId is null, then the IAtsUser corresponding to SystemUser.Anonymous is returned
     */
-   IAtsUser getUserByAccountId(HttpHeaders httpHeaders);
+   IAtsUser getUserByAccountId(UserId accountId);
 
    boolean isAtsAdmin(boolean useCache);
 
    Collection<IAtsUser> getActiveAndAssignedInActive(Collection<? extends IAtsWorkItem> workItems);
-
    void setCurrentUser(IAtsUser user);
 
 }
