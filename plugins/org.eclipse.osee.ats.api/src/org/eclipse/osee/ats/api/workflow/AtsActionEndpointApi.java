@@ -196,4 +196,9 @@ public interface AtsActionEndpointApi {
    @Path("{id}/assocArt/{attrTypeId}")
    @Produces(MediaType.APPLICATION_JSON)
    public List<String> getRelatedRequirements(@PathParam("workflowId") ArtifactId workflowId, @PathParam("relatedReqs") AttributeTypeId relatedReqs, @QueryParam("versionType") AttributeTypeId versionType);
+
+   @GET
+   @Path("{actionableItem}/changeReport")
+   @Produces(MediaType.APPLICATION_JSON)
+   List<String[]> getChanges(@PathParam("actionableItem") ArtifactId actionableItem);
 }

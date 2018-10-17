@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.List;
 import org.eclipse.osee.ats.api.IAtsObject;
 import org.eclipse.osee.ats.api.IAtsWorkItem;
-import org.eclipse.osee.ats.api.ai.IAtsActionableItem;
 import org.eclipse.osee.ats.api.team.IAtsTeamDefinition;
 import org.eclipse.osee.ats.api.user.IAtsUser;
 import org.eclipse.osee.ats.api.version.IAtsVersion;
@@ -91,7 +90,7 @@ public interface IAtsQuery {
 
    IAtsQuery andColorTeam(String colorTeam);
 
-   IAtsQuery andActionableItem(IAtsActionableItem actionableItem);
+   IAtsQuery andActionableItem(ArtifactId actionableItem);
 
    Collection<ArtifactId> getItemIds();
 
