@@ -19,6 +19,7 @@ import java.util.concurrent.Callable;
 import org.eclipse.osee.framework.core.data.ArtifactId;
 import org.eclipse.osee.framework.core.data.ArtifactToken;
 import org.eclipse.osee.framework.core.data.UserId;
+import org.eclipse.osee.framework.core.data.TransactionId;
 import org.eclipse.osee.framework.core.data.UserToken;
 import org.eclipse.osee.framework.core.enums.CoreArtifactTokens;
 import org.eclipse.osee.framework.core.enums.CoreAttributeTypes;
@@ -63,12 +64,13 @@ public class OrcsAdminImpl implements OrcsAdmin {
    }
 
    @Override
-   public void createDatastoreAndSystemBranches(String typeModel) {
+   public TransactionId createDatastoreAndSystemBranches(String typeModel) {
       typeModel += OseeInf.getResourceContents("OseeTypes_Framework.osee", getClass());
       dataStoreAdmin.createDataStore();
       orcsApi.getOrcsTypes().loadTypes(typeModel);
-      new CreateSystemBranches(orcsApi, eventAdmin).create(typeModel);
+      TransactionId tx = new CreateSystemBranches(orcsApi, eventAdmin).create(typeModel);
       createSynonymsAndGrants();
+      return tx;
    }
 
    private void createSynonymsAndGrants() {
