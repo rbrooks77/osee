@@ -72,10 +72,6 @@ public class AtsTestDatabase {
    public void initialize() throws Exception {
       Bundle bundle = FrameworkUtil.getBundle(AtsMethodDatabase.class);
       Assert.assertNotNull("Bundle cannot be null", bundle);
-      int state = bundle.getState();
-      if (state != Bundle.STARTING || state != Bundle.ACTIVE) {
-         bundle.start();
-      }
 
       System.err.println("Initializing ATS Database");
 

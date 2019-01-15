@@ -13,6 +13,7 @@ package org.eclipse.osee.orcs.db.mock;
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
+import org.eclipse.osee.framework.jdk.core.type.OseeCoreException;
 import org.eclipse.osee.framework.jdk.core.util.annotation.AnnotationProcessor;
 import org.eclipse.osee.framework.jdk.core.util.annotation.FieldAnnotationHandler;
 import org.eclipse.osee.orcs.db.mock.internal.OsgiServiceFieldAnnotationHandler;
@@ -37,13 +38,12 @@ public class OsgiRule extends TestWatcher {
       try {
          processor.initAnnotations(objects);
       } catch (Exception ex) {
-         throw new RuntimeException(ex);
+         OseeCoreException.wrapAndThrow(ex);
       }
    }
 
    private static AnnotationProcessor createProcessor() {
-      Map<Class<? extends Annotation>, FieldAnnotationHandler<?>> annotationHandlers =
-         new HashMap<>();
+      Map<Class<? extends Annotation>, FieldAnnotationHandler<?>> annotationHandlers = new HashMap<>();
 
       annotationHandlers.put(OsgiService.class, new OsgiServiceFieldAnnotationHandler());
       return new AnnotationProcessor(annotationHandlers);

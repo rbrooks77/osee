@@ -69,10 +69,6 @@ public class TestDatabase {
    public void initialize() throws Exception {
       Bundle bundle = FrameworkUtil.getBundle(OseeDatabase.class);
       Assert.assertNotNull("Bundle cannot be null", bundle);
-      int state = bundle.getState();
-      if (state != Bundle.STARTING || state != Bundle.ACTIVE) {
-         bundle.start();
-      }
 
       tempFolder = createTempFolder();
       Assert.assertNotNull("TempFolder cannot be null", tempFolder);
