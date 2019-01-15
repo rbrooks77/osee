@@ -61,15 +61,13 @@ public class ResourceManager implements IResourceManager {
    @Override
    public IResource acquire(IResourceLocator locator, PropertyStore options) {
       IResourceProvider provider = getProvider(locator);
-      IResource toReturn = provider.acquire(locator, options);
-      return toReturn;
+      return provider.acquire(locator, options);
    }
 
    @Override
    public IResourceLocator save(IResourceLocator locator, IResource resource, PropertyStore options) {
       IResourceProvider provider = getProvider(locator);
-      IResourceLocator actualLocator = provider.save(locator, resource, options);
-      return actualLocator;
+      return provider.save(locator, resource, options);
    }
 
    @Override

@@ -12,6 +12,7 @@ package org.eclipse.osee.orcs.db.internal.branch;
 
 import java.util.function.Consumer;
 import org.apache.commons.lang.mutable.MutableLong;
+import org.eclipse.osee.framework.core.data.KeyId;
 import org.eclipse.osee.framework.jdk.core.util.Lib;
 import org.eclipse.osee.framework.jdk.core.util.Strings;
 import org.eclipse.osee.jdbc.JdbcClient;
@@ -87,8 +88,12 @@ public class KeyValueModule {
 
             return false;
          }
-      };
 
+         @Override
+         public boolean putByKey(KeyId key, String value) {
+            return putByKey(key.getId(), value);
+         }
+      };
    }
 
    private class MutableString {

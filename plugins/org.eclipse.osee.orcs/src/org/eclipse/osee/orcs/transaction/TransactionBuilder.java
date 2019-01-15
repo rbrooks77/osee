@@ -190,8 +190,6 @@ public interface TransactionBuilder {
 
    <E1, E2, E3, E4> boolean deleteTuple4ByE1E2(Tuple4Type<E1, E2, E3, E4> tupleType, E1 e1, E2 e2);
 
-   void addKeyValueOps(Long id, String name);
-
    ArtifactToken createArtifact(ArtifactToken parent, ArtifactTypeToken artifactType, String name, Long id);
 
    /**

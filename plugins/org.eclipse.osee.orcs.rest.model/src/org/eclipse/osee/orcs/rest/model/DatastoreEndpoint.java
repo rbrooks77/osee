@@ -34,7 +34,7 @@ public interface DatastoreEndpoint {
    @POST
    @Path("initialize")
    @Consumes(MediaType.TEXT_PLAIN)
-   TransactionId initialize(String typeModel);
+   TransactionId initialize(String typeModel, String largeAttributeStorePath);
 
    @POST
    @Path("migrate")

@@ -73,7 +73,7 @@ public class AttributeProvider implements IResourceProvider {
       return attributeDataPath;
    }
 
-   public String getBinaryDataPath() {
+   private String getBinaryDataPath() {
       ensureInitialized();
       return binaryDataPath;
    }

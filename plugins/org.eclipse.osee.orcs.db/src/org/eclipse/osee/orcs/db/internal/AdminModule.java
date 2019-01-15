@@ -30,6 +30,7 @@ import org.eclipse.osee.orcs.SystemPreferences;
 import org.eclipse.osee.orcs.core.ds.DataStoreAdmin;
 import org.eclipse.osee.orcs.core.ds.DataStoreConstants;
 import org.eclipse.osee.orcs.core.ds.DataStoreInfo;
+import org.eclipse.osee.orcs.core.ds.KeyValueStore;
 import org.eclipse.osee.orcs.core.ds.OrcsTypesDataStore;
 import org.eclipse.osee.orcs.db.internal.callable.FetchDatastoreInfoCallable;
 import org.eclipse.osee.orcs.db.internal.callable.MigrateDatastoreCallable;
@@ -48,7 +49,6 @@ public class AdminModule {
    private final OrcsTypesDataStore typesDataStore;
 
    public AdminModule(Log logger, JdbcClient jdbcClient, IdentityManager identityService, SystemPreferences preferences, OrcsTypesDataStore typesDataStore) {
-      super();
       this.logger = logger;
       this.jdbcClient = jdbcClient;
       this.identityService = identityService;
@@ -56,10 +56,10 @@ public class AdminModule {
       this.typesDataStore = typesDataStore;
    }
 
-   public DataStoreAdmin createDataStoreAdmin() {
+   public DataStoreAdmin createDataStoreAdmin(KeyValueStore keyValueStore) {
       return new DataStoreAdmin() {
          @Override
-         public void createDataStore() {
+         public void createDataStore(String binaryStorePath) {
             Supplier<Iterable<JdbcMigrationResource>> schemaProvider = new DynamicSchemaResourceProvider(logger);
 
             JdbcMigrationOptions options = new JdbcMigrationOptions(true, true);
@@ -68,9 +68,7 @@ public class AdminModule {
 
             jdbcClient.migrate(options, schemaProvider.get());
 
-            String attributeDataPath = ResourceConstants.getAttributeDataPath(preferences);
-            logger.info("Deleting application server binary data [%s]...", attributeDataPath);
-            Lib.deleteDir(new File(attributeDataPath));
+            Lib.deleteDir(new File(binaryStorePath, ResourceConstants.ATTRIBUTE_RESOURCE_PROTOCOL));
 
             preferences.putValue(DataStoreConstants.DATASTORE_ID_KEY, GUID.create());
 

@@ -53,7 +53,7 @@ public class DbBootstrapTask implements IDbInitializationTask {
 
       String typeModel = OseeTypesSetup.getOseeTypeModelByExtensions(oseeTypeExtensions);
       DatastoreEndpoint datastoreEndpoint = OsgiUtil.getService(getClass(), OseeClient.class).getDatastoreEndpoint();
-      datastoreEndpoint.initialize(typeModel);
+      datastoreEndpoint.initialize(typeModel, er);
       datastoreEndpoint.createDemoBranches();
       if (!configuration.getUserTokens().isEmpty()) {
          UserTokens userToks = new UserTokens();

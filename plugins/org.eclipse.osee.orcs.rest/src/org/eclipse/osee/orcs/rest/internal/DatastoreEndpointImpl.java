@@ -56,9 +56,9 @@ public class DatastoreEndpointImpl implements DatastoreEndpoint {
    }
 
    @Override
-   public TransactionId initialize(String typeModel) {
+   public TransactionId initialize(String typeModel, String largeAttributeStorePath) {
       activityLog.setEnabled(false);
-      TransactionId txId = adminOps.createDatastoreAndSystemBranches(typeModel);
+      TransactionId txId = adminOps.createDatastoreAndSystemBranches(typeModel, largeAttributeStorePath);
       activityLog.setEnabled(true);
       return txId;
    }

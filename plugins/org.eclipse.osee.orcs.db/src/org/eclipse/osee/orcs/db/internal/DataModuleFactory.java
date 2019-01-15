@@ -77,7 +77,7 @@ public class DataModuleFactory {
          queryModule.createQueryEngine(dataLoaderFactory, orcsTypes, sqlObjectLoader, keyValueStore);
       final BranchDataStore branchDataStore = branchModule.createBranchDataStore(dataLoaderFactory);
       final TxDataStore txDataStore = txModule.createTransactionStore(dataLoaderFactory, indexer, attributeTypes);
-      final DataStoreAdmin dataStoreAdmin = adminModule.createDataStoreAdmin();
+      final DataStoreAdmin dataStoreAdmin = adminModule.createDataStoreAdmin(keyValueStore);
       return new DataModule() {
          @Override
          public DataFactory getDataFactory() {
