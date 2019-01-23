@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?><target name="Server Target Platform" sequenceNumber="1">
+<locations>
+<location path="C:\x\OSEE_dev_alpha" type="Profile"/>
+</locations>
+<includeBundles>
+<plugin id="ch.qos.logback.classic"/>
+<plugin id="ch.qos.logback.core"/>
+<plugin id="ch.qos.logback.slf4j"/>
+<plugin id="com.ctc.wstx"/>
+<plugin id="com.google.guava"/>
+<plugin id="com.google.inject"/>
+<plugin id="com.jcraft.jsch"/>
+<plugin id="com.lowagie.text"/>
+<plugin id="javaewah"/>
+<plugin id="javax.activation"/>
+<plugin id="javax.annotation" version="1.2.0.v201903151819-DEV"/>
+<plugin id="javax.inject"/>
+<plugin id="javax.mail.glassfish"/>
+<plugin id="javax.servlet" version="3.1.0.v201410161800"/>
+<plugin id="javax.validation"/>
+<plugin id="javax.ws.rs"/>
+<plugin id="javax.xml"/>
+<plugin id="oracle.driver"/>
+<plugin id="org.antlr.runtime"/>
+<plugin id="org.apache.aries.blueprint"/>
+<plugin id="org.apache.aries.proxy"/>
+<plugin id="org.apache.aries.util"/>
+<plugin id="org.apache.commons.codec"/>
+<plugin id="org.apache.commons.dbcp"/>
+<plugin id="org.apache.commons.httpclient"/>
+<plugin id="org.apache.commons.lang"/>
+<plugin id="org.apache.commons.logging"/>
+<plugin id="org.apache.commons.pool"/>
+<plugin id="org.apache.cxf.core"/>
+<plugin id="org.apache.cxf.core.config"/>
+<plugin id="org.apache.cxf.jaxrs.client"/>
+<plugin id="org.apache.cxf.jaxrs.frontend"/>
+<plugin id="org.apache.cxf.jaxrs.model.wadl"/>
+<plugin id="org.apache.cxf.jaxrs.provider"/>
+<plugin id="org.apache.cxf.rs.security.oauth2"/>
+<plugin id="org.apache.cxf.transport.http"/>
+<plugin id="org.apache.felix.gogo.command"/>
+<plugin id="org.apache.felix.gogo.runtime"/>
+<plugin id="org.apache.felix.gogo.shell"/>
+<plugin id="org.apache.log4j"/>
+<plugin id="org.apache.ws.commons.schema"/>
+<plugin id="org.codehaus.jackson.core"/>
+<plugin id="org.codehaus.jackson.jaxrs"/>
+<plugin id="org.codehaus.jackson.mapper"/>
+<plugin id="org.eclipse.core.contenttype"/>
+<plugin id="org.eclipse.core.expressions"/>
+<plugin id="org.eclipse.core.filesystem"/>
+<plugin id="org.eclipse.core.jobs"/>
+<plugin id="org.eclipse.core.net"/>
+<plugin id="org.eclipse.core.net.win32.x86_64"/>
+<plugin id="org.eclipse.core.resources"/>
+<plugin id="org.eclipse.core.runtime"/>
+<plugin id="org.eclipse.emf.common"/>
+<plugin id="org.eclipse.emf.ecore"/>
+<plugin id="org.eclipse.emf.ecore.xmi"/>
+<plugin id="org.eclipse.equinox.app"/>
+<plugin id="org.eclipse.equinox.cm"/>
+<plugin id="org.eclipse.equinox.common"/>
+<plugin id="org.eclipse.equinox.console"/>
+<plugin id="org.eclipse.equinox.ds"/>
+<plugin id="org.eclipse.equinox.event"/>
+<plugin id="org.eclipse.equinox.http.jetty"/>
+<plugin id="org.eclipse.equinox.http.servlet"/>
+<plugin id="org.eclipse.equinox.preferences"/>
+<plugin id="org.eclipse.equinox.registry"/>
+<plugin id="org.eclipse.equinox.security"/>
+<plugin id="org.eclipse.equinox.util"/>
+<plugin id="org.eclipse.jdt.annotation" version="2.1.0.v20160418-1457"/>
+<plugin id="org.eclipse.jetty.http"/>
+<plugin id="org.eclipse.jetty.io"/>
+<plugin id="org.eclipse.jetty.security"/>
+<plugin id="org.eclipse.jetty.server"/>
+<plugin id="org.eclipse.jetty.servlet"/>
+<plugin id="org.eclipse.jetty.util"/>
+<plugin id="org.eclipse.jgit"/>
+<plugin id="org.eclipse.osgi"/>
+<plugin id="org.eclipse.osgi.compatibility.state"/>
+<plugin id="org.eclipse.osgi.services"/>
+<plugin id="org.eclipse.xtend.lib"/>
+<plugin id="org.eclipse.xtend.lib.macro"/>
+<plugin id="org.eclipse.xtext"/>
+<plugin id="org.eclipse.xtext.common.types"/>
+<plugin id="org.eclipse.xtext.smap"/>
+<plugin id="org.eclipse.xtext.util"/>
+<plugin id="org.eclipse.xtext.xbase.lib"/>
+<plugin id="org.flywaydb.core"/>
+<plugin id="org.hamcrest.core"/>
+<plugin id="org.json"/>
+<plugin id="org.jsoup"/>
+<plugin id="org.junit"/>
+<plugin id="org.objectweb.asm" version="5.0.1.v201404251740"/>
+<plugin id="org.osgi.service.blueprint"/>
+<plugin id="org.slf4j.api" version="1.7.10.v20170428-1633"/>
+<plugin id="org.slf4j.impl.log4j12"/>
+<plugin id="org.slf4j.jcl"/>
+</includeBundles>
+</target>
