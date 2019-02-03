@@ -59,6 +59,10 @@ public class Link {
       return tags;
    }
 
+   public void addTag(String tag) {
+      tags.add(tag);
+   }
+
    public void setTags(List<String> tags) {
       this.tags = tags;
    }

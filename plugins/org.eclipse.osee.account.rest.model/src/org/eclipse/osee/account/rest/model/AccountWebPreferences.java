@@ -13,9 +13,8 @@ package org.eclipse.osee.account.rest.model;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.codehaus.jackson.JsonNode;
+import org.eclipse.osee.framework.core.util.JsonUtil;
 
 /**
  * @author Angel Avila
@@ -35,34 +34,23 @@ public class AccountWebPreferences {
    }
 
    private void initPreferences(String string, String team) {
-      try {
-         JSONObject jObject = new JSONObject(string);
-         JSONObject linkJsonObject = jObject.getJSONObject("links");
-         @SuppressWarnings("unchecked")
-         Iterator<String> keys = linkJsonObject.keys();
-         while (keys.hasNext()) {
-            String next = keys.next();
-            JSONObject linkJObject = linkJsonObject.getJSONObject(next);
-            Link link = new Link();
-            if (linkJObject.has("name")) {
-               link.setName(linkJObject.getString("name"));
-            }
-            if (linkJObject.has("url")) {
-               link.setUrl(linkJObject.getString("url"));
-            }
-            if (linkJObject.has("tags")) {
-               JSONArray array = linkJObject.getJSONArray("tags");
-               for (int x = 0; x < array.length(); x++) {
-                  link.getTags().add(array.getString(x));
-               }
-            }
-            link.setTeam(team);
-            link.setId(linkJObject.getString("id"));
-            linksMap.put(next, link);
-         }
+      JsonNode links = JsonUtil.readTree(string).get("links");
 
-      } catch (JSONException ex) {
-         //
+      for (Iterator<JsonNode> linkIterator = links.getElements(); linkIterator.hasNext();) {
+         JsonNode linkNode = linkIterator.next();
+         Link link = new Link();
+         if (linkNode.has("name")) {
+            link.setName(linkNode.get("name").asText());
+         }
+         if (linkNode.has("url")) {
+            link.setUrl(linkNode.get("url").asText());
+         }
+         if (linkNode.has("tags")) {
+            linkNode.get("tags").forEach(node -> link.addTag(node.asText()));
+         }
+         link.setTeam(team);
+         link.setId(linkNode.get("id").asText());
+         linksMap.put(link.getId(), link);
       }
    }
 
@@ -77,5 +65,4 @@ public class AccountWebPreferences {
    public void setLinks(Map<String, Link> links) {
       this.linksMap = links;
    }
-
 }
