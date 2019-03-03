@@ -17,10 +17,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.eclipse.osee.framework.core.data.ArtifactTypeId;
+import org.eclipse.osee.framework.core.data.ArtifactTypeToken;
 import org.eclipse.osee.framework.core.data.AttributeTypeId;
 import org.eclipse.osee.framework.core.data.AttributeTypeToken;
 import org.eclipse.osee.framework.core.data.BranchId;
-import org.eclipse.osee.framework.core.data.ArtifactTypeToken;
 import org.eclipse.osee.framework.core.model.AbstractOseeType;
 import org.eclipse.osee.framework.core.model.Branch;
 import org.eclipse.osee.framework.core.model.IOseeField;
@@ -141,8 +141,14 @@ public class ArtifactType extends AbstractOseeType implements ArtifactTypeToken 
       }
    }
 
+   @Override
    public boolean isAbstract() {
       return getFieldValueLogException(false, ARTIFACT_IS_ABSTRACT_FIELD_KEY);
+   }
+
+   @Override
+   public ArtifactTypeToken[] getSuperTypes() {
+      return getSuperArtifactTypes().toArray(new ArtifactTypeToken[getSuperArtifactTypes().size()]);
    }
 
    public void setAbstract(boolean isAbstract) {
