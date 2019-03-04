@@ -23,9 +23,9 @@ import static org.junit.Assert.assertNotSame;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.eclipse.osee.framework.core.data.ArtifactId;
+import org.eclipse.osee.framework.core.data.ArtifactTypeToken;
 import org.eclipse.osee.framework.core.data.BranchId;
 import org.eclipse.osee.framework.core.data.GammaId;
-import org.eclipse.osee.framework.core.data.ArtifactTypeToken;
 import org.eclipse.osee.framework.core.data.RelationalConstants;
 import org.eclipse.osee.framework.core.data.TransactionId;
 import org.eclipse.osee.framework.core.enums.CoreArtifactTypes;
@@ -152,7 +152,6 @@ public class DataFactoryImplTest {
    @Test
    public void testCreateArtifactDataUsingAbstratArtifactType() {
       when(artifactCache.get(artifactType)).thenReturn(artifactType);
-      when(artifactCache.isAbstract(artifactType)).thenReturn(true);
 
       thrown.expect(OseeArgumentException.class);
       thrown.expectMessage(String.format("Cannot create an instance of abstract type [%s]", artifactType));
@@ -171,7 +170,6 @@ public class DataFactoryImplTest {
 
    @Test
    public void testCreateArtifactData() {
-      when(artifactCache.isAbstract(Design)).thenReturn(false);
       when(idFactory.getUniqueGuid(guid)).thenReturn(guid);
 
       ArtifactData actual = dataFactory.create(COMMON, Design, guid);

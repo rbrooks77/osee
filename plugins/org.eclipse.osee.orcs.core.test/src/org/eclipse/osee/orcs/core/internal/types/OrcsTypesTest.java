@@ -197,19 +197,6 @@ public class OrcsTypesTest {
    }
 
    @Test
-   public void testIsAbstract() {
-      ArtifactTypes artTypes = orcsTypes.getArtifactTypes();
-
-      assertEquals(false, artTypes.isAbstract(ARTIFACT));
-      assertEquals(true, artTypes.isAbstract(REQUIREMENT));
-      assertEquals(false, artTypes.isAbstract(SOFTWARE_REQUIREMENT));
-      assertEquals(false, artTypes.isAbstract(SYSTEM_REQUIREMENT));
-      assertEquals(false, artTypes.isAbstract(SUBSYSTEM_REQUIREMENT));
-      assertEquals(false, artTypes.isAbstract(OTHER_ARTIFACT));
-      assertEquals(true, artTypes.isAbstract(LAST_ARTIFACT));
-   }
-
-   @Test
    public void testHasSuperArtifactTypes() {
       ArtifactTypes artTypes = orcsTypes.getArtifactTypes();
 
@@ -383,7 +370,7 @@ public class OrcsTypesTest {
       assertEquals("Added Artifact Type", artifactType.getName());
       assertEquals(Long.valueOf(35), artifactType.getId());
 
-      assertEquals(false, artTypes.isAbstract(artifactType));
+      assertTrue(!artifactType.isAbstract());
       assertEquals(true, artTypes.inheritsFrom(artifactType, OTHER_ARTIFACT));
       assertEquals(true, artTypes.inheritsFrom(artifactType, ARTIFACT));
       assertEquals(false, artTypes.inheritsFrom(artifactType, REQUIREMENT));
