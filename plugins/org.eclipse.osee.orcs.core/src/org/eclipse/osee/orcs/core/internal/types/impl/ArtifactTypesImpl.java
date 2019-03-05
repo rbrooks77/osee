@@ -58,18 +58,7 @@ public class ArtifactTypesImpl implements ArtifactTypes {
    }
 
    @Override
-   public boolean hasSuperArtifactTypes(ArtifactTypeId artType) {
-      return !getSuperArtifactTypes(artType).isEmpty();
-   }
-
-   @Override
-   public Collection<? extends ArtifactTypeId> getSuperArtifactTypes(ArtifactTypeId artType) {
-      Conditions.checkNotNull(artType, "artifactType");
-      return getArtifactTypesIndex().getSuperTypes(artType);
-   }
-
-   @Override
-   public boolean inheritsFrom(ArtifactTypeId thisType, ArtifactTypeId... otherTypes) {
+   public boolean inheritsFrom(ArtifactTypeToken thisType, ArtifactTypeId... otherTypes) {
       Conditions.checkNotNull(thisType, "thisArtifactType");
       Conditions.checkNotNull(otherTypes, "otherArtifactTypes");
       return getArtifactTypesIndex().inheritsFrom(thisType, otherTypes);
@@ -94,12 +83,12 @@ public class ArtifactTypesImpl implements ArtifactTypes {
    }
 
    @Override
-   public boolean isValidAttributeType(ArtifactTypeId artType, BranchId branch, AttributeTypeId attributeType) {
+   public boolean isValidAttributeType(ArtifactTypeToken artType, BranchId branch, AttributeTypeId attributeType) {
       return getAttributeTypes(artType, branch).contains(attributeType);
    }
 
    @Override
-   public Collection<AttributeTypeToken<?>> getAttributeTypes(ArtifactTypeId artType, BranchId branch) {
+   public Collection<AttributeTypeToken<?>> getAttributeTypes(ArtifactTypeToken artType, BranchId branch) {
       Conditions.checkNotNull(artType, "artifactType");
       Conditions.checkNotNull(branch, "branch");
       return getArtifactTypesIndex().getAttributeTypes(artType, branch);

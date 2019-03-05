@@ -197,33 +197,6 @@ public class OrcsTypesTest {
    }
 
    @Test
-   public void testHasSuperArtifactTypes() {
-      ArtifactTypes artTypes = orcsTypes.getArtifactTypes();
-
-      assertEquals(false, artTypes.hasSuperArtifactTypes(ARTIFACT));
-      assertEquals(true, artTypes.hasSuperArtifactTypes(REQUIREMENT));
-      assertEquals(true, artTypes.hasSuperArtifactTypes(SOFTWARE_REQUIREMENT));
-      assertEquals(true, artTypes.hasSuperArtifactTypes(SYSTEM_REQUIREMENT));
-      assertEquals(true, artTypes.hasSuperArtifactTypes(SUBSYSTEM_REQUIREMENT));
-      assertEquals(true, artTypes.hasSuperArtifactTypes(OTHER_ARTIFACT));
-      assertEquals(true, artTypes.hasSuperArtifactTypes(LAST_ARTIFACT));
-   }
-
-   @Test
-   public void testGetSuperTypes() {
-      ArtifactTypes artTypes = orcsTypes.getArtifactTypes();
-
-      assertEquals(true, artTypes.getSuperArtifactTypes(ARTIFACT).isEmpty());
-
-      assertContains(artTypes.getSuperArtifactTypes(REQUIREMENT), ARTIFACT);
-      assertContains(artTypes.getSuperArtifactTypes(SOFTWARE_REQUIREMENT), REQUIREMENT);
-      assertContains(artTypes.getSuperArtifactTypes(SYSTEM_REQUIREMENT), REQUIREMENT);
-      assertContains(artTypes.getSuperArtifactTypes(SUBSYSTEM_REQUIREMENT), REQUIREMENT, OTHER_ARTIFACT);
-      assertContains(artTypes.getSuperArtifactTypes(OTHER_ARTIFACT), ARTIFACT);
-      assertContains(artTypes.getSuperArtifactTypes(LAST_ARTIFACT), SUBSYSTEM_REQUIREMENT);
-   }
-
-   @Test
    public void testInheritsFrom() {
       ArtifactTypes artTypes = orcsTypes.getArtifactTypes();
 
