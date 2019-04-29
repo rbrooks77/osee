@@ -53,8 +53,8 @@ public class TagEncoder {
    /**
     * Create a bit-packed tag that will fit in a 64-bit integer that can provide an extremely quick search mechanism for
     * for the first pass. The second pass will do a full text search to provide more exact matches. The tag will
-    * represent up to 12 characters (all that can be stuffed into 64-bits). Longer search tags will be turned into
-    * consecutive search tags
+    * represent up to 12 characters (5-bits per character). Longer search tags will be turned into consecutive search
+    * tags
     */
    public void encode(String text, TagCollector collector) {
       int tagBitsPos = 0;
@@ -87,12 +87,13 @@ public class TagEncoder {
    }
 
    public static final void main(String[] args) {
-      new TagEncoder().encode("1", new TagCollector() {
-
-         @Override
-         public void addTag(String word, Long codedTag) {
-            System.out.printf("%s %s\n", word, codedTag);
-         }
-      });
+      TagEncoder tagEncoder = new TagEncoder();
+      String tests[] =
+         new String[] {"111j1", "111k1", "text", "11$1111,111.1111", "11-1111(111)1111", "ImportTraceUnitsTest2.txt"};
+      for (String text : tests) {
+         System.out.print(text + "   ");
+         tagEncoder.encode(text, (word, codedTag) -> System.out.print(codedTag));
+         System.out.println();
+      }
    }
 }
