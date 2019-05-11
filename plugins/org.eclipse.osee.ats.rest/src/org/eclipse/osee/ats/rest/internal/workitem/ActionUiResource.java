@@ -168,5 +168,4 @@ public final class ActionUiResource {
       page.setAddTransition(true);
       return page.generate();
    }
-
 }
