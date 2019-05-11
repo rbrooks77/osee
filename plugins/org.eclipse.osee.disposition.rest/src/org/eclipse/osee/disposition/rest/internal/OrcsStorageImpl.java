@@ -571,7 +571,7 @@ public class OrcsStorageImpl implements Storage {
          ArtifactReadable newRerpotArt =
             getQuery().fromBranch(branch).fromTransaction(commit).andId(reportArt).getResults().getExactlyOne();
 
-         AttributeReadable<Object> contentsAsAttribute =
+         AttributeReadable<String> contentsAsAttribute =
             newRerpotArt.getAttributes(CoreAttributeTypes.GeneralStringData).getExactlyOne();
 
          toReturn = String.format("/orcs/branch/%s/artifact/%s/attribute/%s/version/%s", branch, newRerpotArt.getGuid(),

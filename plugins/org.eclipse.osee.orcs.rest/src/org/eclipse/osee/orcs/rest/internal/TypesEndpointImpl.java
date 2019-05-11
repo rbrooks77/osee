@@ -219,7 +219,7 @@ public class TypesEndpointImpl implements TypesEndpoint {
          OrcsTypesSheet sheet = new OrcsTypesSheet();
          sheet.setArtifactId(art.getId());
          sheet.setName(art.getName());
-         ResultSet<? extends AttributeReadable<Object>> attributes =
+         ResultSet<? extends AttributeReadable<String>> attributes =
             art.getAttributes(CoreAttributeTypes.UriGeneralStringData);
          if (!attributes.isEmpty()) {
             sheet.setAttrId(attributes.iterator().next().getId());

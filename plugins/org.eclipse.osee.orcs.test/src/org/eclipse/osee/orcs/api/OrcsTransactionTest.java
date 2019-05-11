@@ -948,7 +948,7 @@ public class OrcsTransactionTest {
       TransactionId lastTx = tx.commit();
 
       ArtifactReadable art = query.fromBranch(COMMON).andId(art1).getResults().getExactlyOne();
-      ResultSet<? extends AttributeReadable<Object>> attributes = art.getAttributes(CoreAttributeTypes.Annotation);
+      ResultSet<? extends AttributeReadable<String>> attributes = art.getAttributes(CoreAttributeTypes.Annotation);
 
       assertEquals(1, attributes.size());
       assertEquals("write5", attributes.getExactlyOne().getValue());

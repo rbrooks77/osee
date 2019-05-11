@@ -15,7 +15,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,7 +29,6 @@ import org.eclipse.osee.framework.jdk.core.util.Collections;
 import org.eclipse.osee.framework.jdk.core.util.Conditions;
 import org.eclipse.osee.framework.jdk.core.util.io.xml.ISheetWriter;
 import org.eclipse.osee.orcs.data.ArtifactReadable;
-import org.eclipse.osee.orcs.data.AttributeReadable;
 
 /**
  * @author David W. Miller
@@ -179,7 +177,7 @@ public final class SafetyInformationAccumulator {
       writer.endRow();
    }
 
-   private String writeCriticality(ArtifactReadable art, AttributeTypeToken thisType) throws IOException {
+   private String writeCriticality(ArtifactReadable art, AttributeTypeToken<?> thisType) throws IOException {
       String current = art.getSoleAttributeAsString(thisType, "Error");
 
       if (AttributeId.UNSPECIFIED.equals(current)) {
@@ -199,7 +197,7 @@ public final class SafetyInformationAccumulator {
       writer.writeCell(functionalCategory);
 
       writer.writeCell(
-         Collections.toString(",", getAttributesToStringList(softwareRequirement, CoreAttributeTypes.Partition)));
+         Collections.toString(",", softwareRequirement.getAttributeValuesAsString(CoreAttributeTypes.Partition)));
 
       writer.writeCell(safetyReport.getComponentUtil().getQualifiedComponentNames(softwareRequirement));
       Collection<String> codeUnits = safetyReport.getRequirementToCodeUnitsValues(softwareRequirement);
@@ -212,13 +210,5 @@ public final class SafetyInformationAccumulator {
       } else {
          writer.endRow();
       }
-   }
-
-   public List<String> getAttributesToStringList(ArtifactReadable artifact, AttributeTypeToken attributeType) {
-      List<String> items = new ArrayList<>();
-      for (AttributeReadable<?> attribute : artifact.getAttributes(attributeType)) {
-         items.add(attribute.getDisplayableString());
-      }
-      return items;
    }
 }

@@ -30,16 +30,17 @@ import org.eclipse.osee.framework.jdk.core.util.Strings;
 public class ConvertAtsConfigGuidAttributesOperations {
 
    // Remove static after 25.0
-   public static final AttributeTypeToken TeamDefinition =
+   public static final AttributeTypeToken<String> TeamDefinition =
       AtsAttributeTypes.createType(1152921504606847201L, "Team Definition");
-   public static final AttributeTypeToken ActionableItem = AtsAttributeTypes.createType(1152921504606847200L,
+   public static final AttributeTypeToken<String> ActionableItem = AtsAttributeTypes.createType(1152921504606847200L,
       "Actionable Item", "Actionable Items that are impacted by this change.");
    // Remove static after 26.0
-   public static final AttributeTypeToken WorkflowDefinition = AtsAttributeTypes.createType(1152921504606847149L,
-      "Workflow Definition", "Specific work flow definition id used by this Workflow artifact");
-   public static final AttributeTypeToken RelatedTaskWorkDefinition = AtsAttributeTypes.createType(1152921504606847152L,
-      "Related Task Workflow Definition", "Specific work flow definition id used by Tasks related to this Workflow");
-   public static final AttributeTypeToken RelatedPeerWorkflowDefinition =
+   public static final AttributeTypeToken<String> WorkflowDefinition = AtsAttributeTypes.createType(
+      1152921504606847149L, "Workflow Definition", "Specific work flow definition id used by this Workflow artifact");
+   public static final AttributeTypeToken<String> RelatedTaskWorkDefinition =
+      AtsAttributeTypes.createType(1152921504606847152L, "Related Task Workflow Definition",
+         "Specific work flow definition id used by Tasks related to this Workflow");
+   public static final AttributeTypeToken<String> RelatedPeerWorkflowDefinition =
       AtsAttributeTypes.createType(1152921504606847870L, "Related Peer Workflow Definition",
          "Specific work flow definition id used by Peer To Peer Reviews for this Team");
 

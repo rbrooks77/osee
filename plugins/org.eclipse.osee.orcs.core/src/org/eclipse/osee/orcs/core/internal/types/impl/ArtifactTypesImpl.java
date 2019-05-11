@@ -15,10 +15,10 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import org.eclipse.osee.framework.core.data.ArtifactTypeId;
+import org.eclipse.osee.framework.core.data.ArtifactTypeToken;
 import org.eclipse.osee.framework.core.data.AttributeTypeId;
 import org.eclipse.osee.framework.core.data.AttributeTypeToken;
 import org.eclipse.osee.framework.core.data.BranchId;
-import org.eclipse.osee.framework.core.data.ArtifactTypeToken;
 import org.eclipse.osee.framework.core.dsl.oseeDsl.XArtifactType;
 import org.eclipse.osee.framework.jdk.core.type.Id;
 import org.eclipse.osee.framework.jdk.core.util.Conditions;
@@ -107,12 +107,11 @@ public class ArtifactTypesImpl implements ArtifactTypes {
 
    @Override
    public boolean isValidAttributeType(ArtifactTypeId artType, BranchId branch, AttributeTypeId attributeType) {
-      Collection<AttributeTypeToken> attributes = getAttributeTypes(artType, branch);
-      return attributes.contains(attributeType);
+      return getAttributeTypes(artType, branch).contains(attributeType);
    }
 
    @Override
-   public Collection<AttributeTypeToken> getAttributeTypes(ArtifactTypeId artType, BranchId branch) {
+   public Collection<AttributeTypeToken<?>> getAttributeTypes(ArtifactTypeId artType, BranchId branch) {
       Conditions.checkNotNull(artType, "artifactType");
       Conditions.checkNotNull(branch, "branch");
       return getArtifactTypesIndex().getAttributeTypes(artType, branch);
@@ -134,8 +133,7 @@ public class ArtifactTypesImpl implements ArtifactTypes {
    }
 
    @Override
-   public Map<BranchId, Collection<AttributeTypeToken>> getAllAttributeTypes(ArtifactTypeId artType) {
+   public Map<BranchId, Collection<AttributeTypeToken<?>>> getAllAttributeTypes(ArtifactTypeId artType) {
       return getArtifactTypesIndex().getAllAttributeTypes(artType);
    }
-
 }

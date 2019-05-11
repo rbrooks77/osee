@@ -39,7 +39,7 @@ public class TraceReportGenerator {
    private final TraceMatch traceMatch;
    private final TraceAccumulator testTraces;
    private final ArtifactTypeToken alternateArtifactType;
-   private final AttributeTypeToken alternateAttributeType;
+   private final AttributeTypeToken<?> alternateAttributeType;
 
    public static int SOFTWARE_SHEETREQ_INDEX = 3;
    public static int SOFTWARE_REQUIREMENT_INDEX = 4;
@@ -204,7 +204,7 @@ public class TraceReportGenerator {
       return alternateArtifactType;
    }
 
-   public AttributeTypeToken getAlternateAttributeType() {
+   public AttributeTypeToken<?> getAlternateAttributeType() {
       return alternateAttributeType;
    }
 }

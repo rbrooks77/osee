@@ -68,14 +68,13 @@ public class ArtifactFactory {
       return artifact;
    }
 
-   public Artifact copyArtifact(OrcsSession session, Artifact source, Collection<AttributeTypeToken> types, BranchId ontoBranch) {
+   public Artifact copyArtifact(OrcsSession session, Artifact source, Collection<AttributeTypeToken<?>> types, BranchId ontoBranch) {
       ArtifactData artifactData = factory.copy(ontoBranch, source.getOrcsData());
       Artifact copy = createArtifact(session, artifactData);
-      Collection<AttributeTypeToken> typesToCopy = getAllowedTypes(copy, types);
-      for (AttributeTypeToken attributeType : typesToCopy) {
+      Collection<AttributeTypeToken<?>> typesToCopy = getAllowedTypes(copy, types);
+      for (AttributeTypeToken<?> attributeType : typesToCopy) {
          for (AttributeReadable<?> attributeSource : source.getAttributes(attributeType)) {
-            AttributeData data = getAttributeData(attributeSource);
-            attributeFactory.copyAttribute(data, ontoBranch, copy);
+            attributeFactory.copyAttribute(getAttributeData(attributeSource), ontoBranch, copy);
          }
       }
       copy.setLoaded(true);
@@ -120,9 +119,9 @@ public class ArtifactFactory {
    public Artifact clone(OrcsSession session, Artifact source) {
       ArtifactData artifactData = factory.clone(source.getOrcsData());
       Artifact copy = createArtifact(session, artifactData);
-      for (AttributeTypeToken attributeType : source.getExistingAttributeTypes()) {
+      for (AttributeTypeToken<?> attributeType : source.getExistingAttributeTypes()) {
          for (AttributeReadable<?> attributeSource : source.getAttributes(attributeType)) {
-            AttributeData data = getAttributeData(attributeSource);
+            AttributeData<?> data = getAttributeData(attributeSource);
             attributeFactory.cloneAttribute(data, copy);
          }
       }
@@ -130,13 +129,13 @@ public class ArtifactFactory {
       return copy;
    }
 
-   private AttributeData getAttributeData(AttributeReadable<?> source) {
+   private AttributeData<?> getAttributeData(AttributeReadable<?> source) {
       return ((Attribute<?>) source).getOrcsData();
    }
 
-   private Collection<AttributeTypeToken> getAllowedTypes(Artifact destination, Collection<AttributeTypeToken> types) {
-      Set<AttributeTypeToken> toReturn = new HashSet<>();
-      for (AttributeTypeToken type : types) {
+   private Collection<AttributeTypeToken<?>> getAllowedTypes(Artifact destination, Collection<AttributeTypeToken<?>> types) {
+      Set<AttributeTypeToken<?>> toReturn = new HashSet<>();
+      for (AttributeTypeToken<?> type : types) {
          if (type.notEqual(RelationOrder)) {
             if (destination.isAttributeTypeValid(type)) {
                toReturn.add(type);

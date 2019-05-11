@@ -108,9 +108,9 @@ public class CommitOverrideOperationsImpl implements CommitOverrideOperations {
 
       try {
          IAtsChangeSet changes = atsApi.createChangeSet("Remove Commit Override");
-         for (IAttribute<Object> attr : atsApi.getAttributeResolver().getAttributes(teamWf,
+         for (IAttribute<String> attr : atsApi.getAttributeResolver().getAttributes(teamWf,
             AtsAttributeTypes.CommitOverride)) {
-            String jsonValue = (String) attr.getValue();
+            String jsonValue = attr.getValue();
             CommitOverride or = mapper.readValue(jsonValue, CommitOverride.class);
 
             if (or.getBranchId().equals(branch.getIdString())) {
@@ -124,5 +124,4 @@ public class CommitOverrideOperationsImpl implements CommitOverrideOperations {
       }
       return Result.TrueResult;
    }
-
 }

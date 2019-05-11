@@ -17,7 +17,7 @@ import org.eclipse.osee.framework.core.data.AttributeTypeToken;
 /**
  * @author Roberto E. Escobar
  */
-public interface AttributeData<T> extends OrcsData<AttributeTypeToken>, AttributeId {
+public interface AttributeData<T> extends OrcsData<AttributeTypeToken<T>>, AttributeId {
 
    ArtifactId getArtifactId();
 

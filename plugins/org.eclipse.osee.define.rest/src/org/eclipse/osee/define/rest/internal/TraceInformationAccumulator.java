@@ -131,7 +131,7 @@ public class TraceInformationAccumulator {
    public String handleEquivalentName(ArtifactReadable softwareRequirement) {
       String toReturn = softwareRequirement.getName();
       if (softwareRequirement.isOfType(traceReport.getAlternateArtifactType())) {
-         AttributeTypeToken attrType = traceReport.getAlternateAttributeType();
+         AttributeTypeToken<?> attrType = traceReport.getAlternateAttributeType();
          if (attrType != null) {
             toReturn = softwareRequirement.getSoleAttributeAsString(attrType, toReturn);
          }

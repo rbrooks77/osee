@@ -102,7 +102,7 @@ public class AtsAttributeResolverServiceImpl extends AbstractAtsAttributeResolve
    }
 
    @Override
-   public <T> T getSoleAttributeValue(IAtsObject atsObject, AttributeTypeToken attributeType, T defaultReturnValue) {
+   public <T> T getSoleAttributeValue(IAtsObject atsObject, AttributeTypeToken<T> attributeType, T defaultReturnValue) {
       return getArtifact(atsObject).getSoleAttributeValue(attributeType, defaultReturnValue);
 
    }
@@ -118,13 +118,13 @@ public class AtsAttributeResolverServiceImpl extends AbstractAtsAttributeResolve
    }
 
    @Override
-   public String getSoleAttributeValueAsString(IAtsObject atsObject, AttributeTypeToken attributeType, String defaultValue) {
-      return getArtifact(atsObject).getAttributeValuesAsString(attributeType);
+   public String getSoleAttributeValueAsString(IAtsObject atsObject, AttributeTypeToken<?> attributeType, String defaultValue) {
+      return getArtifact(atsObject).getSoleAttributeAsString(attributeType, defaultValue);
    }
 
    @Override
-   public String getSoleAttributeValueAsString(ArtifactId artifact, AttributeTypeToken attributeType, String defaultValue) {
-      return getArtifact(artifact).getSoleAttributeValue(attributeType, defaultValue);
+   public String getSoleAttributeValueAsString(ArtifactId artifact, AttributeTypeToken<?> attributeType, String defaultValue) {
+      return getArtifact(artifact).getSoleAttributeAsString(attributeType, defaultValue);
    }
 
    @Override
@@ -155,12 +155,11 @@ public class AtsAttributeResolverServiceImpl extends AbstractAtsAttributeResolve
       throw new OseeStateException("Not Implemented");
    }
 
-   @SuppressWarnings("unchecked")
    @Override
-   public <T> Collection<IAttribute<T>> getAttributes(IAtsWorkItem workItem, AttributeTypeToken attributeType) {
+   public <T> Collection<IAttribute<T>> getAttributes(IAtsWorkItem workItem, AttributeTypeToken<T> attributeType) {
       Collection<IAttribute<T>> attrs = new ArrayList<>();
-      for (AttributeReadable<Object> attr : getArtifact(workItem).getAttributes(attributeType)) {
-         attrs.add((IAttribute<T>) attr);
+      for (AttributeReadable<T> attr : getArtifact(workItem).getAttributes(attributeType)) {
+         attrs.add(attr);
       }
       return attrs;
    }
@@ -216,7 +215,7 @@ public class AtsAttributeResolverServiceImpl extends AbstractAtsAttributeResolve
    }
 
    @Override
-   public <T> T getSoleAttributeValue(ArtifactId artifact, AttributeTypeToken attributeType, T defaultValue) {
+   public <T> T getSoleAttributeValue(ArtifactId artifact, AttributeTypeToken<T> attributeType, T defaultValue) {
       return getArtifact(artifact).getSoleAttributeValue(attributeType, defaultValue);
    }
 
@@ -230,15 +229,12 @@ public class AtsAttributeResolverServiceImpl extends AbstractAtsAttributeResolve
       return getAttributeValues(atsObject.getStoreObject(), attributeType);
    }
 
-   @SuppressWarnings("unchecked")
    @Override
-   public <T> Collection<IAttribute<T>> getAttributes(ArtifactId artifact, AttributeTypeToken attributeType) {
+   public <T> Collection<IAttribute<T>> getAttributes(ArtifactId artifact, AttributeTypeToken<T> attributeType) {
       Assert.isNotNull(artifact, "Artifact can not be null");
       Assert.isNotNull(attributeType, "Attribute Type can not be null");
       List<IAttribute<T>> attributes = new LinkedList<>();
-      for (AttributeReadable<Object> attr : ((ArtifactReadable) artifact).getAttributes(attributeType)) {
-         attributes.add((IAttribute<T>) attr);
-      }
+      ((ArtifactReadable) artifact).getAttributes(attributeType).forEach(attributes::add);
       return attributes;
    }
 

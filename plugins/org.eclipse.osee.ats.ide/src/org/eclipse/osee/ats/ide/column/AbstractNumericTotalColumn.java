@@ -41,9 +41,9 @@ import org.eclipse.swt.widgets.TreeItem;
 public abstract class AbstractNumericTotalColumn extends XViewerAtsColumn implements IXViewerValueColumn, IAltLeftClickProvider {
 
    private final String calulationStr;
-   private final AttributeTypeToken pointsAttrType;
+   private final AttributeTypeToken<?> pointsAttrType;
 
-   public AbstractNumericTotalColumn(String id, String name, String description, String calulationStr, AttributeTypeToken pointsAttrType) {
+   public AbstractNumericTotalColumn(String id, String name, String description, String calulationStr, AttributeTypeToken<?> pointsAttrType) {
       super(id, name, 40, XViewerAlign.Center, false, SortDataType.Float, false, description);
       this.calulationStr = calulationStr;
       this.pointsAttrType = pointsAttrType;

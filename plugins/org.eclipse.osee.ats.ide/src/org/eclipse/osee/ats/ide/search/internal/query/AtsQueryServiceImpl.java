@@ -98,9 +98,9 @@ public class AtsQueryServiceImpl extends AbstractAtsQueryService {
    public ArrayList<AtsSearchData> getSavedSearches(IAtsUser atsUser, String namespace) {
       ArrayList<AtsSearchData> searches = new ArrayList<>();
       ArtifactId userArt = atsUser.getStoreObject();
-      for (IAttribute<Object> attr : atsClient.getAttributeResolver().getAttributes(userArt,
+      for (IAttribute<String> attr : atsClient.getAttributeResolver().getAttributes(userArt,
          AtsAttributeTypes.QuickSearch)) {
-         String jsonValue = (String) attr.getValue();
+         String jsonValue = attr.getValue();
          if (jsonValue.contains("\"namespace\":\"" + namespace + "\"")) {
             try {
                AtsSearchData data = fromJson(namespace, jsonValue);
@@ -122,7 +122,7 @@ public class AtsQueryServiceImpl extends AbstractAtsQueryService {
          atsClient.getStoreService().createAtsChangeSet("Save ATS Search", atsClient.getUserService().getCurrentUser());
 
       try {
-         IAttribute<Object> attr = getAttrById(userArt, data.getId());
+         IAttribute<String> attr = getAttrById(userArt, data.getId());
          if (attr == null) {
             changes.addAttribute((IAtsObject) atsUser, AtsAttributeTypes.QuickSearch, getStoreString(data));
          } else {
@@ -137,10 +137,10 @@ public class AtsQueryServiceImpl extends AbstractAtsQueryService {
 
    }
 
-   private IAttribute<Object> getAttrById(ArtifactId artifact, Long attrId) {
-      for (IAttribute<Object> attr : atsClient.getAttributeResolver().getAttributes(artifact,
+   private IAttribute<String> getAttrById(ArtifactId artifact, Long attrId) {
+      for (IAttribute<String> attr : atsClient.getAttributeResolver().getAttributes(artifact,
          AtsAttributeTypes.QuickSearch)) {
-         String jsonValue = (String) attr.getValue();
+         String jsonValue = attr.getValue();
          try {
             AtsSearchData data = fromJson(jsonValue);
             if (attrId.equals(data.getId())) {
@@ -160,7 +160,7 @@ public class AtsQueryServiceImpl extends AbstractAtsQueryService {
          atsClient.getUserService().getCurrentUser());
 
       try {
-         IAttribute<Object> attr = getAttrById(userArt, data.getId());
+         IAttribute<String> attr = getAttrById(userArt, data.getId());
          if (attr != null) {
             changes.deleteAttribute(userArt, attr);
             changes.execute();
@@ -174,9 +174,9 @@ public class AtsQueryServiceImpl extends AbstractAtsQueryService {
    public AtsSearchData getSearch(IAtsUser atsUser, Long id) {
       try {
          ArtifactId userArt = atsUser.getStoreObject();
-         IAttribute<Object> attr = getAttrById(userArt, id);
+         IAttribute<String> attr = getAttrById(userArt, id);
          if (attr != null) {
-            AtsSearchData existing = fromJson((String) attr.getValue());
+            AtsSearchData existing = fromJson(attr.getValue());
             if (existing != null) {
                return existing;
             }

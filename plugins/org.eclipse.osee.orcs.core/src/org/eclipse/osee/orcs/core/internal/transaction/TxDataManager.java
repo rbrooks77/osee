@@ -287,13 +287,13 @@ public class TxDataManager {
       return copyArtifactHelper(txData, source, source.getExistingAttributeTypes());
    }
 
-   public ArtifactReadable copyArtifact(TxData txData, BranchId fromBranch, ArtifactId artifactId, Collection<AttributeTypeToken> attributesToDuplicate) {
+   public ArtifactReadable copyArtifact(TxData txData, BranchId fromBranch, ArtifactId artifactId, Collection<AttributeTypeToken<?>> attributesToDuplicate) {
       checkChangesAllowed(txData);
       Artifact source = getSourceArtifact(txData, fromBranch, artifactId);
       return copyArtifactHelper(txData, source, attributesToDuplicate);
    }
 
-   private ArtifactReadable copyArtifactHelper(TxData txData, Artifact source, Collection<AttributeTypeToken> attributesToDuplicate) {
+   private ArtifactReadable copyArtifactHelper(TxData txData, Artifact source, Collection<AttributeTypeToken<?>> attributesToDuplicate) {
       Artifact copy =
          artifactFactory.copyArtifact(txData.getSession(), source, attributesToDuplicate, txData.getBranch());
       return asExternalArtifact(txData, copy);

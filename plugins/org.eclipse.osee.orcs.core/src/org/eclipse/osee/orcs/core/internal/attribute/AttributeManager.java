@@ -30,53 +30,53 @@ public interface AttributeManager extends AttributeContainer {
 
    void unDeleteAttributesByArtifact();
 
-   <T> T getSoleAttributeValue(AttributeTypeToken attributeType);
+   <T> T getSoleAttributeValue(AttributeTypeToken<T> attributeType);
 
-   <T> T getSoleAttributeValue(AttributeTypeToken attributeType, DeletionFlag flag, T defaultValue);
+   <T> T getSoleAttributeValue(AttributeTypeToken<T> attributeType, DeletionFlag flag, T defaultValue);
 
-   <T> T getSoleAttributeValue(AttributeTypeToken attributeType, T defaultValue);
+   <T> T getSoleAttributeValue(AttributeTypeToken<T> attributeType, T defaultValue);
 
-   <T> Attribute<T> getSoleAttribute(AttributeTypeToken attributeType);
+   <T> Attribute<T> getSoleAttribute(AttributeTypeToken<T> attributeType);
 
-   <T> Attribute<T> getSoleAttribute(AttributeTypeToken attributeType, DeletionFlag flag);
+   <T> Attribute<T> getSoleAttribute(AttributeTypeToken<T> attributeType, DeletionFlag flag);
 
-   String getSoleAttributeAsString(AttributeTypeToken attributeType);
+   String getSoleAttributeAsString(AttributeTypeToken<?> attributeType);
 
-   String getSoleAttributeAsString(AttributeTypeToken attributeType, String defaultValue);
+   String getSoleAttributeAsString(AttributeTypeToken<?> attributeType, String defaultValue);
 
-   <T> List<T> getAttributeValues(AttributeTypeToken attributeType);
+   <T> List<T> getAttributeValues(AttributeTypeToken<T> attributeType);
 
    Iterable<Collection<? extends AttributeReadable<Object>>> getAttributeIterable();
 
-   <T> void setSoleAttributeValue(AttributeTypeToken attributeType, T value);
+   <T> void setSoleAttributeValue(AttributeTypeToken<T> attributeType, T value);
 
-   void setSoleAttributeFromStream(AttributeTypeToken attributeType, InputStream inputStream);
+   void setSoleAttributeFromStream(AttributeTypeToken<?> attributeType, InputStream inputStream);
 
-   void setSoleAttributeFromString(AttributeTypeToken attributeType, String value);
+   void setSoleAttributeFromString(AttributeTypeToken<?> attributeType, String value);
 
-   <T> void setAttributesFromValues(AttributeTypeToken attributeType, Collection<T> values);
+   <T> void setAttributesFromValues(AttributeTypeToken<T> attributeType, Collection<T> values);
 
-   void setAttributesFromStrings(AttributeTypeToken attributeType, String... values);
+   void setAttributesFromStrings(AttributeTypeToken<?> attributeType, String... values);
 
-   <T> void setAttributesFromStrings(AttributeTypeToken attributeType, Collection<String> values);
+   <T> void setAttributesFromStrings(AttributeTypeToken<T> attributeType, Collection<String> values);
 
-   void deleteSoleAttribute(AttributeTypeToken attributeType);
+   void deleteSoleAttribute(AttributeTypeToken<?> attributeType);
 
-   void deleteAttributes(AttributeTypeToken attributeType);
+   void deleteAttributes(AttributeTypeToken<?> attributeType);
 
-   void deleteAttributesWithValue(AttributeTypeToken attributeType, Object value);
+   void deleteAttributesWithValue(AttributeTypeToken<?> attributeType, Object value);
 
-   <T> Attribute<T> createAttribute(AttributeTypeToken attributeType);
+   <T> Attribute<T> createAttribute(AttributeTypeToken<T> attributeType);
 
-   <T> Attribute<T> createAttribute(AttributeTypeToken attributeType, T value);
+   <T> Attribute<T> createAttribute(AttributeTypeToken<T> attributeType, T value);
 
    <T> List<Attribute<T>> getAttributes();
 
-   <T> List<Attribute<T>> getAttributes(AttributeTypeToken attributeType);
+   <T> List<Attribute<T>> getAttributes(AttributeTypeToken<T> attributeType);
 
    <T> List<Attribute<T>> getAttributes(DeletionFlag deletionFlag);
 
-   <T> List<Attribute<T>> getAttributes(AttributeTypeToken attributeType, DeletionFlag deletionFlag);
+   <T> List<Attribute<T>> getAttributes(AttributeTypeToken<T> attributeType, DeletionFlag deletionFlag);
 
    <T> Attribute<T> getAttributeById(AttributeId attributeId);
 

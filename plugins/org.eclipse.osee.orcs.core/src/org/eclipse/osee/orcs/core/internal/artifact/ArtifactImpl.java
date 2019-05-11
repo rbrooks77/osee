@@ -153,7 +153,7 @@ public class ArtifactImpl extends AttributeManagerImpl implements Artifact {
    }
 
    @Override
-   public Collection<AttributeTypeToken> getValidAttributeTypes() {
+   public Collection<AttributeTypeToken<?>> getValidAttributeTypes() {
       return artifactTypeCache.getAttributeTypes(getArtifactType(), getBranch());
    }
 

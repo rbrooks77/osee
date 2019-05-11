@@ -104,62 +104,62 @@ public class ArtifactReadOnlyImpl extends AbstractProxied<Artifact> implements A
    }
 
    @Override
-   public int getAttributeCount(AttributeTypeToken type) {
+   public int getAttributeCount(AttributeTypeToken<?> type) {
       return getProxiedObject().getAttributeCount(type);
    }
 
    @Override
-   public int getAttributeCount(AttributeTypeToken type, DeletionFlag deletionFlag) {
+   public int getAttributeCount(AttributeTypeToken<?> type, DeletionFlag deletionFlag) {
       return getProxiedObject().getAttributeCount(type, deletionFlag);
    }
 
    @Override
-   public boolean isAttributeTypeValid(AttributeTypeToken attributeType) {
+   public boolean isAttributeTypeValid(AttributeTypeToken<?> attributeType) {
       return getProxiedObject().isAttributeTypeValid(attributeType);
    }
 
    @Override
-   public Collection<AttributeTypeToken> getValidAttributeTypes() {
+   public Collection<AttributeTypeToken<?>> getValidAttributeTypes() {
       return getProxiedObject().getValidAttributeTypes();
    }
 
    @Override
-   public Collection<AttributeTypeToken> getExistingAttributeTypes() {
+   public Collection<AttributeTypeToken<?>> getExistingAttributeTypes() {
       return getProxiedObject().getExistingAttributeTypes();
    }
 
    @Override
-   public <T> T getSoleAttributeValue(AttributeTypeToken attributeType) {
+   public <T> T getSoleAttributeValue(AttributeTypeToken<T> attributeType) {
       return getProxiedObject().getSoleAttributeValue(attributeType);
    }
 
    @Override
-   public <T> T getSoleAttributeValue(AttributeTypeToken attributeType, DeletionFlag flag, T defaultValue) {
+   public <T> T getSoleAttributeValue(AttributeTypeToken<T> attributeType, DeletionFlag flag, T defaultValue) {
       return getProxiedObject().getSoleAttributeValue(attributeType, flag, defaultValue);
    }
 
    @Override
-   public <T> T getSoleAttributeValue(AttributeTypeToken attributeType, T defaultValue) {
+   public <T> T getSoleAttributeValue(AttributeTypeToken<T> attributeType, T defaultValue) {
       return getProxiedObject().getSoleAttributeValue(attributeType, defaultValue);
    }
 
    @Override
-   public String getSoleAttributeAsString(AttributeTypeToken attributeType) {
+   public String getSoleAttributeAsString(AttributeTypeToken<?> attributeType) {
       return getProxiedObject().getSoleAttributeAsString(attributeType);
    }
 
    @Override
-   public String getSoleAttributeAsString(AttributeTypeToken attributeType, String defaultValue) {
+   public String getSoleAttributeAsString(AttributeTypeToken<?> attributeType, String defaultValue) {
       return getProxiedObject().getSoleAttributeAsString(attributeType, defaultValue);
    }
 
    @Override
-   public Long getSoleAttributeId(AttributeTypeToken attributeType) {
+   public Long getSoleAttributeId(AttributeTypeToken<?> attributeType) {
       return getProxiedObject().getSoleAttribute(attributeType).getId();
    }
 
    @Override
-   public <T> List<T> getAttributeValues(AttributeTypeToken attributeType) {
+   public <T> List<T> getAttributeValues(AttributeTypeToken<T> attributeType) {
       return getProxiedObject().getAttributeValues(attributeType);
    }
 
@@ -175,9 +175,8 @@ public class ArtifactReadOnlyImpl extends AbstractProxied<Artifact> implements A
    }
 
    @Override
-   public <T> ResultSet<? extends AttributeReadable<T>> getAttributes(AttributeTypeToken attributeType) {
-      List<Attribute<T>> attributes = getProxiedObject().getAttributes(attributeType);
-      return getProxyManager().asExternalAttributes(getSession(), attributes);
+   public <T> ResultSet<? extends AttributeReadable<T>> getAttributes(AttributeTypeToken<T> attributeType) {
+      return getProxyManager().asExternalAttributes(getSession(), getProxiedObject().getAttributes(attributeType));
    }
 
    @Override
@@ -187,7 +186,7 @@ public class ArtifactReadOnlyImpl extends AbstractProxied<Artifact> implements A
    }
 
    @Override
-   public <T> ResultSet<? extends AttributeReadable<T>> getAttributes(AttributeTypeToken attributeType, DeletionFlag deletionFlag) {
+   public <T> ResultSet<? extends AttributeReadable<T>> getAttributes(AttributeTypeToken<T> attributeType, DeletionFlag deletionFlag) {
       List<Attribute<T>> attributes = getProxiedObject().getAttributes(attributeType, deletionFlag);
       return getProxyManager().asExternalAttributes(getSession(), attributes);
    }

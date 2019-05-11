@@ -108,9 +108,9 @@ public class AttributeEndpointImpl implements AttributeEndpoint {
                if (mediaType.isEmpty() || mediaType.startsWith("text") || textOut) {
                   builder.entity(attribute.getDisplayableString());
                } else {
-                  ResultSet<? extends AttributeReadable<Object>> results =
+                  ResultSet<? extends AttributeReadable<String>> results =
                      exactlyOne.getAttributes(CoreAttributeTypes.Extension);
-                  AttributeReadable<Object> extension = results.getOneOrNull();
+                  AttributeReadable<String> extension = results.getOneOrNull();
                   if (extension != null) {
                      fileExtension = extension.getDisplayableString();
                   }
@@ -146,7 +146,7 @@ public class AttributeEndpointImpl implements AttributeEndpoint {
    }
 
    private Response getAttributeTypeResponse(TransactionId transaction, AttributeTypeId attributeTypeId) {
-      AttributeTypeToken attributeType = attributeTypes.get(attributeTypeId);
+      AttributeTypeToken<?> attributeType = attributeTypes.get(attributeTypeId);
 
       ResponseBuilder builder = Response.noContent();
       try {
@@ -156,22 +156,22 @@ public class AttributeEndpointImpl implements AttributeEndpoint {
          }
          ArtifactReadable exactlyOne = queryBuilder.getResults().getExactlyOne();
 
-         List<AttributeReadable<Object>> attrs = new ArrayList<>();
-         for (AttributeReadable<Object> attr : exactlyOne.getAttributes(attributeType)) {
+         List<AttributeReadable<?>> attrs = new ArrayList<>();
+         for (AttributeReadable<?> attr : exactlyOne.getAttributes(attributeType)) {
             attrs.add(attr);
          }
 
          if (attrs.size() == 1) {
             builder = Response.ok();
             AttributeReadable<?> attribute = attrs.iterator().next();
-            String mediaType = attributeTypes.getMediaType(attribute.getAttributeType());
-            String fileExtension = attributeTypes.getFileTypeExtension(attribute.getAttributeType());
+            String mediaType = attributeType.getMediaType();
+            String fileExtension = attributeTypes.getFileTypeExtension(attributeType);
             if (mediaType.isEmpty() || mediaType.startsWith("text")) {
                builder.entity(attribute.getDisplayableString());
             } else {
-               ResultSet<? extends AttributeReadable<Object>> results =
+               ResultSet<? extends AttributeReadable<String>> results =
                   exactlyOne.getAttributes(CoreAttributeTypes.Extension);
-               AttributeReadable<Object> extension = results.getOneOrNull();
+               AttributeReadable<String> extension = results.getOneOrNull();
                if (extension != null) {
                   fileExtension = extension.getDisplayableString();
                }
@@ -203,7 +203,7 @@ public class AttributeEndpointImpl implements AttributeEndpoint {
          sb.append(AHTML.beginMultiColumnTable(95));
          sb.append(AHTML.addRowMultiColumnTable(AHTML.bold("Valid Types")));
          sb.append(AHTML.addRowMultiColumnTable(""));
-         for (AttributeTypeToken attrType : exactlyOne.getValidAttributeTypes()) {
+         for (AttributeTypeToken<?> attrType : exactlyOne.getValidAttributeTypes()) {
             sb.append(AHTML.addRowMultiColumnTable(AHTML.bold("Name:"), attrType.getName()));
             sb.append(AHTML.addRowMultiColumnTable(AHTML.bold("AttributeTypeId:"),
                AHTML.getHyperlink(String.format("/orcs/branch/%s/artifact/%s/attribute/type/%s", branch, artifactId,

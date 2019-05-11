@@ -36,17 +36,17 @@ public interface IAttributeResolver {
 
    String getDescription(String attributeName);
 
-   <T> T getSoleAttributeValue(IAtsObject atsObject, AttributeTypeToken attributeType, T defaultReturnValue);
+   <T> T getSoleAttributeValue(IAtsObject atsObject, AttributeTypeToken<T> attributeType, T defaultReturnValue);
 
    List<String> getAttributesToStringList(IAtsObject atsObject, AttributeTypeToken attributeType);
 
-   boolean isAttributeTypeValid(IAtsWorkItem workItem, AttributeTypeToken attributeType);
+   boolean isAttributeTypeValid(IAtsWorkItem workItem, AttributeTypeToken<?> attributeType);
 
-   String getSoleAttributeValueAsString(IAtsObject atsObject, AttributeTypeToken attributeType, String defaultReturnValue);
+   String getSoleAttributeValueAsString(IAtsObject atsObject, AttributeTypeToken<?> attributeType, String defaultReturnValue);
 
-   int getAttributeCount(IAtsObject atsObject, AttributeTypeToken attributeType);
+   int getAttributeCount(IAtsObject atsObject, AttributeTypeToken<?> attributeType);
 
-   int getAttributeCount(ArtifactId artifact, AttributeTypeToken attributeType);
+   int getAttributeCount(ArtifactId artifact, AttributeTypeToken<?> attributeType);
 
    void addAttribute(IAtsWorkItem workItem, AttributeTypeId attributeType, Object value);
 
@@ -54,9 +54,9 @@ public interface IAttributeResolver {
 
    <T> Collection<IAttribute<T>> getAttributes(IAtsWorkItem workItem);
 
-   <T> Collection<IAttribute<T>> getAttributes(IAtsWorkItem workItem, AttributeTypeToken attributeType);
+   <T> Collection<IAttribute<T>> getAttributes(IAtsWorkItem workItem, AttributeTypeToken<T> attributeType);
 
-   <T> Collection<IAttribute<T>> getAttributes(ArtifactId artifact, AttributeTypeToken attributeType);
+   <T> Collection<IAttribute<T>> getAttributes(ArtifactId artifact, AttributeTypeToken<T> attributeType);
 
    void deleteSoleAttribute(IAtsWorkItem workItem, AttributeTypeId attributeType);
 
@@ -80,13 +80,13 @@ public interface IAttributeResolver {
 
    void setSoleAttributeValue(IAtsObject atsObject, AttributeTypeId attributeType, Object value);
 
-   <T> T getSoleAttributeValue(ArtifactId artifact, AttributeTypeToken attributeType, T defaultValue);
+   <T> T getSoleAttributeValue(ArtifactId artifact, AttributeTypeToken<T> attributeType, T defaultValue);
 
    <T> Collection<T> getAttributeValues(ArtifactId artifact, AttributeTypeToken attributeType);
 
    <T> Collection<T> getAttributeValues(IAtsObject atsObject, AttributeTypeToken attributeType);
 
-   String getSoleAttributeValueAsString(ArtifactId artifact, AttributeTypeToken attributeType, String defaultReturnValue);
+   String getSoleAttributeValueAsString(ArtifactId artifact, AttributeTypeToken<?> attributeType, String defaultReturnValue);
 
    int getAttributeCount(IAtsWorkItem workItem, AttributeTypeToken attributeType);
 

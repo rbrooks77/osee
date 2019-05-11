@@ -94,8 +94,8 @@ public class HtmlWriter {
       data.put("Branch Id", asLink(uri.toASCIIString(), branchId));
       data.put("Branch Name", asLink(uri.toASCIIString(), branchName));
 
-      Collection<AttributeTypeToken> types = artifact.getExistingAttributeTypes();
-      for (AttributeTypeToken type : types) {
+      Collection<AttributeTypeToken<?>> types = artifact.getExistingAttributeTypes();
+      for (AttributeTypeToken<?> type : types) {
          for (AttributeReadable<?> attr : artifact.getAttributes(type)) {
             URI attrUri = uriInfo.getAbsolutePathBuilder().path("/attribute/{attributeId}").build(attr.getId());
             String label = asLink(attrUri.getPath(), type.getName());

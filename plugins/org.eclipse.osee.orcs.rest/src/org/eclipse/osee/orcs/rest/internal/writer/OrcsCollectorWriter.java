@@ -18,10 +18,10 @@ import java.util.List;
 import java.util.Map;
 import org.eclipse.osee.framework.core.data.ArtifactId;
 import org.eclipse.osee.framework.core.data.ArtifactToken;
+import org.eclipse.osee.framework.core.data.ArtifactTypeToken;
 import org.eclipse.osee.framework.core.data.AttributeTypeId;
 import org.eclipse.osee.framework.core.data.AttributeTypeToken;
 import org.eclipse.osee.framework.core.data.BranchId;
-import org.eclipse.osee.framework.core.data.ArtifactTypeToken;
 import org.eclipse.osee.framework.core.data.RelationTypeSide;
 import org.eclipse.osee.framework.core.data.RelationTypeToken;
 import org.eclipse.osee.framework.core.data.UserId;
@@ -112,17 +112,21 @@ public class OrcsCollectorWriter {
 
          try {
             for (OwAttribute owAttribute : owArtifact.getAttributes()) {
-               AttributeTypeToken attrType =
+               AttributeTypeToken<?> attrType =
                   getAttributeType(orcsApi.getOrcsTypes().getAttributeTypes(), owAttribute.getType());
 
                if (artifact.getAttributeCount(attrType) <= 1 && owAttribute.getValues().size() <= 1) {
-                  String currValue = artifact.getSoleAttributeAsString(attrType, null);
+                  Object value = artifact.getSoleAttributeValue(attrType, null);
+                  String currValue = null;
+                  if (value != null) {
+                     currValue = value.toString();
+                  }
 
                   String newValue = null;
                   if (owAttribute.getValues().size() == 1) {
                      Object object = owAttribute.getValues().iterator().next();
                      if (object != null) {
-                        newValue = owAttribute.getValues().iterator().next().toString();
+                        newValue = object.toString();
                      }
                   }
 
@@ -161,12 +165,11 @@ public class OrcsCollectorWriter {
                         throw new OseeArgumentException("Exception processing Integer for OwAttribute %s Exception %s",
                            owAttribute, ex);
                      }
-                  } else if (orcsApi.getOrcsTypes().getAttributeTypes().isDateType(attrType)) {
+                  } else if (attrType.isDateType()) {
                      try {
-                        Date currVal = artifact.getSoleAttributeValue(attrType, null);
                         Date newVal = getDate(newValue);
-                        if (currVal == null || currVal.compareTo(newVal) != 0) {
-                           logChange(artifact, attrType, DateUtil.getMMDDYYHHMM(currVal),
+                        if (value == null || ((Date) value).compareTo(newVal) != 0) {
+                           logChange(artifact, attrType, DateUtil.getMMDDYYHHMM((Date) value),
                               DateUtil.getMMDDYYHHMM(newVal));
                            TransactionBuilder tx = getTransaction();
                            tx.setSoleAttributeValue(artifact, attrType, newVal);
@@ -237,9 +240,9 @@ public class OrcsCollectorWriter {
       return null;
    }
 
-   protected static AttributeTypeToken getAttributeType(AttributeTypes attributeTypeCache, OwAttributeType attributeType) {
+   protected static AttributeTypeToken<?> getAttributeType(AttributeTypes attributeTypeCache, OwAttributeType attributeType) {
       if (attributeType.isInvalid()) {
-         AttributeTypeToken attributeTypeId = attributeTypeCache.getByName(attributeType.getName());
+         AttributeTypeToken<?> attributeTypeId = attributeTypeCache.getByName(attributeType.getName());
 
          return attributeTypeId;
       }

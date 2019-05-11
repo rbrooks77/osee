@@ -24,7 +24,7 @@ import static org.eclipse.osee.framework.core.enums.RelationSide.SIDE_B;
 import static org.eclipse.osee.framework.core.enums.RelationSorter.LEXICOGRAPHICAL_ASC;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -144,7 +144,7 @@ public class TransactionBuilderImplTest {
 
    @Test
    public void testCopyArtifactWithList() {
-      Collection<AttributeTypeToken> attributesToDuplicate = Arrays.asList(Name, Annotation);
+      Collection<AttributeTypeToken<?>> attributesToDuplicate = Arrays.asList(Name, Annotation);
 
       factory.copyArtifact(expectedAuthor, attributesToDuplicate);
 

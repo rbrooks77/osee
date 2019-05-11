@@ -20,8 +20,8 @@ import static org.eclipse.osee.framework.core.enums.RelationSide.SIDE_A;
 import static org.eclipse.osee.framework.core.enums.RelationSorter.LEXICOGRAPHICAL_DESC;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.anyCollectionOf;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.anyCollectionOf;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import java.util.Arrays;
@@ -107,7 +107,7 @@ public class TxDataManagerTest {
 
    private TxDataManager txDataManager;
    private TxData txDataReal;
-   private final Collection<AttributeTypeToken> types = Arrays.asList(Name, Category);
+   private final Collection<AttributeTypeToken<?>> types = Arrays.asList(Name, Category);
    private String r1Guid;
    private String r2Guid;
    private String r3Guid;
@@ -456,7 +456,7 @@ public class TxDataManagerTest {
 
       when(data.getId()).thenReturn(artifactId2.getId());
       when(data.getLocalId()).thenReturn(artifactId2.getId().intValue());
-      List<AttributeTypeToken> copyTypes = Arrays.asList(CoreAttributeTypes.Active, CoreAttributeTypes.Name);
+      List<AttributeTypeToken<?>> copyTypes = Arrays.asList(CoreAttributeTypes.Active, CoreAttributeTypes.Name);
       when(sourceArtifact.getExistingAttributeTypes()).thenAnswer(answerValue(copyTypes));
 
       when(artifact2.getOrcsData()).thenReturn(data);

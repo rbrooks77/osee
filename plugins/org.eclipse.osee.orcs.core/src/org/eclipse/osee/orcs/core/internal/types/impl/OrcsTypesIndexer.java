@@ -136,14 +136,14 @@ public class OrcsTypesIndexer {
    }
 
    private void indexAttributes(ArtifactTypeIndex artifactTypeIndex, AttributeTypeIndex attributeTypeIndex, XArtifactType dslType) {
-      Map<BranchId, Collection<AttributeTypeToken>> validAttributes = new HashMap<>();
+      Map<BranchId, Collection<AttributeTypeToken<?>>> validAttributes = new HashMap<>();
       for (XAttributeTypeRef xAttributeTypeRef : dslType.getValidAttributeTypes()) {
          XAttributeType xAttributeType = xAttributeTypeRef.getValidAttributeType();
          BranchId branch = getAttributeBranch(xAttributeTypeRef);
 
-         AttributeTypeToken attributeType = attributeTypeIndex.getTokenByDslType(xAttributeType);
+         AttributeTypeToken<?> attributeType = attributeTypeIndex.getTokenByDslType(xAttributeType);
          if (attributeType != null && attributeType.isValid()) {
-            Collection<AttributeTypeToken> listOfAllowedAttributes = validAttributes.get(branch);
+            Collection<AttributeTypeToken<?>> listOfAllowedAttributes = validAttributes.get(branch);
             if (listOfAllowedAttributes == null) {
                listOfAllowedAttributes = Sets.newHashSet();
                validAttributes.put(branch, listOfAllowedAttributes);
@@ -169,7 +169,7 @@ public class OrcsTypesIndexer {
    }
 
    private AttributeTypeId getOrCreateToken(AttributeTypeIndex index, XAttributeType dslType) {
-      AttributeTypeToken token = index.getTokenByDslType(dslType);
+      AttributeTypeToken<?> token = index.getTokenByDslType(dslType);
       if (token == null) {
          long id = Long.valueOf(dslType.getId());
          token = AttributeTypeToken.valueOf(id, dslType.getName());

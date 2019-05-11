@@ -44,29 +44,29 @@ public interface ArtifactReadable extends ArtifactToken, HasTransaction, OrcsRea
 
    boolean isOfType(ArtifactTypeId... otherTypes);
 
-   int getAttributeCount(AttributeTypeToken type);
+   int getAttributeCount(AttributeTypeToken<?> type);
 
-   int getAttributeCount(AttributeTypeToken type, DeletionFlag deletionFlag);
+   int getAttributeCount(AttributeTypeToken<?> type, DeletionFlag deletionFlag);
 
-   boolean isAttributeTypeValid(AttributeTypeToken attributeType);
+   boolean isAttributeTypeValid(AttributeTypeToken<?> attributeType);
 
-   Collection<AttributeTypeToken> getValidAttributeTypes();
+   Collection<AttributeTypeToken<?>> getValidAttributeTypes();
 
-   Collection<AttributeTypeToken> getExistingAttributeTypes();
+   Collection<AttributeTypeToken<?>> getExistingAttributeTypes();
 
-   <T> T getSoleAttributeValue(AttributeTypeToken attributeType);
+   <T> T getSoleAttributeValue(AttributeTypeToken<T> attributeType);
 
-   <T> T getSoleAttributeValue(AttributeTypeToken attributeType, DeletionFlag flag, T defaultValue);
+   <T> T getSoleAttributeValue(AttributeTypeToken<T> attributeType, DeletionFlag flag, T defaultValue);
 
-   <T> T getSoleAttributeValue(AttributeTypeToken attributeType, T defaultValue);
+   <T> T getSoleAttributeValue(AttributeTypeToken<T> attributeType, T defaultValue);
 
-   String getSoleAttributeAsString(AttributeTypeToken attributeType);
+   String getSoleAttributeAsString(AttributeTypeToken<?> attributeType);
 
-   String getSoleAttributeAsString(AttributeTypeToken attributeType, String defaultValue);
+   String getSoleAttributeAsString(AttributeTypeToken<?> attributeType, String defaultValue);
 
-   Long getSoleAttributeId(AttributeTypeToken attributeType);
+   Long getSoleAttributeId(AttributeTypeToken<?> attributeType);
 
-   <T> List<T> getAttributeValues(AttributeTypeToken attributeType);
+   <T> List<T> getAttributeValues(AttributeTypeToken<T> attributeType);
 
    Iterable<Collection<? extends AttributeReadable<Object>>> getAttributeIterable();
 
@@ -76,13 +76,13 @@ public interface ArtifactReadable extends ArtifactToken, HasTransaction, OrcsRea
 
    ResultSet<? extends AttributeReadable<Object>> getAttributes();
 
-   <T> ResultSet<? extends AttributeReadable<T>> getAttributes(AttributeTypeToken attributeType);
+   <T> ResultSet<? extends AttributeReadable<T>> getAttributes(AttributeTypeToken<T> attributeType);
 
    ResultSet<? extends AttributeReadable<Object>> getAttributes(DeletionFlag deletionFlag);
 
-   public <T> ResultSet<? extends AttributeReadable<T>> getAttributes(AttributeTypeToken attributeType, DeletionFlag deletionFlag);
+   <T> ResultSet<? extends AttributeReadable<T>> getAttributes(AttributeTypeToken<T> attributeType, DeletionFlag deletionFlag);
 
-   default String getAttributeValuesAsString(AttributeTypeToken attributeType) {
+   default <T> String getAttributeValuesAsString(AttributeTypeToken<T> attributeType) {
       return Collections.toString(", ", getAttributeValues(attributeType));
    }
 

@@ -159,7 +159,7 @@ public class ArtifactReadOnlyImplTest {
       List<? extends AttributeTypeId> types = Arrays.asList(Active, Name);
       when(proxiedObject.getExistingAttributeTypes()).thenAnswer(answer(types));
 
-      Collection<AttributeTypeToken> actual = readOnly.getExistingAttributeTypes();
+      Collection<? extends AttributeTypeId> actual = readOnly.getExistingAttributeTypes();
 
       assertEquals(types, actual);
       verify(proxiedObject).getExistingAttributeTypes();
@@ -170,7 +170,7 @@ public class ArtifactReadOnlyImplTest {
       List<? extends AttributeTypeId> types = Arrays.asList(Active, Name, Annotation);
       when(proxiedObject.getValidAttributeTypes()).thenAnswer(answer(types));
 
-      Collection<AttributeTypeToken> actual = readOnly.getValidAttributeTypes();
+      Collection<AttributeTypeToken<?>> actual = readOnly.getValidAttributeTypes();
 
       assertEquals(types, actual);
       verify(proxiedObject).getValidAttributeTypes();
@@ -410,7 +410,7 @@ public class ArtifactReadOnlyImplTest {
       when(proxiedObject.getAttributes(Name)).thenAnswer(answer(attributes1));
       when(proxyManager.asExternalAttributes(session, attributes1)).thenAnswer(answer(expected));
 
-      ResultSet<? extends AttributeReadable<Object>> actual = readOnly.getAttributes(Name);
+      ResultSet<? extends AttributeReadable<String>> actual = readOnly.getAttributes(Name);
 
       assertEquals(expected, actual);
       verify(proxiedObject).getAttributes(Name);
@@ -424,7 +424,7 @@ public class ArtifactReadOnlyImplTest {
       when(proxiedObject.getAttributes(Name, EXCLUDE_DELETED)).thenAnswer(answer(attributes1));
       when(proxyManager.asExternalAttributes(session, attributes1)).thenAnswer(answer(expected));
 
-      ResultSet<? extends AttributeReadable<Object>> actual = readOnly.getAttributes(Name, EXCLUDE_DELETED);
+      ResultSet<? extends AttributeReadable<String>> actual = readOnly.getAttributes(Name, EXCLUDE_DELETED);
 
       assertEquals(expected, actual);
       verify(proxiedObject).getAttributes(Name, EXCLUDE_DELETED);

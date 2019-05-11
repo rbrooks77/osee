@@ -77,7 +77,7 @@ public class ArtifactFactoryTest {
 
    private String guid;
    private ArtifactFactory artifactFactory;
-   private List<AttributeTypeToken> types;
+   private List<AttributeTypeToken<?>> types;
 
    @Before
    public void init() {
@@ -214,15 +214,15 @@ public class ArtifactFactoryTest {
       }
    };
 
-   private static final class ReturnExistingTypes implements Answer<List<AttributeTypeToken>> {
-      private final List<AttributeTypeToken> types;
+   private static final class ReturnExistingTypes implements Answer<List<AttributeTypeToken<?>>> {
+      private final List<AttributeTypeToken<?>> types;
 
-      public ReturnExistingTypes(List<AttributeTypeToken> types) {
+      public ReturnExistingTypes(List<AttributeTypeToken<?>> types) {
          this.types = types;
       }
 
       @Override
-      public List<AttributeTypeToken> answer(InvocationOnMock invocation) throws Throwable {
+      public List<AttributeTypeToken<?>> answer(InvocationOnMock invocation) throws Throwable {
          return types;
       }
    };

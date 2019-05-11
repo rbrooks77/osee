@@ -121,11 +121,11 @@ public final class OrcsPredicates {
       });
    }
 
-   public static Predicate<Attribute<?>> attributeId(final AttributeId attributeId) {
-      return new Predicate<Attribute<?>>() {
+   public static <T> Predicate<Attribute<T>> attributeId(final AttributeId attributeId) {
+      return new Predicate<Attribute<T>>() {
 
          @Override
-         public boolean apply(Attribute<?> input) {
+         public boolean apply(Attribute<T> input) {
             return attributeId.equals(input);
          }
       };

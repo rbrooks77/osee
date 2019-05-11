@@ -21,9 +21,9 @@ import org.eclipse.osee.orcs.core.ds.Attribute;
  */
 public interface AttributeContainer extends ArtifactToken {
 
-   <T> void add(AttributeTypeToken attributeType, Attribute<T> attribute);
+   <T> void add(AttributeTypeToken<T> attributeType, Attribute<T> attribute);
 
-   <T> void remove(AttributeTypeToken type, Attribute<T> attribute);
+   <T> void remove(AttributeTypeToken<T> type, Attribute<T> attribute);
 
    boolean isLoaded();
 
@@ -33,13 +33,13 @@ public interface AttributeContainer extends ArtifactToken {
 
    boolean areAttributesDirty();
 
-   int getAttributeCount(AttributeTypeToken type);
+   <T> int getAttributeCount(AttributeTypeToken<T> type);
 
-   int getAttributeCount(AttributeTypeToken type, DeletionFlag deletionFlag);
+   <T> int getAttributeCount(AttributeTypeToken<T> type, DeletionFlag deletionFlag);
 
-   boolean isAttributeTypeValid(AttributeTypeToken attributeType);
+   <T> boolean isAttributeTypeValid(AttributeTypeToken<T> attributeType);
 
-   Collection<AttributeTypeToken> getValidAttributeTypes();
+   Collection<AttributeTypeToken<?>> getValidAttributeTypes();
 
-   Collection<AttributeTypeToken> getExistingAttributeTypes();
+   Collection<AttributeTypeToken<?>> getExistingAttributeTypes();
 }

@@ -13,10 +13,10 @@ package org.eclipse.osee.orcs.data;
 import java.util.Collection;
 import java.util.Map;
 import org.eclipse.osee.framework.core.data.ArtifactTypeId;
+import org.eclipse.osee.framework.core.data.ArtifactTypeToken;
 import org.eclipse.osee.framework.core.data.AttributeTypeId;
 import org.eclipse.osee.framework.core.data.AttributeTypeToken;
 import org.eclipse.osee.framework.core.data.BranchId;
-import org.eclipse.osee.framework.core.data.ArtifactTypeToken;
 
 /**
  * @author Roberto E. Escobar
@@ -31,12 +31,12 @@ public interface ArtifactTypes extends IdCollection<ArtifactTypeToken> {
 
    boolean isValidAttributeType(ArtifactTypeId artType, BranchId branch, AttributeTypeId attributeType);
 
-   Collection<AttributeTypeToken> getAttributeTypes(ArtifactTypeId artType, BranchId branch);
+   Collection<AttributeTypeToken<?>> getAttributeTypes(ArtifactTypeId artType, BranchId branch);
 
    boolean isAbstract(ArtifactTypeId artType);
 
    boolean inheritsFrom(ArtifactTypeId artType, ArtifactTypeId... otherTypes);
 
-   Map<BranchId, Collection<AttributeTypeToken>> getAllAttributeTypes(ArtifactTypeId artType);
+   Map<BranchId, Collection<AttributeTypeToken<?>>> getAllAttributeTypes(ArtifactTypeId artType);
 
 }

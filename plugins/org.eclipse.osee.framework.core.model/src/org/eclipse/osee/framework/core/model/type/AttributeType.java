@@ -21,7 +21,7 @@ import org.eclipse.osee.framework.jdk.core.util.Strings;
  * @author Robert A. Fisher
  * @author Ryan D. Brooks
  */
-public class AttributeType extends AbstractOseeType implements AttributeTypeToken {
+public class AttributeType<T> extends AbstractOseeType implements AttributeTypeToken<T> {
 
    private static final String ATTRIBUTE_BASE_TYPE_ID_FIELD_KEY = "osee.base.attribute.type.id.field";
    private static final String ATTRIBUTE_PROVIDER_ID_FIELD_KEY = "osee.attribute.provider.id.field";
@@ -77,6 +77,7 @@ public class AttributeType extends AbstractOseeType implements AttributeTypeToke
       return getFieldValueLogException("", ATTRIBUTE_PROVIDER_ID_FIELD_KEY);
    }
 
+   @Override
    public String getDefaultValue() {
       return getFieldValueLogException(null, ATTRIBUTE_DEFAULT_VALUE_FIELD_KEY);
    }
@@ -125,6 +126,7 @@ public class AttributeType extends AbstractOseeType implements AttributeTypeToke
     *
     * @return format id
     */
+   @Override
    public String getMediaType() {
       return getFieldValueLogException("", ATTRIBUTE_MEDIA_TYPE_FIELD_KEY);
    }
@@ -158,7 +160,13 @@ public class AttributeType extends AbstractOseeType implements AttributeTypeToke
       return toReturn;
    }
 
+   @Override
    public boolean isEnumerated() {
       return getOseeEnumTypeId() != -1;
+   }
+
+   @Override
+   public Class<?> getValueType() {
+      return null;
    }
 }

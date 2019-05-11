@@ -70,6 +70,7 @@ import org.eclipse.osee.ats.rest.internal.workitem.operations.ActionOperations;
 import org.eclipse.osee.framework.core.data.ArtifactId;
 import org.eclipse.osee.framework.core.data.ArtifactToken;
 import org.eclipse.osee.framework.core.data.AttributeTypeId;
+import org.eclipse.osee.framework.core.data.AttributeTypeToken;
 import org.eclipse.osee.framework.core.data.BranchId;
 import org.eclipse.osee.framework.core.data.TransactionId;
 import org.eclipse.osee.framework.core.enums.CoreAttributeTypes;
@@ -230,12 +231,14 @@ public final class AtsActionEndpointImpl implements AtsActionEndpointApi {
       List<String> requirements = new LinkedList<>();
       QueryBuilder query = orcsApi.getQueryFactory().fromBranch(COMMON);
       ArtifactReadable workflow = query.andId(workflowId).getArtifact();
-      Integer vertionArtId = workflow.getSoleAttributeValue(attributeTypes.get(versionType));
+      Integer vertionArtId =
+         workflow.getSoleAttributeValue(AttributeTypeToken.cast(attributeTypes.get(versionType), Integer.class));
       ArtifactReadable version = query.andId(ArtifactId.valueOf(vertionArtId)).getArtifact();
       BranchId versionBranch =
          BranchId.valueOf(version.getSoleAttributeValue(AtsAttributeTypes.BaselineBranchId, "-1"));
 
-      String values = workflow.getSoleAttributeValue(attributeTypes.get(relatedReqs));
+      String values =
+         workflow.getSoleAttributeValue(AttributeTypeToken.cast(attributeTypes.get(relatedReqs), String.class));
       if (Strings.isValid(values)) {
          List<String> items = Arrays.asList(values.split("\\s*,\\s*"));
          List<ArtifactId> artIds = Collections.transform(items, ArtifactId::valueOf);

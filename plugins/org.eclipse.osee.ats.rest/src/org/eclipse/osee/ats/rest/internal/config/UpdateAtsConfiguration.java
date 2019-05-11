@@ -135,13 +135,13 @@ public class UpdateAtsConfiguration {
 
          TransactionBuilder tx = orcsApi.getTransactionFactory().createTransaction(CoreBranches.COMMON, userId,
             "Create Update Config Attributes");
-         Iterator<? extends AttributeReadable<Object>> iterator =
+         Iterator<? extends AttributeReadable<String>> iterator =
             configArt.getAttributes(CoreAttributeTypes.GeneralStringData, DeletionFlag.EXCLUDE_DELETED).iterator();
          boolean found = false;
          while (iterator.hasNext()) {
-            AttributeReadable<Object> attributeReadable = iterator.next();
+            AttributeReadable<String> attributeReadable = iterator.next();
 
-            if (attributeReadable != null && ((String) attributeReadable.getValue()).startsWith(VIEWS_EQUAL_KEY)) {
+            if (attributeReadable != null && attributeReadable.getValue().startsWith(VIEWS_EQUAL_KEY)) {
                tx.setAttributeById(configArt, attributeReadable, getViewsAttrValue(databaseViews));
                rd.log("Create or update AtsConfig.VIEWS attribute\n");
                found = true;

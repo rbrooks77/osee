@@ -136,8 +136,8 @@ public class UserRoleManager implements IAtsPeerReviewRoleManager {
    private List<UserRole> getStoredUserRoles() {
       // Add new ones: items in userRoles that are not in dbuserRoles
       List<UserRole> storedUserRoles = new ArrayList<>();
-      for (IAttribute<Object> attr : atsApi.getAttributeResolver().getAttributes(peerRev, AtsAttributeTypes.Role)) {
-         UserRole storedRole = new UserRole((String) attr.getValue());
+      for (IAttribute<String> attr : atsApi.getAttributeResolver().getAttributes(peerRev, AtsAttributeTypes.Role)) {
+         UserRole storedRole = new UserRole(attr.getValue());
          storedUserRoles.add(storedRole);
       }
       return storedUserRoles;
@@ -149,8 +149,8 @@ public class UserRoleManager implements IAtsPeerReviewRoleManager {
          List<UserRole> storedUserRoles = getStoredUserRoles();
 
          // Change existing ones
-         for (IAttribute<Object> attr : atsApi.getAttributeResolver().getAttributes(peerRev, AtsAttributeTypes.Role)) {
-            UserRole storedRole = new UserRole((String) attr.getValue());
+         for (IAttribute<String> attr : atsApi.getAttributeResolver().getAttributes(peerRev, AtsAttributeTypes.Role)) {
+            UserRole storedRole = new UserRole(attr.getValue());
             for (UserRole pItem : getUserRoles()) {
                if (pItem.equals(storedRole)) {
                   changes.setAttribute(peerRev, attr, AXml.addTagData(ROLE_ITEM_TAG, pItem.toXml()));
@@ -162,9 +162,9 @@ public class UserRoleManager implements IAtsPeerReviewRoleManager {
          // Remove deleted ones; items in dbuserRoles that are not in userRoles
          for (UserRole delUserRole : org.eclipse.osee.framework.jdk.core.util.Collections.setComplement(
             updatedStoredUserRoles, userRoles)) {
-            for (IAttribute<Object> attr : atsApi.getAttributeResolver().getAttributes(peerRev,
+            for (IAttribute<String> attr : atsApi.getAttributeResolver().getAttributes(peerRev,
                AtsAttributeTypes.Role)) {
-               UserRole storedRole = new UserRole((String) attr.getValue());
+               UserRole storedRole = new UserRole(attr.getValue());
                if (storedRole.equals(delUserRole)) {
                   changes.deleteAttribute(peerRev, attr);
                }

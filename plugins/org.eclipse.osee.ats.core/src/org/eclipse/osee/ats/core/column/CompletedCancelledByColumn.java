@@ -42,7 +42,7 @@ public class CompletedCancelledByColumn extends AbstractServicesColumn {
       String userId = null;
       if (obj instanceof IAtsWorkItem) {
          IAtsWorkItem workItem = (IAtsWorkItem) obj;
-         AttributeTypeToken type = null;
+         AttributeTypeToken<String> type = null;
          if (workItem.isCompleted()) {
             type = AtsAttributeTypes.CompletedBy;
          } else if (workItem.isCancelled()) {

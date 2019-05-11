@@ -14,8 +14,8 @@ import static org.eclipse.osee.framework.core.enums.ModificationType.ARTIFACT_DE
 import static org.eclipse.osee.framework.core.enums.ModificationType.DELETED;
 import static org.eclipse.osee.framework.core.enums.ModificationType.NEW;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.reset;
@@ -68,10 +68,10 @@ public class ArtifactTest {
 
    @SuppressWarnings("rawtypes")
    @Mock private Attribute attribute;
+   @Mock private Attribute<Integer> integerAttribute;
+   @Mock private Attribute<String> notDeleted;
    @SuppressWarnings("rawtypes")
-   @Mock private Attribute notDeleted;
-   @SuppressWarnings("rawtypes")
-   @Mock private Attribute deleted;
+   @Mock private Attribute<String> deleted;
    @SuppressWarnings("rawtypes")
    @Mock private Attribute differentType;
 
@@ -118,7 +118,7 @@ public class ArtifactTest {
    @Test
    @SuppressWarnings("unchecked")
    public void testAddAndGet() {
-      Attribute<Object> attribute = mock(Attribute.class);
+      Attribute<String> attribute = mock(Attribute.class);
       when(attribute.getOrcsData()).thenReturn(attributeData);
       Assert.assertEquals(0, artifact.getAttributes().size());
       artifact.add(CoreAttributeTypes.City, attribute);
@@ -143,7 +143,7 @@ public class ArtifactTest {
    @Test
    @SuppressWarnings("unchecked")
    public void testAreAttributesDirty() {
-      Attribute<Object> attribute = mock(Attribute.class);
+      Attribute<String> attribute = mock(Attribute.class);
       when(attribute.getOrcsData()).thenReturn(attributeData);
       artifact.add(CoreAttributeTypes.City, attribute);
       Assert.assertFalse(artifact.areAttributesDirty());
@@ -314,9 +314,9 @@ public class ArtifactTest {
       Assert.assertTrue(attributes.contains(differentType));
       Assert.assertFalse(attributes.contains(deleted));
 
-      attributes = artifact.getAttributes(CoreAttributeTypes.AccessContextId);
-      Assert.assertEquals(1, attributes.size());
-      Assert.assertTrue(attributes.contains(notDeleted));
+      List<Attribute<String>> attributes2 = artifact.getAttributes(CoreAttributeTypes.AccessContextId);
+      Assert.assertEquals(1, attributes2.size());
+      Assert.assertTrue(attributes2.contains(notDeleted));
    }
 
    @Test
@@ -325,16 +325,16 @@ public class ArtifactTest {
       artifact.add(CoreAttributeTypes.AccessContextId, deleted);
       when(notDeleted.getValue()).thenReturn("notDeleted");
       when(deleted.getValue()).thenReturn("deleted");
-      List<Object> values = artifact.getAttributeValues(CoreAttributeTypes.AccessContextId);
+      List<String> values = artifact.getAttributeValues(CoreAttributeTypes.AccessContextId);
       Assert.assertEquals(1, values.size());
       Assert.assertTrue(values.contains("notDeleted"));
    }
 
    @Test
    public void testGetSoleAttributeAsString() {
-      when(notDeleted.getValue()).thenReturn(new Integer(5));
-      artifact.add(CoreAttributeTypes.AccessContextId, notDeleted);
-      String attribute = artifact.getSoleAttributeAsString(CoreAttributeTypes.AccessContextId);
+      when(integerAttribute.getValue()).thenReturn(new Integer(5));
+      artifact.add(CoreAttributeTypes.ReviewId, integerAttribute);
+      String attribute = artifact.getSoleAttributeAsString(CoreAttributeTypes.ReviewId);
       Assert.assertEquals("5", attribute);
 
       attribute = artifact.getSoleAttributeAsString(CoreAttributeTypes.Category, "default");
