@@ -60,7 +60,7 @@ public class FrameworkAccessControl implements CmAccessControl {
          branch = (BranchId) object;
       }
       if (branch != null) {
-         return BranchManager.getAssociatedArtifact(branch) != null;
+         return BranchManager.getAssociatedArtifact(branch).isValid();
       }
       return false;
    }
