@@ -19,7 +19,6 @@ import org.eclipse.osee.framework.core.data.ArtifactId;
 import org.eclipse.osee.framework.core.data.ArtifactToken;
 import org.eclipse.osee.framework.core.data.ArtifactTypeId;
 import org.eclipse.osee.framework.core.data.AttributeId;
-import org.eclipse.osee.framework.core.data.AttributeTypeId;
 import org.eclipse.osee.framework.core.data.AttributeTypeToken;
 import org.eclipse.osee.framework.core.data.BranchId;
 import org.eclipse.osee.framework.core.data.GammaId;
@@ -126,11 +125,11 @@ public interface TransactionBuilder {
 
    void deleteByAttributeId(ArtifactId art, AttributeId attrId);
 
-   void deleteSoleAttribute(ArtifactId art, AttributeTypeId attributeType);
+   void deleteSoleAttribute(ArtifactId art, AttributeTypeToken attributeType);
 
-   void deleteAttributes(ArtifactId art, AttributeTypeId attributeType);
+   void deleteAttributes(ArtifactId art, AttributeTypeToken attributeType);
 
-   void deleteAttributesWithValue(ArtifactId art, AttributeTypeId attributeType, Object value);
+   void deleteAttributesWithValue(ArtifactId art, AttributeTypeToken attributeType, Object value);
 
    /// TX
 
