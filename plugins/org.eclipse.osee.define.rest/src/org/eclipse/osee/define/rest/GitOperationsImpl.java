@@ -100,8 +100,18 @@ public final class GitOperationsImpl implements GitOperations {
       this.systemPrefs = systemPrefs;
    }
 
+   private void s(Date authorDate) {
+
+   }
+
    @Override
    public ArtifactToken getCommitArtifactId(BranchId branch, String changeId) {
+
+      queryFactory.fromBranch(branch).and(GitChangeId, changeId).selectInto(this).selectAtt(GitCommitAuthorDate,
+         GitOperationsImpl::s);
+
+      queryFactory.fromBranch(branch).and(GitChangeId, changeId).selectAtt(GitCommitAuthorDate, this::s);
+
       List<ArtifactReadable> commits =
          queryFactory.fromBranch(branch).and(GitChangeId, changeId).andTypeEquals(GitCommit).getResults().getList();
 

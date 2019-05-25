@@ -13,6 +13,8 @@ package org.eclipse.osee.orcs.search;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 import org.eclipse.osee.framework.core.data.ArtifactId;
 import org.eclipse.osee.framework.core.data.ArtifactToken;
 import org.eclipse.osee.framework.core.data.ArtifactTypeId;
@@ -99,6 +101,12 @@ public interface QueryBuilder extends Query {
     * @return sole artifact or sentinal or exception if > 1
     */
    ArtifactToken getAtMostOneOrSentinal();
+
+   <R> ArtifactQuerySelection<R> selectInto(Supplier<R> receiver);
+
+   <R> ArtifactQuerySelection<R> selectInto(R receiver);
+
+   public <T> void selectAtt(AttributeTypeToken<T> attributeType, Consumer<T> consumer);
 
    public static AttributeTypeToken ANY_ATTRIBUTE_TYPE =
       AttributeTypeToken.valueOf(Long.MIN_VALUE, "Any Attribute Type");
