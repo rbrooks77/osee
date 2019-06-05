@@ -38,10 +38,10 @@ import org.eclipse.osee.orcs.db.internal.sql.join.SqlJoinFactory;
  */
 public abstract class AbstractSqlWriter implements HasOptions {
    private static final String AND_NEW_LINE = " AND\n";
-   private final List<String> tableEntries = new ArrayList<>();
    private final SqlAliasManager aliasManager = new SqlAliasManager();
    private final JdbcClient jdbcClient;
    private final SqlContext context;
+   private final List<String> tableEntries = new ArrayList<>();
    protected final StringBuilder output = new StringBuilder();
    protected final QueryData rootQueryData;
    protected final SqlJoinFactory joinFactory;
@@ -85,6 +85,7 @@ public abstract class AbstractSqlWriter implements HasOptions {
       aliasManager.reset();
       level = 0;
       firstCte = true;
+      rootQueryData.reset();
    }
 
    protected void write(Iterable<SqlHandler<?>> handlers) {
