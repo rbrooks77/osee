@@ -171,7 +171,7 @@ public class InvalidTxCurrentsAndModTypesCallable extends AbstractDatastoreTxCal
          TxCurrent txCurrent = TxCurrent.valueOf(stmt.getInt("tx_current"));
          TransactionDetailsType type = TransactionDetailsType.valueOf(stmt.getInt("tx_type"));
          ApplicabilityId appId = ApplicabilityId.valueOf(stmt.getLong("app_id"));
-         Address address = new Address(type.isBaseline(), stmt.getLong("branch_id"), stmt.getInt(columnName),
+         Address address = new Address(type.isBaseline(), stmt.getLong("branch_id"), stmt.getLong(columnName),
             stmt.getLong("transaction_id"), GammaId.valueOf(stmt.getLong("gamma_id")), modType, appId, txCurrent);
 
          if (!address.isSimilar(previousAddress[0])) {

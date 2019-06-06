@@ -44,6 +44,25 @@ public class ArtifactExplorerLinkNode {
       return parentIsOnSideA;
    }
 
+   public List<Artifact> getOppositeArtifacts() {
+      List<Artifact> oppositeArtifacts = new ArrayList<Artifact>();
+      for (RelationLink link : artifact.getRelationsAll(DeletionFlag.EXCLUDE_DELETED)) {
+         if (link.getRelationType().getName().equals(relationTypeName)) {
+            if (link.getAArtifactId() == artifactId) {
+               oppositeArtifacts.add(link.getArtifactB());
+            } else {
+               oppositeArtifacts.add(link.getArtifactA());
+
+            }
+         }
+      }
+      return oppositeArtifacts;
+   }
+
+   public long getArtifactId() {
+      return artifactId;
+   }
+
    @Override
    public int hashCode() {
       final int prime = 31;
@@ -72,11 +91,5 @@ public class ArtifactExplorerLinkNode {
       return true;
    }
 
-   public List<Artifact> getOppositeArtifacts() {
-      List<Artifact> oppositeArtifacts = new ArrayList<>();
-      RelationTypeSide relationSide =
-         new RelationTypeSide(relationType, parentIsOnSideA ? RelationSide.SIDE_B : RelationSide.SIDE_A);
-      oppositeArtifacts.addAll(artifact.getRelatedArtifacts(relationSide, DeletionFlag.EXCLUDE_DELETED));
-      return oppositeArtifacts;
    }
 }

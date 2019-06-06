@@ -19,17 +19,17 @@ import org.eclipse.osee.framework.core.data.IRelationType;
  */
 public class CriteriaRelation extends CriteriaArtifact {
 
-   private final Collection<Integer> ids;
+   private final Collection<Long> ids;
    private final Collection<? extends IRelationType> types;
 
-   public CriteriaRelation(Collection<Integer> ids, Collection<? extends IRelationType> types) {
+   public CriteriaRelation(Collection<Long> ids, Collection<? extends IRelationType> types) {
       super();
       this.ids = ids;
       this.types = types;
    }
 
-   public Collection<Integer> getIds() {
-      return ids != null ? ids : Collections.<Integer> emptyList();
+   public Collection<Long> getIds() {
+      return ids != null ? ids : Collections.<Long> emptyList();
    }
 
    public Collection<? extends IRelationType> getTypes() {

@@ -59,13 +59,13 @@ public interface DataLoader extends Loader {
 
    //////////// IDS
 
-   DataLoader withAttributeIds(int... attributeIds);
+   DataLoader withAttributeIds(long... attributeIds);
 
-   DataLoader withAttributeIds(Collection<Integer> attributeIds);
+   DataLoader withAttributeIds(Collection<Long> attributeIds);
 
-   DataLoader withRelationIds(int... relationIds);
+   DataLoader withRelationIds(long... relationIds);
 
-   DataLoader withRelationIds(Collection<Integer> relationIds);
+   DataLoader withRelationIds(Collection<Long> relationIds);
 
    ///////// TYPES
 

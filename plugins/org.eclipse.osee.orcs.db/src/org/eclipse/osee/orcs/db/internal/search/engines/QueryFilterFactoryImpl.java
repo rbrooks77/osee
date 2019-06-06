@@ -141,7 +141,7 @@ public class QueryFilterFactoryImpl implements QueryFilterFactory {
             public void run() {
                try {
                   boolean isEndOfQueue = false;
-                  Map<Integer, CriteriaMatchTracker> artIdToCriteriaTracker = Maps.newHashMap();
+                  Map<Long, CriteriaMatchTracker> artIdToCriteriaTracker = Maps.newHashMap();
                   while (!isEndOfQueue) {
                      Set<AttributeData> toProcess = new HashSet<>();
                      AttributeData entry = dataToProcess.take();
@@ -162,7 +162,7 @@ public class QueryFilterFactoryImpl implements QueryFilterFactory {
                         }
                      }
                   }
-                  for (Entry<Integer, CriteriaMatchTracker> e : artIdToCriteriaTracker.entrySet()) {
+                  for (Entry<Long, CriteriaMatchTracker> e : artIdToCriteriaTracker.entrySet()) {
                      // matched all criteria
                      CriteriaMatchTracker tracker = e.getValue();
                      tracker.finish(handler);
@@ -225,7 +225,7 @@ public class QueryFilterFactoryImpl implements QueryFilterFactory {
 
       private final Consumer consumer;
 
-      private final Set<Integer> acceptedArtIds = new ConcurrentSkipListSet<>();
+      private final Set<Long> acceptedArtIds = new ConcurrentSkipListSet<>();
 
       public AttributeDataProducer(LoadDataBuffer buffer, LoadDataHandler handler, Consumer consumer) {
          super(handler, buffer);
@@ -258,7 +258,7 @@ public class QueryFilterFactoryImpl implements QueryFilterFactory {
          super.onData(data, match);
       }
 
-      private void forwardArtifacts(int artifactId) {
+      private void forwardArtifacts(long artifactId) {
          LoadDataBuffer buffer = getBuffer();
          LoadDataHandler handler = getHandler();
          if (handler != null) {
@@ -285,7 +285,7 @@ public class QueryFilterFactoryImpl implements QueryFilterFactory {
          // Ensure all data required by the artifact is forwarded to the handler
          // This needs to be done in order to avoid missing relation data
          // coming in after the artifact data has been forwarded.
-         for (int artifactId : acceptedArtIds) {
+         for (long artifactId : acceptedArtIds) {
             forwardArtifacts(artifactId);
          }
       }

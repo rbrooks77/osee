@@ -22,7 +22,7 @@ import org.eclipse.osee.framework.skynet.core.artifact.Artifact;
 public abstract class AccessObject implements HasBranch {
    public abstract void removeFromCache();
 
-   public abstract void removeFromDatabase(int subjectId);
+   public abstract void removeFromDatabase(long subjectId);
 
    public static AccessObject getAccessObject(Object object) {
       if (object instanceof Artifact) {

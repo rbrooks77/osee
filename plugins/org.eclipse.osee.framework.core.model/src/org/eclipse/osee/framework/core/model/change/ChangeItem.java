@@ -175,28 +175,16 @@ public class ChangeItem implements Comparable<ChangeItem> {
       if (this == obj) {
          return true;
       }
-      if (!(obj instanceof ChangeItem)) {
+      if (obj == null) {
          return false;
       }
-
-      ChangeItem other = (ChangeItem) obj;
-
+      if (getClass() != obj.getClass()) {
       if (itemId.notEqual(other.itemId)) {
-         return false;
-      }
       if (artId.notEqual(other.artId)) {
          return false;
       }
-      if (currentVersion == null) {
-         if (other.currentVersion != null) {
-            return false;
-         }
-      } else {
-         if (!currentVersion.equals(other.currentVersion)) {
-            return false;
-         }
-      }
       if (itemTypeId.notEqual(other.itemTypeId)) {
+      if (itemId != other.itemId) {
          return false;
       }
       return true;
@@ -267,7 +255,7 @@ public class ChangeItem implements Comparable<ChangeItem> {
 
    @Override
    public int hashCode() {
-      return itemId.getId().hashCode();
+      return itemId.hashCode();
    }
 
    public boolean isDeleted() {

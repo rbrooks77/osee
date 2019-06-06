@@ -199,7 +199,7 @@ public class ArtifactTypeManager {
                DeletionFlag.INCLUDE_DELETED));
          }
          if (artifacts.size() > 0) {
-            HashMap<Integer, Artifact> artifactMap = new HashMap<>();
+            HashMap<Long, Artifact> artifactMap = new HashMap<>();
             for (Artifact artifact : artifacts) {
                artifactMap.put(artifact.getArtId(), artifact);
             }

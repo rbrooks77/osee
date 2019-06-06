@@ -17,20 +17,20 @@ import org.junit.Test;
 
 /**
  * Test Case For {@link AssociatedArtifactField}
- * 
+ *
  * @author Roberto E. Escobar
  */
 public class AssociatedArtifactFieldTest {
 
-   private static Integer art1;
-   private static Integer art2;
+   private static Long art1;
+   private static Long art2;
 
    //   private static IBasicArtifact<?> art3;
 
    @BeforeClass
    public static void prepareTest() {
-      art1 = 123432;
-      art2 = 345421;
+      art1 = 123432L;
+      art2 = 345421L;
       //      art3 = MockDataFactory.createArtifact(3);
    }
 

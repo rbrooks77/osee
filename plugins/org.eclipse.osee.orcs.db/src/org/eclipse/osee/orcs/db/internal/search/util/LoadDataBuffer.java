@@ -28,9 +28,9 @@ import org.eclipse.osee.orcs.core.ds.RelationData;
  */
 public class LoadDataBuffer {
 
-   private final Map<Integer, ArtifactData> artifacts;
-   private final Multimap<Integer, AttributeData<?>> attributes;
-   private final Multimap<Integer, RelationData> relations;
+   private final Map<Long, ArtifactData> artifacts;
+   private final Multimap<Long, AttributeData<?>> attributes;
+   private final Multimap<Long, RelationData> relations;
 
    public LoadDataBuffer(int initialSize) {
       artifacts = new LinkedHashMap<>(initialSize);
@@ -63,7 +63,7 @@ public class LoadDataBuffer {
       }
    }
 
-   public ArtifactData removeArtifactByArtId(int artifactId) {
+   public ArtifactData removeArtifactByArtId(long artifactId) {
       ArtifactData art = null;
       synchronized (artifacts) {
          art = artifacts.remove(artifactId);
@@ -71,7 +71,7 @@ public class LoadDataBuffer {
       return art;
    }
 
-   public Iterable<AttributeData<?>> removeAttributesByArtId(int artifactId) {
+   public Iterable<AttributeData<?>> removeAttributesByArtId(long artifactId) {
       Collection<AttributeData<?>> data = null;
       synchronized (attributes) {
          data = attributes.removeAll(artifactId);
@@ -79,7 +79,7 @@ public class LoadDataBuffer {
       return data;
    }
 
-   public Iterable<RelationData> removeRelationsByArtId(int artifactId) {
+   public Iterable<RelationData> removeRelationsByArtId(long artifactId) {
       Collection<RelationData> rels = null;
       synchronized (relations) {
          rels = relations.removeAll(artifactId);

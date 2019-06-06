@@ -15,22 +15,22 @@ import org.eclipse.osee.framework.core.model.AbstractOseeField;
 /**
  * @author Roberto E. Escobar
  */
-public class AssociatedArtifactField extends AbstractOseeField<Integer> {
+public class AssociatedArtifactField extends AbstractOseeField<Long> {
 
-   private Integer artId;
+   private Long artId;
 
-   public AssociatedArtifactField(Integer artId) {
+   public AssociatedArtifactField(Long artId) {
       super();
       this.artId = artId;
    }
 
    @Override
-   public Integer get() {
+   public Long get() {
       return artId;
    }
 
    @Override
-   public void set(Integer artId) {
+   public void set(Long artId) {
       boolean wasDifferent = isDifferent(get(), artId);
       if (wasDifferent) {
          this.artId = artId;
@@ -38,7 +38,7 @@ public class AssociatedArtifactField extends AbstractOseeField<Integer> {
       isDirty |= wasDifferent;
    }
 
-   private boolean isDifferent(Integer artId1, Integer artId2) {
+   private boolean isDifferent(Long artId1, Long artId2) {
       if (artId1 == null) {
          if (artId2 == null) {
             return false;

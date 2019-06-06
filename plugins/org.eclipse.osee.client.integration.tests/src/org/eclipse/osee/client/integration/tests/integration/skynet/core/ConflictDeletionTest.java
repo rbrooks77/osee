@@ -21,6 +21,7 @@ import org.eclipse.osee.client.integration.tests.integration.skynet.core.utils.C
 import org.eclipse.osee.client.test.framework.OseeClientIntegrationRule;
 import org.eclipse.osee.framework.core.data.BranchId;
 import org.eclipse.osee.framework.core.data.TransactionId;
+import org.eclipse.osee.framework.core.data.RelationalConstants;
 import org.eclipse.osee.framework.core.enums.CoreRelationTypes;
 import org.eclipse.osee.framework.core.enums.DeletionFlag;
 import org.eclipse.osee.framework.core.enums.TxCurrent;
@@ -377,7 +378,7 @@ public class ConflictDeletionTest {
             while (chStmt.next()) {
                System.out.println(String.format(
                   "      Art Id = %d  Branch Uuid = %d TX_Current = %d mod_type = %d Transaction_id = %d Gamma_id = %d",
-                  chStmt.getInt("art_id"), chStmt.getLong("branch_id"), chStmt.getInt("tx_current"),
+                  chStmt.getLong("art_id"), chStmt.getLong("branch_id"), chStmt.getInt("tx_current"),
                   chStmt.getInt("mod_type"), chStmt.getLong("transaction_id"), chStmt.getLong("gamma_id")));
             }
          }
@@ -395,7 +396,7 @@ public class ConflictDeletionTest {
             while (chStmt.next()) {
                System.out.println(String.format(
                   "        Attribute Id = %d  Art_id = %d Branch Uuid = %d TX_Current = %d mod_type = %d Transaction_id = %d Gamma_id = %s",
-                  chStmt.getInt("attr_id"), chStmt.getInt("art_id"), chStmt.getLong("branch_id"),
+                  chStmt.getInt("attr_id"), chStmt.getLong("art_id"), chStmt.getLong("branch_id"),
                   chStmt.getInt("tx_current"), chStmt.getInt("mod_type"), chStmt.getLong("transaction_id"),
                   chStmt.getLong("gamma_id")));
             }
@@ -414,7 +415,7 @@ public class ConflictDeletionTest {
             while (chStmt.next()) {
                System.out.println(String.format(
                   "        Relation Id = %d  a_art_id = %d b_art_id = %d Branch Uuid = %d TX_Current = %d mod_type = %d Transaction_id = %d Gamma_id = %d",
-                  chStmt.getInt("rel_link_id"), chStmt.getInt("a_art_id"), chStmt.getInt("b_art_id"),
+                  chStmt.getLong("rel_link_id"), chStmt.getLong("a_art_id"), chStmt.getLong("b_art_id"),
                   chStmt.getLong("branch_id"), chStmt.getInt("tx_current"), chStmt.getInt("mod_type"),
                   chStmt.getLong("transaction_id"), chStmt.getLong("gamma_id")));
             }

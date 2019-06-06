@@ -46,7 +46,7 @@ class RelationLoader {
          String sqlQuery = ServiceUtil.getSql(OseeSql.LOAD_RELATIONS);
          chStmt.runPreparedQuery(artifacts.size() * 8, sqlQuery, joinQueryId);
          while (chStmt.next()) {
-            int relationId = chStmt.getInt("rel_link_id");
+            Long relationId = chStmt.getLong("rel_link_id");
             BranchId branch = BranchId.valueOf(chStmt.getLong("branch_id"));
             ArtifactToken aArtifactId = ArtifactToken.valueOf(chStmt.getLong("a_art_id"), branch);
             ArtifactToken bArtifactId = ArtifactToken.valueOf(chStmt.getLong("b_art_id"), branch);

@@ -68,6 +68,9 @@ public class ArtifactTypeEventFilterTest {
       // guidArt in relation matches
       Assert.assertTrue(typeFilter.isMatchRelationArtifacts(relations));
 
+      when(typeProvider.getTypeByGuid(CoreArtifactTypes.AccessControlModel.getGuid())).thenReturn(
+         CoreArtifactTypes.AccessControlModel);
+      when(typeProvider.getTypeByGuid(CoreArtifactTypes.Folder.getGuid())).thenReturn(CoreArtifactTypes.Folder);
       // no art in relation matches
       guidArtA.setArtTypeGuid(CoreArtifactTypes.AccessControlModel);
       guidArtB.setArtTypeGuid(CoreArtifactTypes.Folder);

@@ -92,7 +92,7 @@ public class ArtifactFactoryTest {
       types.add(CoreAttributeTypes.City);
       types.add(CoreAttributeTypes.Annotation);
 
-      when(artifactData.getLocalId()).thenReturn(45);
+      when(artifactData.getLocalId()).thenReturn(45L);
       when(artifactData.getGuid()).thenReturn(guid);
       when(artifactData.getType()).thenReturn(Artifact);
       when(artifactData.getVersion()).thenReturn(artifactVersion);
@@ -101,7 +101,7 @@ public class ArtifactFactoryTest {
 
       when(attributeFactory.copyAttribute(any(), any(), any())).thenReturn(attribute);
 
-      when(otherArtifactData.getLocalId()).thenReturn(45);
+      when(otherArtifactData.getLocalId()).thenReturn(45L);
       when(otherArtifactData.getGuid()).thenReturn(guid);
       when(otherArtifactData.getType()).thenReturn(Artifact);
       when(otherArtifactData.getVersion()).thenReturn(artifactVersion);

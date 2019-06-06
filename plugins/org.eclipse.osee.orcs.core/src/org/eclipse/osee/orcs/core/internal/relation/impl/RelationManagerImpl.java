@@ -501,7 +501,7 @@ public class RelationManagerImpl implements RelationManager {
       relation.setApplicabilityId(applicId);
    }
 
-   private Relation findRelationByLocalId(RelationNodeAdjacencies adjacencies, Integer id) {
+   private Relation findRelationByLocalId(RelationNodeAdjacencies adjacencies, Long id) {
       for (Relation rel : adjacencies.getAll()) {
          if (id.equals(rel.getOrcsData().getLocalId())) {
             return rel;

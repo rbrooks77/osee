@@ -23,11 +23,11 @@ import org.eclipse.osee.framework.core.model.type.RelationType;
  */
 public class RelationChangeBuilder extends ChangeBuilder {
    private final ArtifactId bArtId;
-   private final int relLinkId;
+   private final long relLinkId;
    private final String rationale;
    private final RelationType relationType;
 
-   public RelationChangeBuilder(BranchId branch, ArtifactTypeId artifactType, GammaId sourceGamma, int artId, TransactionDelta txDelta, ModificationType modType, ArtifactId bArtId, int relLinkId, String rationale, RelationType relationType, boolean isHistorical) {
+   public RelationChangeBuilder(BranchId branch, ArtifactTypeId artifactType, GammaId sourceGamma, long artId, TransactionDelta txDelta, ModificationType modType, ArtifactId bArtId, long relLinkId, String rationale, RelationType relationType, boolean isHistorical) {
       super(branch, artifactType, sourceGamma, artId, txDelta, modType, isHistorical);
       this.bArtId = bArtId;
       this.relLinkId = relLinkId;
@@ -39,7 +39,7 @@ public class RelationChangeBuilder extends ChangeBuilder {
       return bArtId;
    }
 
-   public int getRelLinkId() {
+   public long getRelLinkId() {
       return relLinkId;
    }
 

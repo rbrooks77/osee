@@ -12,6 +12,7 @@ package org.eclipse.osee.orcs.db.internal.loader.executors;
 
 import java.util.Collection;
 import org.eclipse.osee.framework.core.data.ArtifactId;
+import org.eclipse.osee.framework.core.data.Branch;
 import org.eclipse.osee.framework.core.data.BranchId;
 import org.eclipse.osee.framework.core.data.TransactionId;
 import org.eclipse.osee.framework.core.executor.HasCancellation;
@@ -24,7 +25,6 @@ import org.eclipse.osee.orcs.db.internal.loader.LoadSqlContext;
 import org.eclipse.osee.orcs.db.internal.loader.LoadUtil;
 import org.eclipse.osee.orcs.db.internal.loader.SqlObjectLoader;
 import org.eclipse.osee.orcs.db.internal.loader.criteria.CriteriaOrcsLoad;
-import org.eclipse.osee.orcs.db.internal.sql.join.CharJoinQuery;
 import org.eclipse.osee.orcs.db.internal.sql.join.Id4JoinQuery;
 import org.eclipse.osee.orcs.db.internal.sql.join.SqlJoinFactory;
 
@@ -33,20 +33,17 @@ import org.eclipse.osee.orcs.db.internal.sql.join.SqlJoinFactory;
  */
 public class UuidsLoadExecutor extends AbstractLoadExecutor {
 
-   private static final String GUIDS_TO_IDS =
-      "SELECT art.art_id FROM osee_join_char_id jid, osee_artifact art WHERE jid.query_id = ? AND jid.id = art.guid";
-
    private final SqlJoinFactory joinFactory;
    private final OrcsSession session;
    private final BranchId branch;
-   private final Collection<String> artifactIds;
+   private final Collection<Long> artifactIds;
 
-   public UuidsLoadExecutor(SqlObjectLoader loader, JdbcClient jdbcClient, SqlJoinFactory joinFactory, OrcsSession session, BranchId branch, Collection<String> artifactIds) {
+   public UuidsLoadExecutor(SqlObjectLoader loader, JdbcClient jdbcClient, SqlJoinFactory joinFactory, OrcsSession session, Branch branch, Collection<Long> uuids) {
       super(loader, jdbcClient);
       this.joinFactory = joinFactory;
       this.session = session;
       this.branch = branch;
-      this.artifactIds = artifactIds;
+      this.artifactIds = uuids;
    }
 
    @Override
@@ -61,17 +58,12 @@ public class UuidsLoadExecutor extends AbstractLoadExecutor {
    }
 
    private Id4JoinQuery createIdJoin(JdbcClient jdbcClient, Options options) {
-      Id4JoinQuery toReturn = joinFactory.createId4JoinQuery();
+      Id4JoinQuery id4Join = joinFactory.createId4JoinQuery();
+      TransactionId transactionId = OptionsUtil.getFromTransaction(options);
 
-      try (CharJoinQuery guidJoin = joinFactory.createCharJoinQuery()) {
-         guidJoin.addAndStore(artifactIds);
-         TransactionId transactionId = OptionsUtil.getFromTransaction(options);
-
-         getJdbcClient().runQuery(stmt -> {
-            Integer artId = stmt.getInt("art_id");
-            toReturn.add(branch, ArtifactId.valueOf(artId), transactionId);
-         }, artifactIds.size(), GUIDS_TO_IDS, guidJoin.getQueryId());
+      for (long artId : artifactIds) {
+         id4Join.add(branch, ArtifactId.valueOf(artId), transactionId);
       }
-      return toReturn;
+      return id4Join;
    }
 }

@@ -171,12 +171,12 @@ public class DoorsArtifactExtractor extends AbstractArtifactExtractor {
              * need to modify the HTML so the image references the data stored in the artifact.
              **************************************/
             try {
-               List<Integer> Ids = theArtifact.getAttributeIds(CoreAttributeTypes.ImageContent);
+               List<Long> ids = theArtifact.getAttributeIds(CoreAttributeTypes.ImageContent);
                List<String> HTML = theArtifact.getAttributeValues(CoreAttributeTypes.HTMLContent);
                theArtifact.deleteAttributes(CoreAttributeTypes.HTMLContent);
                for (String htmlVal : HTML) {
                   int iCount = 0;
-                  for (Integer imageNumber : Ids) {
+                  for (Long imageNumber : ids) {
                      htmlVal = htmlVal.replaceAll(IMAGE_BASE_NAME + Integer.toString(iCount), imageNumber.toString());
                      iCount++;
                      toReturn = true;

@@ -59,13 +59,13 @@ public class RemoteBasicGuidRelation1 extends RemoteEvent {
    protected String modTypeGuid;
    @XmlElement(required = true)
    protected String branchGuid;
-   protected long relTypeGuid;
-   protected int relationId;
+   protected Long relTypeGuid;
+   protected Long relationId;
    protected int gammaId;
-   protected int artAId;
+   protected Long artAId;
    @XmlElement(required = true)
    protected RemoteBasicGuidArtifact1 artA;
-   protected int artBId;
+   protected long artBId;
    @XmlElement(required = true)
    protected RemoteBasicGuidArtifact1 artB;
    @XmlElement(required = true)
@@ -128,14 +128,14 @@ public class RemoteBasicGuidRelation1 extends RemoteEvent {
    /**
     * Gets the value of the relationId property.
     */
-   public int getRelationId() {
+   public long getRelationId() {
       return relationId;
    }
 
    /**
     * Sets the value of the relationId property.
     */
-   public void setRelationId(int value) {
+   public void setRelationId(Long value) {
       this.relationId = value;
    }
 
@@ -156,14 +156,14 @@ public class RemoteBasicGuidRelation1 extends RemoteEvent {
    /**
     * Gets the value of the artAId property.
     */
-   public int getArtAId() {
+   public long getArtAId() {
       return artAId;
    }
 
    /**
     * Sets the value of the artAId property.
     */
-   public void setArtAId(int value) {
+   public void setArtAId(long value) {
       this.artAId = value;
    }
 
@@ -188,14 +188,14 @@ public class RemoteBasicGuidRelation1 extends RemoteEvent {
    /**
     * Gets the value of the artBId property.
     */
-   public int getArtBId() {
+   public long getArtBId() {
       return artBId;
    }
 
    /**
     * Sets the value of the artBId property.
     */
-   public void setArtBId(int value) {
+   public void setArtBId(long value) {
       this.artBId = value;
    }
 

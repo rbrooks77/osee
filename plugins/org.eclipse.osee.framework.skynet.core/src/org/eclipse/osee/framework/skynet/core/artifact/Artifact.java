@@ -264,7 +264,7 @@ public class Artifact extends NamedIdBase implements ArtifactToken, Adaptable, F
       return objs;
    }
 
-   public final int getArtId() {
+   public final Long getArtId() {
       return getId().intValue();
    }
 
@@ -343,11 +343,11 @@ public class Artifact extends NamedIdBase implements ArtifactToken, Adaptable, F
       return null;
    }
 
-   public final List<Integer> getAttributeIds(AttributeTypeId attributeType) {
-      List<Integer> items = new ArrayList<>();
+   public final List<Long> getAttributeIds(AttributeTypeId attributeType) {
+      List<Long> items = new ArrayList<>();
       List<Attribute<Object>> data = getAttributes(attributeType);
       for (Attribute<Object> attribute : data) {
-         items.add(attribute.getId().intValue());
+         Long value = new Long(attribute.getId());
       }
       return items;
    }
@@ -519,7 +519,7 @@ public class Artifact extends NamedIdBase implements ArtifactToken, Adaptable, F
       return attribute;
    }
 
-   public final <T> Attribute<T> internalInitializeAttribute(AttributeTypeId attributeType, int attributeId, GammaId gammaId, ModificationType modificationType, ApplicabilityId applicabilityId, boolean markDirty, Object... data) {
+   public final <T> Attribute<T> internalInitializeAttribute(AttributeTypeId attributeType, long attributeId, GammaId gammaId, ModificationType modificationType, ApplicabilityId applicabilityId, boolean markDirty, Object... data) {
       return internalInitializeAttribute(attributeType, AttributeId.valueOf(attributeId), gammaId, modificationType,
          applicabilityId, markDirty, data);
    }
@@ -647,8 +647,8 @@ public class Artifact extends NamedIdBase implements ArtifactToken, Adaptable, F
 
    private <T> Attribute<T> getOrCreateSoleAttribute(AttributeTypeId attributeType) {
       if (!isAttributeTypeValid(attributeType)) {
-         throw new OseeArgumentException("The attribute type %s is not valid for artifacts of type [%s]", attributeType,
-            getArtifactTypeName());
+         throw new OseeArgumentException("The attribute type %s is not valid for artifacts of type [%s]",
+            attributeType, getArtifactTypeName());
       }
       Attribute<T> attribute = getSoleAttribute(attributeType);
       if (attribute == null) {
@@ -1271,6 +1271,7 @@ public class Artifact extends NamedIdBase implements ArtifactToken, Adaptable, F
     * <b>transaction.execute();</b>
     * ...
     * </pre>
+    *
     * </p>
     */
    public final void persist(SkynetTransaction managedTransaction) {
@@ -1524,8 +1525,7 @@ public class Artifact extends NamedIdBase implements ArtifactToken, Adaptable, F
 
    private void copyAttributes(Artifact artifact, Collection<AttributeTypeId> excludeAttributeTypes) {
       for (Attribute<?> attribute : getAttributes()) {
-         if (!excludeAttributeTypes.contains(attribute.getAttributeType()) && isCopyAllowed(
-            attribute) && artifact.isAttributeTypeValid(attribute.getAttributeType())) {
+         if (!excludeAttributeTypes.contains(attribute.getAttributeType()) && isCopyAllowed(attribute) && artifact.isAttributeTypeValid(attribute.getAttributeType())) {
             artifact.addAttribute(attribute.getAttributeType(), attribute.getValue());
          }
       }
@@ -1605,8 +1605,17 @@ public class Artifact extends NamedIdBase implements ArtifactToken, Adaptable, F
    }
 
    private static final Pattern safeNamePattern = Pattern.compile("[^A-Za-z0-9 ]");
-   private static final String[] NUMBER =
-      new String[] {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"};
+   private static final String[] NUMBER = new String[] {
+      "Zero",
+      "One",
+      "Two",
+      "Three",
+      "Four",
+      "Five",
+      "Six",
+      "Seven",
+      "Eight",
+   "Nine"};
 
    /**
     * Since artifact names are free text it is important to reformat the name to ensure it is suitable as an element

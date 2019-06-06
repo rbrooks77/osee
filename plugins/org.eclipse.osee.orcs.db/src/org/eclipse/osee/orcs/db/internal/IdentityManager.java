@@ -20,11 +20,11 @@ public interface IdentityManager extends IdentityLocator {
 
    TransactionId getNextTransactionId();
 
-   int getNextArtifactId();
+   long getNextArtifactId();
 
-   int getNextAttributeId();
+   long getNextAttributeId();
 
-   int getNextRelationId();
+   long getNextRelationId();
 
    GammaId getNextGammaId();
 

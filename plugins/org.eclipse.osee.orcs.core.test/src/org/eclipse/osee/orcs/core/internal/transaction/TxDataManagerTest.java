@@ -412,9 +412,9 @@ public class TxDataManagerTest {
       when(proxyManager.asExternalArtifact(session, artifact2)).thenReturn(readable2);
 
       ArtifactData data = Mockito.mock(ArtifactData.class);
-      when(artifact1.getOrcsData()).thenReturn(data);
       when(artifact2.getOrcsData()).thenReturn(data);
       when(data.isExistingVersionUsed()).thenReturn(false);
+      when(artifact2.getUuid()).thenReturn(9837834587623L);
 
       ArtifactReadable actual = txDataManager.copyArtifact(txDataReal, COMMON, readable1);
 
@@ -451,13 +451,14 @@ public class TxDataManagerTest {
       when(data.getVersion()).thenReturn(version);
       when(version.getBranch()).thenReturn(COMMON);
 
-      when(data.getLocalId()).thenReturn(-1);
+      when(data.getLocalId()).thenReturn(-1L);
       Artifact sourceArtifact = Mockito.spy(new ArtifactImpl(null, data, null));
 
       when(data.getId()).thenReturn(artifactId2.getId());
       when(data.getLocalId()).thenReturn(artifactId2.getId().intValue());
       List<AttributeTypeToken<?>> copyTypes = Arrays.asList(CoreAttributeTypes.Active, CoreAttributeTypes.Name);
       when(sourceArtifact.getExistingAttributeTypes()).thenAnswer(answerValue(copyTypes));
+      when(sourceArtifact.getLocalId()).thenReturn(234579082L);
 
       when(artifact2.getOrcsData()).thenReturn(data);
       when(data.isExistingVersionUsed()).thenReturn(false);
@@ -480,10 +481,10 @@ public class TxDataManagerTest {
       when(proxyManager.asExternalArtifact(session, artifact2)).thenReturn(readable2);
 
       ArtifactData data = Mockito.mock(ArtifactData.class);
-      when(data.getLocalId()).thenReturn(-1);
-      when(artifact1.getOrcsData()).thenReturn(data);
+      when(data.getLocalId()).thenReturn(-1L);
       when(artifact2.getOrcsData()).thenReturn(data);
       when(data.isExistingVersionUsed()).thenReturn(false);
+      when(artifact2.getUuid()).thenReturn(9837834587623L);
 
       ArtifactReadable actual = txDataManager.copyArtifact(txDataReal, COMMON, artifactId1);
 

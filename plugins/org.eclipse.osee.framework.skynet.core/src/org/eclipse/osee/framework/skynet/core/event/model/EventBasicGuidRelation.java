@@ -23,8 +23,8 @@ import org.eclipse.osee.framework.skynet.core.relation.RelationEventType;
 public class EventBasicGuidRelation extends DefaultBasicIdRelation {
 
    private final RelationEventType relationEventType;
-   private final int artAId;
-   private final int artBId;
+   private final long artAId;
+   private final long artBId;
    private String rationale;
 
    public EventBasicGuidRelation(RelationEventType relationEventType, ArtifactId artAId, ArtifactId artBId, DefaultBasicIdRelation guidRel) {
@@ -33,7 +33,7 @@ public class EventBasicGuidRelation extends DefaultBasicIdRelation {
          guidRel.getArtB());
    }
 
-   public EventBasicGuidRelation(RelationEventType relationEventType, BranchId branchUuid, Long relTypeGuid, int relationId, GammaId gammaId, int artAId, DefaultBasicGuidArtifact artA, int artBId, DefaultBasicGuidArtifact artB) {
+   public EventBasicGuidRelation(RelationEventType relationEventType, BranchId branchUuid, Long relTypeGuid, long relationId, GammaId gammaId, long artAId, DefaultBasicGuidArtifact artA, long artBId, DefaultBasicGuidArtifact artB) {
       super(branchUuid, relTypeGuid, relationId, gammaId, artA, artB);
       this.relationEventType = relationEventType;
       this.artAId = artAId;
@@ -50,15 +50,17 @@ public class EventBasicGuidRelation extends DefaultBasicIdRelation {
          getBranch().getIdString(), getBranch().getIdString(), getGammaId(), getRelationId(), getArtA(), getArtB());
    }
 
+   public long getArtAId() {
+      return artAId;
+   }
+
    @Override
    public int hashCode() {
       final int prime = 31;
       int result = super.hashCode();
-      result = prime * result + (relationEventType == null ? 0 : relationEventType.hashCode());
-      result = prime * result + artAId;
-      result = prime * result + (getArtA() == null ? 0 : getArtA().hashCode());
-      result = prime * result + artBId;
-      result = prime * result + (getArtB() == null ? 0 : getArtB().hashCode());
+      result = prime * result + (int) (artAId ^ (artAId >>> 32));
+      result = prime * result + (int) (artBId ^ (artBId >>> 32));
+      result = prime * result + ((relationEventType == null) ? 0 : relationEventType.hashCode());
       return result;
    }
 
@@ -74,41 +76,19 @@ public class EventBasicGuidRelation extends DefaultBasicIdRelation {
          return false;
       }
       EventBasicGuidRelation other = (EventBasicGuidRelation) obj;
-      if (relationEventType == null) {
-         if (other.relationEventType != null) {
-            return false;
-         }
-      } else if (!relationEventType.equals(other.relationEventType)) {
-         return false;
-      }
       if (artAId != other.artAId) {
-         return false;
-      }
-      if (getArtA() == null) {
-         if (other.getArtA() != null) {
-            return false;
-         }
-      } else if (!getArtA().equals(other.getArtA())) {
          return false;
       }
       if (artBId != other.artBId) {
          return false;
       }
-      if (getArtB() == null) {
-         if (other.getArtB() != null) {
-            return false;
-         }
-      } else if (!getArtB().equals(other.getArtB())) {
+      if (relationEventType != other.relationEventType) {
          return false;
       }
       return true;
    }
 
-   public int getArtAId() {
-      return artAId;
-   }
-
-   public int getArtBId() {
+   public long getArtBId() {
       return artBId;
    }
 

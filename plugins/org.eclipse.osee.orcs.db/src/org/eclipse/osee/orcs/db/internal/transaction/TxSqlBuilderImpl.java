@@ -138,7 +138,7 @@ public class TxSqlBuilderImpl implements OrcsVisitor, TxSqlBuilder {
             binaryStores.add(dataProxy);
 
             if (RelationalConstants.DEFAULT_ITEM_ID == data.getLocalId()) {
-               int id = idManager.getNextAttributeId();
+               long id = idManager.getNextAttributeId();
                data.setLocalId(id);
             }
             addRow(SqlOrderEnum.ATTRIBUTES, data.getLocalId(), data.getType(), data.getVersion().getGammaId(),
@@ -219,7 +219,7 @@ public class TxSqlBuilderImpl implements OrcsVisitor, TxSqlBuilder {
          if (!reuseGamma && !data.getDirtyState().isApplicOnly()) {
             updateGamma(data);
             if (RelationalConstants.DEFAULT_ITEM_ID == data.getLocalId()) {
-               int id = idManager.getNextRelationId();
+               long id = idManager.getNextRelationId();
                data.setLocalId(id);
             }
             addRow(SqlOrderEnum.RELATIONS, data.getLocalId(), data.getType(), data.getVersion().getGammaId(),

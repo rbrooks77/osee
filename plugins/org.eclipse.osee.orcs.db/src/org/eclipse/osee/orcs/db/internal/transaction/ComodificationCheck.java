@@ -59,20 +59,20 @@ public class ComodificationCheck implements TransactionProcessor {
 
    private final class OnLoadChecker extends LoadDataHandlerAdapter implements OrcsVisitor {
 
-      private final Map<Integer, ArtifactData> artifacts = new HashMap<>();
-      private final Map<Integer, AttributeData> attributes = new HashMap<>();
-      private final Map<Integer, RelationData> relations = new HashMap<>();
+      private final Map<Long, ArtifactData> artifacts = new HashMap<>();
+      private final Map<Long, AttributeData> attributes = new HashMap<>();
+      private final Map<Long, RelationData> relations = new HashMap<>();
       private final Map<Integer, TupleData> tuples = new HashMap<>();
 
-      public Collection<Integer> getArtifactIds() {
+      public Collection<Long> getArtifactIds() {
          return artifacts.keySet();
       }
 
-      public Collection<Integer> getAttributeIds() {
+      public Collection<Long> getAttributeIds() {
          return attributes.keySet();
       }
 
-      public Collection<Integer> getRelationIds() {
+      public Collection<Long> getRelationIds() {
          return relations.keySet();
       }
 
@@ -88,7 +88,7 @@ public class ComodificationCheck implements TransactionProcessor {
       @Override
       public void visit(ArtifactData data) {
          if (data.getVersion().isInStorage()) {
-            artifacts.put(data.getLocalId(), data);
+            artifacts.put((long) data.getLocalId(), data);
          }
       }
 

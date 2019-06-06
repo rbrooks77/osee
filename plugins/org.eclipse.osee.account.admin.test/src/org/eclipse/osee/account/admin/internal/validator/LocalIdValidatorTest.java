@@ -23,7 +23,7 @@ public class LocalIdValidatorTest extends AbstractValidatorTest<LocalIdValidator
    private static final String INVALID_LOCALID = "12 31 asd";
 
    public LocalIdValidatorTest() {
-      super(AccountField.LOCAL_ID, VALID_LOCALID, INVALID_LOCALID);
+      super(AccountField.ID, VALID_LOCALID, INVALID_LOCALID);
    }
 
    @Override

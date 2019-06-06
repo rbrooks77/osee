@@ -44,18 +44,18 @@ import org.eclipse.osee.jdbc.JdbcStatement;
  * @author Jeff C. Phillips
  */
 public class AttributeChangeAcquirer extends ChangeAcquirer {
-   private final Map<Integer, ChangeBuilder> attributesWasValueCache = new HashMap<>();
+   private final Map<Long, ChangeBuilder> attributesWasValueCache = new HashMap<>();
    private int previousAttrId = -1;
 
-   public AttributeChangeAcquirer(BranchId sourceBranch, TransactionToken transactionId, IProgressMonitor monitor, Artifact specificArtifact, Set<Integer> artIds, ArrayList<ChangeBuilder> changeBuilders, Set<Integer> newAndDeletedArtifactIds) {
+   public AttributeChangeAcquirer(BranchId sourceBranch, TransactionToken transactionId, IProgressMonitor monitor, Artifact specificArtifact, Set<Long> artIds, ArrayList<ChangeBuilder> changeBuilders, Set<Long> newAndDeletedArtifactIds) {
       super(sourceBranch, transactionId, monitor, specificArtifact, artIds, changeBuilders, newAndDeletedArtifactIds);
    }
 
    @Override
    public ArrayList<ChangeBuilder> acquireChanges() {
 
-      Map<Integer, ModificationType> artModTypes = new HashMap<>();
-      Set<Integer> modifiedArtifacts = new HashSet<>();
+      Map<Long, ModificationType> artModTypes = new HashMap<>();
+      Set<Long> modifiedArtifacts = new HashSet<>();
       JdbcStatement chStmt = ConnectionHandler.getStatement();
       boolean hasBranch = getSourceBranch() != null;
       long time = System.currentTimeMillis();
@@ -101,7 +101,7 @@ public class AttributeChangeAcquirer extends ChangeAcquirer {
       return getChangeBuilders();
    }
 
-   private void loadIsValues(BranchId sourceBranch, Set<Integer> artIds, ArrayList<ChangeBuilder> changeBuilders, Set<Integer> newAndDeletedArtifactIds, IProgressMonitor monitor, Map<Integer, ChangeBuilder> attributesWasValueCache, Map<Integer, ModificationType> artModTypes, Set<Integer> modifiedArtifacts, JdbcStatement chStmt, boolean hasBranch, long time, TransactionToken fromTransactionId, TransactionToken toTransactionId, boolean hasSpecificArtifact) {
+   private void loadIsValues(BranchId sourceBranch, Set<Long> artIds, ArrayList<ChangeBuilder> changeBuilders, Set<Long> newAndDeletedArtifactIds, IProgressMonitor monitor, Map<Long, ChangeBuilder> attributesWasValueCache, Map<Long, ModificationType> artModTypes, Set<Long> modifiedArtifacts, JdbcStatement chStmt, boolean hasBranch, long time, TransactionToken fromTransactionId, TransactionToken toTransactionId, boolean hasSpecificArtifact) {
       ModificationType artModType;
       AttributeChangeBuilder attributeChangeBuilder;
 
@@ -109,8 +109,8 @@ public class AttributeChangeAcquirer extends ChangeAcquirer {
          TransactionDelta txDelta = new TransactionDelta(fromTransactionId, toTransactionId);
 
          while (chStmt.next()) {
-            int attrId = chStmt.getInt("attr_id");
-            int artId = chStmt.getInt("art_id");
+            long attrId = chStmt.getLong("attr_id");
+            long artId = chStmt.getLong("art_id");
             GammaId sourceGamma = GammaId.valueOf(chStmt.getLong("gamma_id"));
             AttributeTypeToken attributeType = AttributeTypeManager.getTypeById(chStmt.getLong("attr_type_id"));
             ArtifactTypeId artifactType = ArtifactTypeManager.getType(chStmt.getLong("art_type_id"));
@@ -159,7 +159,7 @@ public class AttributeChangeAcquirer extends ChangeAcquirer {
       }
    }
 
-   private void loadAttributeWasValues(BranchId sourceBranch, TransactionToken transactionId, Set<Integer> artIds, IProgressMonitor monitor, Map<Integer, ChangeBuilder> attributesWasValueCache, boolean hasBranch) {
+   private void loadAttributeWasValues(BranchId sourceBranch, TransactionToken transactionId, Set<Long> artIds, IProgressMonitor monitor, Map<Long, ChangeBuilder> attributesWasValueCache, boolean hasBranch) {
       if (!artIds.isEmpty()) {
          Id sqlParamter; // Will either be a branch uuid or transaction id
          BranchId wasValueBranch;
@@ -176,7 +176,7 @@ public class AttributeChangeAcquirer extends ChangeAcquirer {
          }
 
          try (Id4JoinQuery joinQuery = JoinUtility.createId4JoinQuery()) {
-            for (int artId : artIds) {
+            for (long artId : artIds) {
                joinQuery.add(wasValueBranch, ArtifactId.valueOf(artId), TransactionId.SENTINEL,
                   wasValueBranch.getViewId());
             }

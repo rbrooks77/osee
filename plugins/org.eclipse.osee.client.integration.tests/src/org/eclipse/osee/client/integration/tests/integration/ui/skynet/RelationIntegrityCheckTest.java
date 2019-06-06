@@ -132,14 +132,14 @@ public class RelationIntegrityCheckTest {
          while (chStmt.next()) {
             GammaId gammaId = GammaId.valueOf(chStmt.getLong("gamma_id"));
             Long transactionId = chStmt.getLong("transaction_id");
-            int relationId = chStmt.getInt("rel_link_id");
+            Long relationId = chStmt.getLong("rel_link_id");
             BranchId branch = BranchId.valueOf(chStmt.getLong("branch_id"));
-            int a_sideArtifactId = chStmt.getInt("a_art_id");
-            int b_sideArtifactId = chStmt.getInt("b_art_id");
-            int deletedTransaction = chStmt.getInt("deleted_tran");
+            Long a_sideArtifactId = chStmt.getLong("a_art_id");
+            Long b_sideArtifactId = chStmt.getLong("b_art_id");
+            Long deletedTransaction = chStmt.getLong("deleted_tran");
 
             //note: aliased column only present in RelationIntegrityCheck.DELETED_ARTIFACTS_QUERY
-            int commitTransId = chStmt.getInt("commit_trans_art_id");
+            Long commitTransId = chStmt.getLong("commit_trans_art_id");
             int modType = chStmt.getInt("creating_trans_mod_type");
 
             if (!map.containsKey(gammaId.getId(), transactionId)) {

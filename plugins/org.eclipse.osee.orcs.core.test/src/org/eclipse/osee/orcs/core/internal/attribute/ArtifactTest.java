@@ -100,7 +100,7 @@ public class ArtifactTest {
       when(artifactData.getGuid()).thenReturn(guid);
       when(artifactData.getVersion()).thenReturn(version);
       when(artifactData.getType()).thenReturn(artifactType);
-      when(artifactData.getLocalId()).thenReturn(0);
+      when(artifactData.getLocalId()).thenReturn(0L);
 
       when(deleted.getModificationType()).thenReturn(ModificationType.ARTIFACT_DELETED);
       when(deleted.isDeleted()).thenReturn(true);

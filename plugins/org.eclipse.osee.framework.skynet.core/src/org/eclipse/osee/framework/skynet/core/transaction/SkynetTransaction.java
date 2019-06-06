@@ -101,8 +101,8 @@ public final class SkynetTransaction extends TransactionOperation<BranchId> {
       return AttributeId.valueOf(ConnectionHandler.getNextSequence(ATTR_ID_SEQ, true));
    }
 
-   private int getNewRelationId() {
-      return (int) ConnectionHandler.getNextSequence(REL_LINK_ID_SEQ, true);
+   private Long getNewRelationId() {
+      return ConnectionHandler.getNextSequence(REL_LINK_ID_SEQ, true);
    }
 
    private User getAuthor() {

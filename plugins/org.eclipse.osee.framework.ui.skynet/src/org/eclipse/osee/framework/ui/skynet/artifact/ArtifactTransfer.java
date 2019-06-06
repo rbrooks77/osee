@@ -162,7 +162,7 @@ public class ArtifactTransfer extends ByteArrayTransfer {
     * Writes the given resource to the given stream.
     */
    private void writeArtifact(DataOutputStream dataOut, Artifact artifact) throws IOException {
-      dataOut.writeInt(artifact.getArtId());
+      dataOut.writeLong(artifact.getArtId());
       dataOut.writeLong(artifact.getBranch().getId());
    }
 }

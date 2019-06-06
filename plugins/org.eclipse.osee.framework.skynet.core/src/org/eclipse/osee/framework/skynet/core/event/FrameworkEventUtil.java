@@ -281,7 +281,7 @@ public final class FrameworkEventUtil {
 
    public static RemoteAttributeChange1 getRemoteAttributeChange(AttributeChange attrChg) {
       RemoteAttributeChange1 remAttrChg = new RemoteAttributeChange1();
-      remAttrChg.setAttributeId(attrChg.getAttributeId());
+      remAttrChg.setAttributeId((int) attrChg.getAttributeId());
       remAttrChg.setGammaId(attrChg.getGammaId().getIdIntValue());
       remAttrChg.setAttrTypeGuid(attrChg.getAttrTypeGuid());
       remAttrChg.setModTypeGuid(attrChg.getModTypeGuid());

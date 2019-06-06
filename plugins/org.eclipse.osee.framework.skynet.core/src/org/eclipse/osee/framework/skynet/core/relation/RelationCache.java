@@ -101,7 +101,7 @@ public class RelationCache {
    /**
     * Find RelationById Related On ArtA or ArtB
     */
-   public RelationLink getByRelIdOnArtifact(int relLinkId, ArtifactToken artifactA, ArtifactToken artifactB) {
+   public RelationLink getByRelIdOnArtifact(long relLinkId, ArtifactToken artifactA, ArtifactToken artifactB) {
       RelationMatcher relIdMatcher = RelationFilterUtil.createFindFirstRelationLinkIdMatcher(relLinkId);
       List<RelationLink> links = new ArrayList<>();
       findRelations(links, artifactA, relIdMatcher);

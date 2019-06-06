@@ -53,13 +53,13 @@ public class AuthorIdCheck extends DatabaseHealthOperation {
          rd.addRaw(AHTML.beginMultiColumnTable(100, 1));
          rd.addRaw(AHTML.addHeaderRowMultiColumnTable(columnHeaders));
 
-         Set<Integer> authors = new HashSet<>();
+         Set<Long> authors = new HashSet<>();
          JdbcStatement chStmt1 = ConnectionHandler.getStatement();
          try {
             chStmt1.runPreparedQuery(GET_AUTHOR_IDS);
             while (chStmt1.next()) {
                checkForCancelledStatus(monitor);
-               int author = chStmt1.getInt("author");
+               Long author = chStmt1.getLong("author");
                authors.add(author);
             }
          } finally {
@@ -67,9 +67,9 @@ public class AuthorIdCheck extends DatabaseHealthOperation {
          }
          int num = 0;
          StringBuffer infoSb = new StringBuffer(500);
-         for (Integer author : authors) {
+         for (Long author : authors) {
             System.out.println(String.format("Processing [%d] %d/%d...", author, num++, authors.size()));
-            if (author == 0) {
+            if (author.equals(Long.valueOf(0))) {
                rd.addRaw(AHTML.addRowMultiColumnTable("TX_DETAILS", String.valueOf(author),
                   "Warning: Skipping author == 0; this is ok, but may want to change in future"));
                continue;
@@ -110,7 +110,7 @@ public class AuthorIdCheck extends DatabaseHealthOperation {
       }
    }
 
-   private static void updateTxAuthor(int author) throws Exception {
+   private static void updateTxAuthor(Long author) throws Exception {
       ConnectionHandler.runPreparedUpdate(UPDATE_AUTHOR_IDS, SystemUser.OseeSystem, author);
    }
 

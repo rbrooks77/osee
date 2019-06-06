@@ -21,6 +21,6 @@ import org.eclipse.osee.orcs.core.internal.graph.GraphData;
  */
 public interface RelationNodeLoader {
 
-   <T extends Artifact> Iterable<T> loadNodes(OrcsSession session, GraphData graph, Collection<Integer> ids, LoadLevel level);
+   <T extends Artifact> Iterable<T> loadNodes(OrcsSession session, GraphData graph, Collection<Long> ids, LoadLevel level);
 
 }

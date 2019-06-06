@@ -55,7 +55,7 @@ public class RelationNodeLoaderImplTest {
 
    private static final BranchId BRANCH = CoreBranches.COMMON;
    private static final TransactionId TRANSACTION_ID = TransactionId.valueOf(231214214);
-   private static final Collection<Integer> ids = Arrays.asList(4, 5, 6, 7);
+   private static final Collection<Long> ids = Arrays.asList(4L, 5L, 6L, 7L);
 
    private RelationNodeLoaderImpl Artifact;
 

@@ -46,12 +46,12 @@ public class RelationResolverImpl implements RelationResolver {
    public <T extends Artifact> List<T> resolve(OrcsSession session, GraphData graph, List<Relation> links, RelationSide... sides) {
       List<T> toReturn = Collections.emptyList();
       if (!links.isEmpty()) {
-         Set<Integer> toLoad = null;
-         LinkedHashMap<Integer, T> items = new LinkedHashMap<>();
+         Set<Long> toLoad = null;
+         LinkedHashMap<Long, T> items = new LinkedHashMap<>();
          for (Relation relation : links) {
             for (RelationSide side : sides) {
                ArtifactId artifactId = relation.getIdForSide(side);
-               int id = artifactId.getIdIntValue();
+               Long id = artifactId.getId();
                Artifact node = graph.getNode(artifactId);
                if (node == null) {
                   if (toLoad == null) {

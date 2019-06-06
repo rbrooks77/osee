@@ -122,7 +122,7 @@ public class TransactionFactoryImpl implements TransactionFactory {
    }
 
    @Override
-   public boolean replaceWithBaselineTxVersion(UserId userId, BranchId branchId, TransactionId txId, int artId, String comment) {
+   public boolean replaceWithBaselineTxVersion(UserId userId, BranchId branchId, TransactionId txId, Long artId, String comment) {
       boolean introduced = false;
       ArtifactReadable baselineArtifact =
          queryFactory.fromBranch(branchId).fromTransaction(txId).andId(artId).getResults().getOneOrDefault(

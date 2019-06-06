@@ -86,7 +86,7 @@ public class RelationSqlHandler extends SqlHandler<CriteriaRelation> {
       writer.write(".query_id = ?");
       writer.addParameter(criteria.getQueryId());
 
-      Collection<Integer> ids = criteria.getIds();
+      Collection<Long> ids = criteria.getIds();
       if (!ids.isEmpty()) {
          writer.write(" AND ");
          if (ids.size() > 1) {

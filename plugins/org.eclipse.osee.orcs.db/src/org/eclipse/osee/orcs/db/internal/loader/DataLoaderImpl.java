@@ -36,15 +36,14 @@ import org.eclipse.osee.orcs.db.internal.loader.criteria.CriteriaOrcsLoad;
 import org.eclipse.osee.orcs.db.internal.loader.criteria.CriteriaRelation;
 import org.eclipse.osee.orcs.db.internal.loader.executors.AbstractLoadExecutor;
 import org.eclipse.osee.orcs.db.internal.loader.executors.LoadExecutor;
-import org.eclipse.osee.orcs.db.internal.loader.executors.UuidsLoadExecutor;
 import org.eclipse.osee.orcs.db.internal.sql.join.SqlJoinFactory;
 
 public class DataLoaderImpl implements DataLoader {
 
-   private final Collection<Integer> attributeIds = new HashSet<>();
+   private final Collection<Long> attributeIds = new HashSet<>();
    private final Collection<AttributeTypeId> attributeTypes = new HashSet<>();
 
-   private final Collection<Integer> relationIds = new HashSet<>();
+   private final Collection<Long> relationIds = new HashSet<>();
    private final Collection<IRelationType> relationTypes = new HashSet<>();
 
    private final Log logger;
@@ -61,14 +60,9 @@ public class DataLoaderImpl implements DataLoader {
       this.loadExecutor = loadExecutor;
    }
 
-   public DataLoaderImpl(Log logger, Collection<Integer> artifactIds, Options options, OrcsSession session, BranchId branch, SqlObjectLoader sqlLoader, SqlJoinFactory joinFactory) {
+   public DataLoaderImpl(Log logger, Collection<ArtifactId> artifactIds, Options options, OrcsSession session, BranchId branch, SqlObjectLoader sqlLoader, SqlJoinFactory joinFactory) {
       this(logger, options, session, branch, sqlLoader, joinFactory);
       withArtifactIds(artifactIds);
-   }
-
-   public DataLoaderImpl(Log logger, Options options, OrcsSession session, BranchId branch, SqlObjectLoader sqlLoader, Collection<String> artifactIds, SqlJoinFactory joinFactory) {
-      this(logger, options, session, branch, sqlLoader, joinFactory);
-      withArtifactGuids(artifactIds);
    }
 
    private DataLoaderImpl(Log logger, Options options, OrcsSession session, BranchId branch, SqlObjectLoader sqlLoader, SqlJoinFactory joinFactory) {
@@ -184,15 +178,9 @@ public class DataLoaderImpl implements DataLoader {
       return this;
    }
 
-   private DataLoader withArtifactIds(Collection<Integer> artifactIds) {
+   private DataLoader withArtifactIds(Collection<ArtifactId> artifactIds) {
       loadExecutor =
          new LoadExecutor(sqlLoader, sqlLoader.getJdbcClient(), joinFactory, session, branchId, artifactIds);
-      return this;
-   }
-
-   private DataLoader withArtifactGuids(Collection<String> artifactGuids) {
-      loadExecutor =
-         new UuidsLoadExecutor(sqlLoader, sqlLoader.getJdbcClient(), joinFactory, session, branchId, artifactGuids);
       return this;
    }
 
@@ -219,30 +207,30 @@ public class DataLoaderImpl implements DataLoader {
    }
 
    @Override
-   public DataLoader withAttributeIds(int... attributeIds) {
+   public DataLoader withAttributeIds(long... attributeIds) {
       return withAttributeIds(toCollection(attributeIds));
    }
 
    @Override
-   public DataLoader withAttributeIds(Collection<Integer> attributeIds) {
+   public DataLoader withAttributeIds(Collection<Long> attributeIds) {
       this.attributeIds.addAll(attributeIds);
       return this;
    }
 
    @Override
-   public DataLoader withRelationIds(int... relationIds) {
+   public DataLoader withRelationIds(long... relationIds) {
       return withRelationIds(toCollection(relationIds));
    }
 
    @Override
-   public DataLoader withRelationIds(Collection<Integer> relationIds) {
+   public DataLoader withRelationIds(Collection<Long> relationIds) {
       this.relationIds.addAll(relationIds);
       return this;
    }
 
-   private Collection<Integer> toCollection(int... ids) {
-      Set<Integer> toReturn = new HashSet<>();
-      for (Integer id : ids) {
+   private Collection<Long> toCollection(long... ids) {
+      Set<Long> toReturn = new HashSet<>();
+      for (Long id : ids) {
          toReturn.add(id);
       }
       return toReturn;

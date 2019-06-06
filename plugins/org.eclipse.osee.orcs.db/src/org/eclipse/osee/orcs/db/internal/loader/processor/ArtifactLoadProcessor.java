@@ -35,7 +35,7 @@ public class ArtifactLoadProcessor extends LoadProcessor<ArtifactData, ArtifactO
    protected ArtifactData createData(Object conditions, ArtifactObjectFactory factory, JdbcStatement chStmt, Options options) {
       ArtifactData toReturn = null;
 
-      int artifactId = chStmt.getInt("id2");
+      Long artifactId = chStmt.getLong("id2");
       BranchId branch = BranchId.create(chStmt.getLong("branch_id"), OptionsUtil.getFromBranchView(options));
 
       CreateConditions onCreate = asConditions(conditions);
@@ -74,14 +74,14 @@ public class ArtifactLoadProcessor extends LoadProcessor<ArtifactData, ArtifactO
    }
 
    private static final class CreateConditions {
-      int previousArtId = -1;
+      Long previousArtId = -1L;
       BranchId previousBranchId = BranchId.SENTINEL;
 
       boolean isSame(BranchId branch, int artifactId) {
-         return previousBranchId.equals(branch) && previousArtId == artifactId;
+         return previousBranchId.equals(branch) && previousArtId.equals(artifactId);
       }
 
-      void saveConditions(BranchId branch, int artifactId) {
+      void saveConditions(BranchId branch, Long artifactId) {
          previousBranchId = branch;
          previousArtId = artifactId;
       }

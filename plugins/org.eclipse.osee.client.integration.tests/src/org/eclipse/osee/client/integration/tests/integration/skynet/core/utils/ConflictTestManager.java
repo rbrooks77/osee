@@ -368,7 +368,7 @@ public class ConflictTestManager {
    }
 
    public static void resolveAttributeConflict(AttributeConflict conflict) throws Exception {
-      int sourceArtifactId = conflict.getSourceArtifact().getArtId();
+      long sourceArtifactId = conflict.getSourceArtifact().getArtId();
       AttributeTypeId attributeType = conflict.getSourceAttribute(true).getAttributeType();
       AttributeValue aValue = null;
       int artNumber = -1;

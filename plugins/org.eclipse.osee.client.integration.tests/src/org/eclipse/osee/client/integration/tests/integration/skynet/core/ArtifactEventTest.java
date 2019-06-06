@@ -355,7 +355,7 @@ public class ArtifactEventTest {
       return remoteEvent;
    }
 
-   private RemotePersistEvent1 getFakeGeneralDataArtifactRemoteEventForArtifactRelationModified(int relationId, RelationEventType relationEventType, IRelationType relType, Artifact artA, Artifact artB) {
+   private RemotePersistEvent1 getFakeGeneralDataArtifactRemoteEventForArtifactRelationModified(long relationId, RelationEventType relationEventType, IRelationType relType, Artifact artA, Artifact artB) {
       // Create fake remote event that would come in from another client
       RemotePersistEvent1 remoteEvent = new RemotePersistEvent1();
       // Set sender to something other than this client so event system will think came from another client
@@ -722,8 +722,8 @@ public class ArtifactEventTest {
       RemoteAttributeChange1 remAttrChg = new RemoteAttributeChange1();
 
       // Create modify attribute record
-      int nameAttrId = injectArt.getAttributes().iterator().next().getId().intValue();
-      remAttrChg.setAttributeId(nameAttrId);
+      long nameAttrId = injectArt.getAttributes().iterator().next().getId();
+      remAttrChg.setAttributeId((int) nameAttrId);
       remAttrChg.setGammaId(gammaId7);
       remAttrChg.setAttributeType(CoreAttributeTypes.Name);
       remAttrChg.setModTypeGuid(AttributeEventModificationType.Modified.getGuid());
@@ -825,9 +825,8 @@ public class ArtifactEventTest {
 
       // Create delete attribute record
       RemoteAttributeChange1 remAttrChg = new RemoteAttributeChange1();
-      int genStrAttrId =
-         injectArt.getAttributes(CoreAttributeTypes.GeneralStringData).iterator().next().getId().intValue();
-      remAttrChg.setAttributeId(genStrAttrId);
+      long genStrAttrId = injectArt.getAttributes(CoreAttributeTypes.GeneralStringData).iterator().next().getId();
+      remAttrChg.setAttributeId((int) genStrAttrId);
       remAttrChg.setGammaId(gammaId7);
       remAttrChg.setAttributeType(CoreAttributeTypes.GeneralStringData);
       remAttrChg.setModTypeGuid(AttributeEventModificationType.Deleted.getGuid());
@@ -866,8 +865,8 @@ public class ArtifactEventTest {
    /**
     * Need to always get a new relationId that hasn't been used in this DB yet
     */
-   private int getIncrementingRelationId() {
-      return (int) ConnectionHandler.getNextSequence(OseeData.REL_LINK_ID_SEQ, true);
+   private Long getIncrementingRelationId() {
+      return ConnectionHandler.getNextSequence(OseeData.REL_LINK_ID_SEQ, true);
    }
 
    private static final class ArtifactEventListener implements IArtifactEventListener {

@@ -48,7 +48,7 @@ public class AttributeLoadProcessor extends LoadProcessor<AttributeData, Attribu
 
       BranchId branch = BranchId.create(chStmt.getLong("branch_id"), OptionsUtil.getFromBranchView(options));
       ArtifactId artId = ArtifactId.valueOf(chStmt.getLong("id2"));
-      int attrId = chStmt.getInt("attr_id");
+      long attrId = chStmt.getLong("attr_id");
       GammaId gammaId = GammaId.valueOf(chStmt.getLong("gamma_id"));
       ModificationType modType = ModificationType.valueOf(chStmt.getInt("mod_type"));
       ApplicabilityId applicId = ApplicabilityId.valueOf(chStmt.getLong("app_id"));
@@ -123,7 +123,7 @@ public class AttributeLoadProcessor extends LoadProcessor<AttributeData, Attribu
    private static final class CreateConditions {
       ArtifactId previousArtId = ArtifactId.SENTINEL;
       BranchId previousBranchId = BranchId.SENTINEL;
-      int previousAttrId = -1;
+      long previousAttrId = -1;
       GammaId previousGammaId = GammaId.SENTINEL;
       ModificationType previousModType = null;
 

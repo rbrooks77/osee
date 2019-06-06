@@ -33,7 +33,7 @@ public class TxData {
    private final Long txId;
 
    public TxData(BranchId branch, UserId authorId, Date timeStamp, String comment, TransactionDetailsType txType, Long commitArtId, long txId) {
-      this.authorId = authorId;
+      this.author = author;
       this.timeStamp = timeStamp;
       this.comment = comment;
       this.txType = txType;
@@ -48,7 +48,7 @@ public class TxData {
    public String getAuthor() {
       String authorName = null;
       try {
-         User user = UserManager.getUserByArtId(authorId);
+         User user = UserManager.getUserByArtId(author);
          if (user != null) {
             authorName = user.getName();
          }
@@ -121,7 +121,7 @@ public class TxData {
    }
 
    protected static TxData createTxData(TransactionRecord txId) {
-      return new TxData(txId.getBranch(), txId.getAuthor(), txId.getTimeStamp(), txId.getComment(), txId.getTxType(),
-         txId.getCommit(), txId.getId());
+      return new TxData(txId.getBranch(), txId.getAuthor(), txId.getTimeStamp(), txId.getComment(),
+         txId.getTxType(), txId.getCommitArtId(), txId.getId());
    }
 }

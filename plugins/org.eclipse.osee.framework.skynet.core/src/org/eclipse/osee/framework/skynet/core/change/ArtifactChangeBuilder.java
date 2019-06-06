@@ -21,7 +21,7 @@ import org.eclipse.osee.framework.core.model.TransactionDelta;
  */
 public class ArtifactChangeBuilder extends ChangeBuilder {
 
-   public ArtifactChangeBuilder(BranchId branch, ArtifactTypeId artifactType, GammaId sourceGamma, int artId, TransactionDelta txDelta, ModificationType modType, boolean isHistorical) {
+   public ArtifactChangeBuilder(BranchId branch, ArtifactTypeId artifactType, GammaId sourceGamma, long artId, TransactionDelta txDelta, ModificationType modType, boolean isHistorical) {
       super(branch, artifactType, sourceGamma, artId, txDelta, modType, isHistorical);
    }
 

@@ -35,7 +35,7 @@ import org.eclipse.osee.jdbc.JdbcStatement;
  */
 public class RelationChangeAcquirer extends ChangeAcquirer {
 
-   public RelationChangeAcquirer(BranchId sourceBranch, TransactionToken transactionId, IProgressMonitor monitor, Artifact specificArtifact, Set<Integer> artIds, ArrayList<ChangeBuilder> changeBuilders, Set<Integer> newAndDeletedArtifactIds) {
+   public RelationChangeAcquirer(BranchId sourceBranch, TransactionToken transactionId, IProgressMonitor monitor, Artifact specificArtifact, Set<Long> artIds, ArrayList<ChangeBuilder> changeBuilders, Set<Long> newAndDeletedArtifactIds) {
       super(sourceBranch, transactionId, monitor, specificArtifact, artIds, changeBuilders, newAndDeletedArtifactIds);
    }
 
@@ -72,9 +72,9 @@ public class RelationChangeAcquirer extends ChangeAcquirer {
          }
          TransactionDelta txDelta = new TransactionDelta(fromTransactionId, toTransactionId);
          while (chStmt.next()) {
-            int aArtId = chStmt.getInt("a_art_id");
-            int bArtId = chStmt.getInt("b_art_id");
-            int relLinkId = chStmt.getInt("rel_link_id");
+            Long aArtId = chStmt.getLong("a_art_id");
+            Long bArtId = chStmt.getLong("b_art_id");
+            Long relLinkId = chStmt.getLong("rel_link_id");
 
             if (!getNewAndDeletedArtifactIds().contains(aArtId) && !getNewAndDeletedArtifactIds().contains(bArtId)) {
                ModificationType modificationType = ModificationType.valueOf(chStmt.getInt("mod_type"));

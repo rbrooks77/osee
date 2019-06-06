@@ -278,7 +278,7 @@ public abstract class AttributeImpl<T> extends BaseId implements Comparable<Attr
       getOrcsData().getVersion().setGammaId(gammaId);
    }
 
-   public void internalSetAttributeId(int attrId) {
+   public void internalSetAttributeId(long attrId) {
       getOrcsData().setLocalId(attrId);
    }
 

@@ -32,14 +32,14 @@ import org.eclipse.osee.jdbc.JdbcStatement;
  */
 public class ItemsDeletedWithNoOtherModification extends DatabaseHealthOperation {
    private class LocalValues {
-      public int relLinkId;
-      public int artId;
+      public Long relLinkId;
+      public Long artId;
       public int attributeId;
       public GammaId gammaId;
       public long transactionId;
       public long branchUuid;
 
-      public LocalValues(int artId, int attributeId, long branchUuid, GammaId gammaId, int relLinkId, long transactionId) {
+      public LocalValues(Long artId, int attributeId, long branchUuid, GammaId gammaId, Long relLinkId, long transactionId) {
          super();
          this.artId = artId;
          this.attributeId = attributeId;
@@ -73,8 +73,8 @@ public class ItemsDeletedWithNoOtherModification extends DatabaseHealthOperation
       try {
          chStmt.runPreparedQuery(sql, txChange, modificationType, modificationType);
          while (chStmt.next()) {
-            addressing.add(new LocalValues(chStmt.getInt("art_id"), chStmt.getInt("attr_id"),
-               chStmt.getLong("branch_id"), GammaId.valueOf(chStmt.getLong("gamma_id")), chStmt.getInt("rel_link_id"),
+            addressing.add(new LocalValues(chStmt.getLong("art_id"), chStmt.getLong("attr_id"),
+               chStmt.getLong("branch_id"), GammaId.valueOf(chStmt.getLong("gamma_id")), chStmt.getLong("rel_link_id"),
                chStmt.getLong("transaction_id")));
          }
       } finally {

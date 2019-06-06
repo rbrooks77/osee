@@ -11,7 +11,6 @@
 package org.eclipse.osee.orcs.core.ds;
 
 import java.util.Collection;
-import org.eclipse.osee.framework.core.data.ArtifactId;
 import org.eclipse.osee.framework.core.data.BranchId;
 import org.eclipse.osee.framework.core.executor.HasCancellation;
 import org.eclipse.osee.orcs.OrcsSession;
@@ -27,10 +26,5 @@ public interface DataLoaderFactory {
 
    DataLoader newDataLoader(OrcsSession session, BranchId branch, Collection<ArtifactId> artifactIds);
 
-   DataLoader newDataLoaderFromIds(OrcsSession session, BranchId branch, Collection<Integer> artifactIds);
-
-   DataLoader newDataLoaderFromGuids(OrcsSession session, BranchId branch, String... artifactGuids);
-
-   DataLoader newDataLoaderFromGuids(OrcsSession session, BranchId branch, Collection<String> artifactGuids);
 
 }

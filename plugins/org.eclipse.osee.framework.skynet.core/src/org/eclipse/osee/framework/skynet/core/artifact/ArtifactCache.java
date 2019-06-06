@@ -169,8 +169,4 @@ public final class ArtifactCache {
    public static Artifact getActive(String artGuid, BranchId branch) {
       return ID_CACHE.getByGuid(artGuid, branch);
    }
-
-   public static Artifact getActive(Long artId, BranchId branch) {
-      return getActive(ArtifactToken.valueOf(artId, branch));
-   }
 }

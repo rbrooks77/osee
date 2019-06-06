@@ -36,18 +36,18 @@ public class IdentityManagerImpl implements IdentityManager {
    }
 
    @Override
-   public int getNextArtifactId() {
-      return (int) client.getNextSequence(OseeData.ART_ID_SEQ, true);
+   public long getNextArtifactId() {
+      return client.getNextSequence(OseeData.ART_ID_SEQ, true);
    }
 
    @Override
-   public int getNextAttributeId() {
-      return (int) client.getNextSequence(OseeData.ATTR_ID_SEQ, true);
+   public long getNextAttributeId() {
+      return client.getNextSequence(OseeData.ATTR_ID_SEQ, true);
    }
 
    @Override
-   public int getNextRelationId() {
-      return (int) client.getNextSequence(OseeData.REL_LINK_ID_SEQ, true);
+   public long getNextRelationId() {
+      return client.getNextSequence(OseeData.REL_LINK_ID_SEQ, true);
    }
 
    @Override

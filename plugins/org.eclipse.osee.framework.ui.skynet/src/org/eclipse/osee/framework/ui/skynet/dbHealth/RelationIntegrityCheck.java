@@ -312,14 +312,14 @@ public class RelationIntegrityCheck extends DatabaseHealthOperation {
          while (chStmt.next()) {
             GammaId gamma_id = GammaId.valueOf(chStmt.getLong("gamma_id"));
             Long transactionId = chStmt.getLong("transaction_id");
-            int relationId = chStmt.getInt("rel_link_id");
+            Long relationId = chStmt.getLong("rel_link_id");
             BranchId branch = BranchId.valueOf(chStmt.getLong("branch_id"));
-            int a_sideArtifactId = chStmt.getInt("a_art_id");
-            int b_sideArtifactId = chStmt.getInt("b_art_id");
-            int deletedTransaction = chStmt.getInt("deleted_tran");
+            Long a_sideArtifactId = chStmt.getLong("a_art_id");
+            Long b_sideArtifactId = chStmt.getLong("b_art_id");
+            Long deletedTransaction = chStmt.getLong("deleted_tran");
 
-            int commitTransId = forDelete ? 0 : chStmt.getInt("commit_trans_art_id");
-            int modType = forDelete ? -1 : chStmt.getInt("creating_trans_mod_type");
+            Long commitTransId =        forDelete ? 0 : chStmt.getLong("commit_trans_art_id");
+            Integer modType =              forDelete ? -1 : chStmt.getInt("creating_trans_mod_type");
 
             if (!map.containsKey(gamma_id.getId(),
                transactionId) && (forDelete || !deleteMap.containsKey(gamma_id.getId(), transactionId))) {

@@ -35,13 +35,13 @@ import org.eclipse.osee.jdbc.JdbcStatement;
  */
 public class ArtifactChangeAcquirer extends ChangeAcquirer {
 
-   public ArtifactChangeAcquirer(BranchId sourceBranch, TransactionToken transactionId, IProgressMonitor monitor, Artifact specificArtifact, Set<Integer> artIds, ArrayList<ChangeBuilder> changeBuilders, Set<Integer> newAndDeletedArtifactIds) {
+   public ArtifactChangeAcquirer(BranchId sourceBranch, TransactionToken transactionId, IProgressMonitor monitor, Artifact specificArtifact, Set<Long> artIds, ArrayList<ChangeBuilder> changeBuilders, Set<Long> newAndDeletedArtifactIds) {
       super(sourceBranch, transactionId, monitor, specificArtifact, artIds, changeBuilders, newAndDeletedArtifactIds);
    }
 
    @Override
    public ArrayList<ChangeBuilder> acquireChanges() {
-      Map<Integer, ArtifactChangeBuilder> artifactChangeBuilders = new HashMap<>();
+      Map<Long, ArtifactChangeBuilder> artifactChangeBuilders = new HashMap<>();
       boolean hasBranch = getSourceBranch() != null;
       TransactionToken fromTransactionId;
       TransactionToken toTransactionId;
@@ -75,7 +75,7 @@ public class ArtifactChangeAcquirer extends ChangeAcquirer {
          TransactionDelta txDelta = new TransactionDelta(fromTransactionId, toTransactionId);
 
          while (chStmt.next()) {
-            int artId = chStmt.getInt("art_id");
+            long artId = chStmt.getLong("art_id");
             ModificationType modificationType = ModificationType.valueOf(chStmt.getInt("mod_type"));
 
             ArtifactChangeBuilder artifactChangeBuilder =

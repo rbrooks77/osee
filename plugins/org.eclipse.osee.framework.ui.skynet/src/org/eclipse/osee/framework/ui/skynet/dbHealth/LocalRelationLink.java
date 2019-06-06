@@ -14,12 +14,17 @@ import org.eclipse.osee.framework.core.data.BranchId;
 import org.eclipse.osee.framework.core.data.GammaId;
 
 public class LocalRelationLink {
-   public int relLinkId, aArtId, bArtId, transIdForArtifactDeletion, commitTrans, modType;
+   public int modType;
    public BranchId branch;
+   public Long transIdForArtifactDeletion;
    public GammaId gammaId;
    public Long relTransId;
+   public Long relLinkId;
+   public Long aArtId;
+   public Long bArtId;
+   public Long commitTrans;
 
-   public LocalRelationLink(int relLinkId, GammaId gammaId, Long transactionId, BranchId branch, int aArtId, int bArtId, int transIdForArtifactDeletion, int commitTrans, int modType) {
+   public LocalRelationLink(Long relLinkId, GammaId gammaId, Long transactionId, BranchId branch, Long aArtId, Long bArtId, Long transIdForArtifactDeletion, Long commitTrans, Integer modType) {
       this.aArtId = aArtId;
       this.bArtId = bArtId;
       this.branch = branch;
@@ -33,7 +38,7 @@ public class LocalRelationLink {
 
    @Override
    public String toString() {
-      return String.format("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s", gammaId, relTransId, relLinkId, branch, aArtId, bArtId,
-         transIdForArtifactDeletion, commitTrans, modType);
+      return String.format("%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s\t%s", gammaId, relTransId, relLinkId, branch, aArtId,
+         bArtId, transIdForArtifactDeletion, commitTrans, modType);
    }
 }

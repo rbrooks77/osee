@@ -89,7 +89,7 @@ public class TxSqlBuilderTest {
    private static final TransactionDetailsType EXPECTED_TX_TYPE = TransactionDetailsType.Baselined;
    private static final Date EXPECTED_TX_TIME = new Date();
 
-   private static final int ITEM_ID = 789;
+   private static final long ITEM_ID = 789L;
    private static final String EXP_GUID = GUID.create();
    private static final ArtifactTypeToken artfactType = CoreArtifactTypes.Artifact;
    private static final RelationTypeToken relationType = CoreRelationTypes.DEFAULT_HIERARCHY;

@@ -51,17 +51,17 @@ public class RelationDataImpl extends OrcsVersionedObjectImpl<RelationTypeToken>
       this.rationale = rationale;
    }
 
-   public int getRelationId() {
+   public long getRelationId() {
       return getLocalId();
    }
 
    @Override
-   public int getArtIdA() {
+   public Long getArtIdA() {
       return artIdA.getId().intValue();
    }
 
    @Override
-   public int getArtIdB() {
+   public Long getArtIdB() {
       return artIdB.getId().intValue();
    }
 

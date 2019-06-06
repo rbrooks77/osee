@@ -45,7 +45,7 @@ public class BranchAccessObject extends AccessObject {
    }
 
    @Override
-   public void removeFromDatabase(int subjectId) {
+   public void removeFromDatabase(long subjectId) {
       final String DELETE_BRANCH_ACL = "DELETE FROM OSEE_BRANCH_ACL WHERE privilege_entity_id = ? AND branch_id =?";
       ConnectionHandler.runPreparedUpdate(DELETE_BRANCH_ACL, subjectId, branch);
    }

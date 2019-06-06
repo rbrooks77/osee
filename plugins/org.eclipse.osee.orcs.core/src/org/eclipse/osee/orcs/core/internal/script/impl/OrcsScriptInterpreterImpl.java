@@ -399,14 +399,14 @@ public class OrcsScriptInterpreterImpl implements OrcsScriptInterpreter {
 
       @Override
       public Void caseOsTxAuthorIdCriteria(OsTxAuthorIdCriteria object) {
-         Collection<Integer> ids = resolver.resolve(Integer.class, object.getIds());
+         Collection<Long> ids = resolver.resolve(Long.class, object.getIds());
          getTxQuery().andAuthorIds(Collections.transform(ids, ArtifactId::valueOf));
          return null;
       }
 
       @Override
       public Void caseOsTxCommitIdEqualsClause(OsTxCommitIdEqualsClause object) {
-         Collection<Integer> ids = resolver.resolve(Integer.class, object.getIds());
+         Collection<Long> ids = resolver.resolve(Long.class, object.getIds());
          getTxQuery().andCommitIds(Collections.transform(ids, ArtifactId::valueOf));
          return null;
       }

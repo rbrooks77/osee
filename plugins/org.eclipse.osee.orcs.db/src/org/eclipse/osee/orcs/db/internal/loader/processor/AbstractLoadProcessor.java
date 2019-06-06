@@ -25,6 +25,9 @@ public abstract class AbstractLoadProcessor<H> {
          rowCount++;
          onRow(handler, chStmt, options, conditions);
       }
+      if (rowCount == 0) {
+         System.out.println("");
+      }
       onEnd(handler, options, conditions, rowCount);
       return rowCount;
    }

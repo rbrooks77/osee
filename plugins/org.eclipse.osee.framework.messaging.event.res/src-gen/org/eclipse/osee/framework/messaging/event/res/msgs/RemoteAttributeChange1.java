@@ -89,7 +89,7 @@ public class RemoteAttributeChange1 extends RemoteEvent {
    /**
     * Gets the value of the attributeId property.
     */
-   public int getAttributeId() {
+   public long getAttributeId() {
       return attributeId;
    }
 

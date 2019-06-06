@@ -27,11 +27,11 @@ public abstract class ChangeAcquirer {
    private final TransactionToken transactionId;
    private final IProgressMonitor monitor;
    private final Artifact specificArtifact;
-   private final Set<Integer> artIds;
+   private final Set<Long> artIds;
    private final ArrayList<ChangeBuilder> changeBuilders;
-   private final Set<Integer> newAndDeletedArtifactIds;
+   private final Set<Long> newAndDeletedArtifactIds;
 
-   public ChangeAcquirer(BranchId sourceBranch, TransactionToken transactionId, IProgressMonitor monitor, Artifact specificArtifact, Set<Integer> artIds, ArrayList<ChangeBuilder> changeBuilders, Set<Integer> newAndDeletedArtifactIds) {
+   public ChangeAcquirer(BranchId sourceBranch, TransactionToken transactionId, IProgressMonitor monitor, Artifact specificArtifact, Set<Long> artIds, ArrayList<ChangeBuilder> changeBuilders, Set<Long> newAndDeletedArtifactIds) {
       super();
       this.sourceBranch = sourceBranch;
       this.transactionId = transactionId;
@@ -62,7 +62,7 @@ public abstract class ChangeAcquirer {
       return specificArtifact;
    }
 
-   protected Set<Integer> getArtIds() {
+   protected Set<Long> getArtIds() {
       return artIds;
    }
 
@@ -70,7 +70,7 @@ public abstract class ChangeAcquirer {
       return changeBuilders;
    }
 
-   protected Set<Integer> getNewAndDeletedArtifactIds() {
+   protected Set<Long> getNewAndDeletedArtifactIds() {
       return newAndDeletedArtifactIds;
    }
 

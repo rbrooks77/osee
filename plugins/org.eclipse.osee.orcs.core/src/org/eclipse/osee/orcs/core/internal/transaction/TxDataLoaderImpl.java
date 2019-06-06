@@ -56,9 +56,9 @@ public class TxDataLoaderImpl implements TxDataLoader {
    }
 
    private DataLoader createLoader(OrcsSession session, BranchId branch, Collection<ArtifactId> artifactIds) {
-      Set<Integer> ids = new LinkedHashSet<>();
+      Set<Long> ids = new LinkedHashSet<>();
       for (ArtifactId artifactId : artifactIds) {
-         ids.add(artifactId.getUuid().intValue());
+         ids.add(artifactId.getUuid());
       }
       DataLoader loader = dataLoaderFactory.newDataLoaderFromIds(session, branch, ids);
       loader.withLoadLevel(LoadLevel.ALL);

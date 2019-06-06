@@ -107,11 +107,11 @@ public class TransactionRecordTest {
 
    @Test
    public void testGetSetCommit() {
-      Assert.assertEquals(commitArtId, transaction.getCommit());
+      Assert.assertEquals(commitArtId, transaction.getCommitArtId());
 
       Long otherId = commitArtId * 333;
       transaction.setCommit(otherId);
-      Assert.assertEquals(otherId, transaction.getCommit());
+      Assert.assertEquals(otherId, transaction.getCommitArtId());
 
       transaction.setCommit(commitArtId);
    }

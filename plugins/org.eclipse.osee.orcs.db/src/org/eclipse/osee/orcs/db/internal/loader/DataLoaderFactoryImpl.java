@@ -10,14 +10,11 @@
  *******************************************************************************/
 package org.eclipse.osee.orcs.db.internal.loader;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import org.eclipse.osee.framework.core.data.ArtifactId;
 import org.eclipse.osee.framework.core.data.BranchId;
 import org.eclipse.osee.framework.core.executor.HasCancellation;
 import org.eclipse.osee.framework.jdk.core.type.OseeCoreException;
-import org.eclipse.osee.framework.jdk.core.util.Conditions;
 import org.eclipse.osee.framework.jdk.core.util.Lib;
 import org.eclipse.osee.jdbc.JdbcClient;
 import org.eclipse.osee.logger.Log;
@@ -105,30 +102,8 @@ public class DataLoaderFactoryImpl implements DataLoaderFactory {
 
    @Override
    public DataLoader newDataLoader(OrcsSession session, BranchId branch, Collection<ArtifactId> ids) {
-      ArrayList<Integer> intIds = new ArrayList<>();
-      for (ArtifactId id : ids) {
-         intIds.add(id.getId().intValue());
-      }
-      return newDataLoaderFromIds(session, branch, intIds);
-   }
-
-   @Override
-   public DataLoader newDataLoaderFromIds(OrcsSession session, BranchId branch, Collection<Integer> ids) {
-      Conditions.checkNotNull(branch, "branch");
       Options options = OptionsUtil.createOptions();
       return new DataLoaderImpl(logger, ids, options, session, branch, loader, joinFactory);
-   }
-
-   @Override
-   public DataLoader newDataLoaderFromGuids(OrcsSession session, BranchId branch, String... guids) {
-      return newDataLoaderFromGuids(session, branch, Arrays.asList(guids));
-   }
-
-   @Override
-   public DataLoader newDataLoaderFromGuids(OrcsSession session, BranchId branch, Collection<String> guids) {
-      Conditions.checkNotNull(branch, "branch");
-      Options options = OptionsUtil.createOptions();
-      return new DataLoaderImpl(logger, options, session, branch, loader, guids, joinFactory);
    }
 
    @SuppressWarnings("unchecked")

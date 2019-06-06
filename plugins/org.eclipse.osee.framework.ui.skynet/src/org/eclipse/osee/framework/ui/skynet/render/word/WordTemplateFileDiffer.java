@@ -123,15 +123,15 @@ public final class WordTemplateFileDiffer {
    private void diff(List<Change> changes, Collection<Artifact> endArtifacts, String diffPrefix, TransactionDelta txDelta) {
 
       Collection<ArtifactDelta> artifactDeltas = new ArrayList<>();
-      Set<Integer> addedIds = new HashSet<>();
-      Set<Integer> changeIds = new HashSet<>(changes.size());
+      Set<Long> addedIds = new HashSet<>();
+      Set<Long> changeIds = new HashSet<>(changes.size());
       for (Change change : changes) {
          changeIds.add(change.getArtId().getId().intValue());
       }
       BranchId endBranch = txDelta.getEndTx().getBranch();
       // loop through all artifacts that are on the IS branch
       for (Artifact art : endArtifacts) {
-         Integer artId = art.getArtId();
+         Long artId = art.getArtId();
          if (changeIds.contains(artId)) {
             // If there is a change on the IS branch
             Change newChange = findChange(artId, changes);
@@ -159,7 +159,7 @@ public final class WordTemplateFileDiffer {
       }
    }
 
-   private Change findChange(Integer artId, List<Change> changes) {
+   private Change findChange(Long artId, List<Change> changes) {
       Change toReturn = null;
       for (Change change : changes) {
          if (change.getArtId().getId().intValue() == artId.intValue()) {
