@@ -11,9 +11,7 @@
 package org.eclipse.osee.framework.core.model;
 
 import java.util.Date;
-import org.eclipse.osee.framework.core.data.Adaptable;
 import org.eclipse.osee.framework.core.data.BranchId;
-import org.eclipse.osee.framework.core.data.TransactionToken;
 import org.eclipse.osee.framework.core.data.UserId;
 import org.eclipse.osee.framework.core.enums.TransactionDetailsType;
 import org.eclipse.osee.framework.jdk.core.type.BaseId;
@@ -25,16 +23,16 @@ import org.eclipse.osee.framework.jdk.core.util.Strings;
  */
 public class TransactionRecord extends BaseId implements TransactionToken, Adaptable {
    public static TransactionRecord SENTINEL = new TransactionRecord(Id.SENTINEL, BranchId.SENTINEL, null, null,
-      UserId.SENTINEL, 0, TransactionDetailsType.INVALID, 0L);
+      UserId.SENTINEL, 0L, TransactionDetailsType.INVALID, 0L);
    private final TransactionDetailsType txType;
    private final BranchId branch;
    private String comment;
    private Date time;
    private UserId authorArtId;
-   private int commitArtId;
+   private Long commitArtId;
    private Long buildId;
 
-   public TransactionRecord(Long id, BranchId branch, String comment, Date time, UserId authorArtId, int commitArtId, TransactionDetailsType txType, Long buildId) {
+   public TransactionRecord(Long id, BranchId branch, String comment, Date time, UserId authorArtId, Long commitArtId, TransactionDetailsType txType, Long buildId) {
       super(id);
       this.branch = branch;
       this.buildId = buildId;
@@ -62,7 +60,7 @@ public class TransactionRecord extends BaseId implements TransactionToken, Adapt
       return authorArtId;
    }
 
-   public int getCommit() {
+   public Long getCommit() {
       return commitArtId;
    }
 
@@ -82,7 +80,7 @@ public class TransactionRecord extends BaseId implements TransactionToken, Adapt
       this.authorArtId = authorArtId;
    }
 
-   public void setCommit(int commitArtId) {
+   public void setCommit(Long commitArtId) {
       this.commitArtId = commitArtId;
    }
 

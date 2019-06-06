@@ -17,9 +17,9 @@ import org.eclipse.osee.framework.core.data.BranchId;
 import org.eclipse.osee.framework.core.data.TransactionId;
 import org.eclipse.osee.framework.core.data.UserId;
 import org.eclipse.osee.framework.core.enums.DemoUsers;
+import org.eclipse.osee.framework.core.enums.CoreBranches;
 import org.eclipse.osee.framework.core.enums.TransactionDetailsType;
 import org.eclipse.osee.framework.core.model.TransactionRecord;
-import org.eclipse.osee.framework.core.model.mocks.MockDataFactory;
 import org.eclipse.osee.framework.jdk.core.util.GUID;
 import org.junit.Assert;
 import org.junit.Test;
@@ -43,9 +43,9 @@ public class TransactionRecordTest {
    private final String comment;
    private final Date time;
    private final UserId author;
-   private final int commitArtId;
+   private final Long commitArtId;
 
-   public TransactionRecordTest(int transactionNumber, BranchId branch, String comment, Date time, UserId author, int commitArtId, TransactionDetailsType txType) {
+   public TransactionRecordTest(int transactionNumber, BranchId branch, String comment, Date time, UserId author, Long commitArtId, TransactionDetailsType txType) {
       this.transactionNumber = (long) transactionNumber;
       this.branch = branch;
       this.comment = comment;
@@ -109,27 +109,23 @@ public class TransactionRecordTest {
    public void testGetSetCommit() {
       Assert.assertEquals(commitArtId, transaction.getCommit());
 
-      transaction.setCommit(commitArtId * 333);
-      Assert.assertEquals(commitArtId * 333, transaction.getCommit());
+      Long otherId = commitArtId * 333;
+      transaction.setCommit(otherId);
+      Assert.assertEquals(otherId, transaction.getCommit());
 
       transaction.setCommit(commitArtId);
    }
 
    @Test
    public void testEqualsAndHashCode() {
-      TransactionRecord tx2 = MockDataFactory.createTransaction(99, 2);
+      // Add some variation to tx2 so we are certain that only the txId is used in the equals method;
+      TransactionRecord tx2 =
+         new TransactionRecord(99L, CoreBranches.COMMON, "a", new Date(), 0L, 1L, TransactionDetailsType.Baselined);
       TransactionId tx1 = TransactionId.valueOf(tx2.getId());
 
-      // Add some variation to tx2 so we are certain that only the txId is used in the equals method;
-      tx2.setAuthor(UserId.SENTINEL);
-      tx2.setComment("a");
-      tx2.setCommit(1);
-      tx2.setTimeStamp(new Date(11111111111L));
-
       Assert.assertNotSame(tx1, tx2);
-
-      Assert.assertTrue(tx1.equals(tx2));
-      Assert.assertTrue(tx2.equals(tx1));
+      Assert.assertEquals(tx1, tx2);
+      Assert.assertEquals(tx2, tx1);
       Assert.assertEquals(tx1.hashCode(), tx2.hashCode());
 
       Assert.assertFalse(transaction.equals(tx1));
@@ -158,7 +154,7 @@ public class TransactionRecordTest {
          BranchId branch = BranchId.valueOf(index * 9L);
          String comment = GUID.create();
          Date time = new Date();
-         int commitArtId = index * 37;
+         Long commitArtId = index * 37L;
          TransactionDetailsType txType = TransactionDetailsType.valueOf(index % TransactionDetailsType.values.length);
          data.add(new Object[] {transactionNumber, branch, comment, time, DemoUsers.Joe_Smith, commitArtId, txType});
       }

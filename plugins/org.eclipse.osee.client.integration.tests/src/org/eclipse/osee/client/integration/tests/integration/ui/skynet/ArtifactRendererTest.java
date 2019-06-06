@@ -63,13 +63,13 @@ public class ArtifactRendererTest {
       String comment1 = getClass().getSimpleName() + "_1";
       artifact1.persist(comment1);
       endTx1 = TransactionManager.getTransaction(comment1).iterator().next();
-      endTx1.setCommit(artifact1.getArtId());
+      endTx1.setCommit((long) artifact1.getArtId());
 
       artifact2 = new Artifact(CoreBranches.COMMON, NAME2);
       String comment2 = getClass().getSimpleName() + "_2";
       artifact2.persist(comment2);
       endTx2 = TransactionManager.getTransaction(comment2).iterator().next();
-      endTx2.setCommit(artifact2.getArtId());
+      endTx2.setCommit((long) artifact2.getArtId());
    }
 
    @Test

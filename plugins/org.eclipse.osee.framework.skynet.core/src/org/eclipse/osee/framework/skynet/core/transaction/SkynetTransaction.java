@@ -433,7 +433,7 @@ public final class SkynetTransaction extends TransactionOperation<BranchId> {
       //keep transaction id's sequential in the face of concurrent transaction by multiple users
       Long txId = ConnectionHandler.getNextSequence("SKYNET_TRANSACTION_ID_SEQ", false);
 
-      return new TransactionRecord(txId, branch, comment, timestamp, userToBlame, 0, txType,
+      return new TransactionRecord(txId, branch, comment, timestamp, userToBlame, 0L, txType,
          OseeCodeVersion.getVersionId());
    }
 
