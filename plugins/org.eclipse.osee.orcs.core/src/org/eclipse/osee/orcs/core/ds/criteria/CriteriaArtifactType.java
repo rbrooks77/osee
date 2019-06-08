@@ -35,8 +35,9 @@ public class CriteriaArtifactType extends Criteria {
    }
 
    @Override
-   public void checkValid(Options options) {
+   public boolean checkValid(Options options) {
       Conditions.checkNotNullOrEmpty(artifactTypes, "artifact types");
+      return true;
    }
 
    public Collection<? extends ArtifactTypeId> getOriginalTypes() {

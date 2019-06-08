@@ -42,8 +42,9 @@ public class CriteriaRelationTypeFollow extends Criteria {
    }
 
    @Override
-   public void checkValid(Options options) {
+   public boolean checkValid(Options options) {
       Conditions.checkNotNull(typeSide, "Relation Type Side");
+      return true;
    }
 
    @Override

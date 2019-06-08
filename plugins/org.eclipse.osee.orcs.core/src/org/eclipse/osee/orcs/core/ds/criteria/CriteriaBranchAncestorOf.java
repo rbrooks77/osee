@@ -19,11 +19,9 @@ import org.eclipse.osee.orcs.core.ds.Options;
  * @author Roberto E. Escobar
  */
 public class CriteriaBranchAncestorOf extends Criteria implements BranchCriteria {
-
    private final BranchId child;
 
    public CriteriaBranchAncestorOf(BranchId child) {
-      super();
       this.child = child;
    }
 
@@ -32,13 +30,13 @@ public class CriteriaBranchAncestorOf extends Criteria implements BranchCriteria
    }
 
    @Override
-   public void checkValid(Options options) {
+   public boolean checkValid(Options options) {
       Conditions.checkNotNull(getChild(), "Child branch");
+      return true;
    }
 
    @Override
    public String toString() {
       return "CriteriaBranchAncestorOf [child=" + child + "]";
    }
-
 }

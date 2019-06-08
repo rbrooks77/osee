@@ -54,13 +54,13 @@ public class CriteriaRelatedTo extends Criteria {
    }
 
    @Override
-   public void checkValid(Options options) {
+   public boolean checkValid(Options options) {
       Conditions.checkNotNull(getType(), "relation type side");
+      return true;
    }
 
    @Override
    public String toString() {
       return "CriteriaRelatedTo [relationTypeSide=" + relationTypeSide + ", artifactIds=" + artifactIds + "]";
    }
-
 }

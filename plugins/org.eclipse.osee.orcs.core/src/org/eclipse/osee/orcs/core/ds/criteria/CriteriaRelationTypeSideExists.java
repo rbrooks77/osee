@@ -22,7 +22,6 @@ public class CriteriaRelationTypeSideExists extends Criteria {
    private final RelationTypeSide relationTypeSide;
 
    public CriteriaRelationTypeSideExists(RelationTypeSide relationTypeSide) {
-      super();
       this.relationTypeSide = relationTypeSide;
    }
 
@@ -31,13 +30,13 @@ public class CriteriaRelationTypeSideExists extends Criteria {
    }
 
    @Override
-   public void checkValid(Options options) {
+   public boolean checkValid(Options options) {
       Conditions.checkNotNull(getType(), "relation type");
+      return true;
    }
 
    @Override
    public String toString() {
       return "CriteriaRelationTypeSideExists [relationTypeSide=" + relationTypeSide + "]";
    }
-
 }

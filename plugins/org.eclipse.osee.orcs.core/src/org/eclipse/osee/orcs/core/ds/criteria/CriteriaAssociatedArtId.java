@@ -19,7 +19,6 @@ import org.eclipse.osee.orcs.core.ds.Options;
  * @author John Misinco
  */
 public class CriteriaAssociatedArtId extends Criteria implements BranchCriteria {
-
    private final ArtifactId associatedArtId;
 
    public CriteriaAssociatedArtId(ArtifactId associatedArtId) {
@@ -31,8 +30,9 @@ public class CriteriaAssociatedArtId extends Criteria implements BranchCriteria 
    }
 
    @Override
-   public void checkValid(Options options) {
+   public boolean checkValid(Options options) {
       Conditions.checkExpressionFailOnTrue(associatedArtId.isInvalid(), "Associated artifact id cannot be null");
+      return true;
    }
 
    @Override

@@ -31,9 +31,9 @@ public class CriteriaTxGetPrior extends Criteria implements TxCriteria {
    }
 
    @Override
-   public void checkValid(Options options) {
-      super.checkValid(options);
+   public boolean checkValid(Options options) {
       Conditions.checkExpressionFailOnTrue(txId.isInvalid(), "TxId [%s] is invalid. Must be >= 0", txId);
+      return true;
    }
 
    @Override

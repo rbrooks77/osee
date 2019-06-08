@@ -22,16 +22,14 @@ import org.eclipse.osee.orcs.core.ds.Options;
  * @author Roberto E. Escobar
  */
 public class CriteriaArtifactGuids extends Criteria {
-
    private final Collection<String> artifactGuids;
 
    public CriteriaArtifactGuids(Collection<String> artifactGuids) {
-      super();
       this.artifactGuids = artifactGuids;
    }
 
    @Override
-   public void checkValid(Options options) {
+   public boolean checkValid(Options options) {
       Conditions.checkNotNullOrEmpty(artifactGuids, "artifact guids");
       List<String> invalids = new ArrayList<>();
       for (String guid : artifactGuids) {
@@ -40,6 +38,7 @@ public class CriteriaArtifactGuids extends Criteria {
          }
       }
       Conditions.checkExpressionFailOnTrue(!invalids.isEmpty(), "Invalid Guids - %s", invalids);
+      return true;
    }
 
    public Collection<String> getIds() {
@@ -50,5 +49,4 @@ public class CriteriaArtifactGuids extends Criteria {
    public String toString() {
       return "CriteriaArtifactGuids [artifactGuids=" + artifactGuids + "]";
    }
-
 }

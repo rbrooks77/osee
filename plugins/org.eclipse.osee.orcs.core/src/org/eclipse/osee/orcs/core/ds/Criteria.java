@@ -15,8 +15,12 @@ package org.eclipse.osee.orcs.core.ds;
  */
 public class Criteria {
 
-   public void checkValid(Options options) {
-      // For subclasses to implement
+   /**
+    * subclasses must return true if the criteria is valid, return false if the criteria is invalid but should be
+    * gracefully ignored; and throw an exception if invalid and should not be ignored
+    */
+   public boolean checkValid(Options options) {
+      return true;
    }
 
    @Override

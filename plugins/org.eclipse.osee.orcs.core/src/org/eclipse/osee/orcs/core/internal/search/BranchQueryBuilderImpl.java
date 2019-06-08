@@ -158,8 +158,9 @@ public class BranchQueryBuilderImpl<T> implements BranchQueryBuilder<T> {
 
    @SuppressWarnings("unchecked")
    private T addAndCheck(QueryData queryData, Criteria criteria) {
-      criteria.checkValid(getOptions());
-      queryData.addCriteria(criteria);
+      if (criteria.checkValid(getOptions())) {
+         queryData.addCriteria(criteria);
+      }
       return (T) this;
    }
 

@@ -13,6 +13,7 @@ package org.eclipse.osee.orcs.core.ds.criteria;
 import java.util.Collection;
 import org.eclipse.osee.framework.core.data.ArtifactId;
 import org.eclipse.osee.orcs.core.ds.Criteria;
+import org.eclipse.osee.orcs.core.ds.Options;
 
 /**
  * @author Roberto E. Escobar
@@ -48,6 +49,11 @@ public class CriteriaArtifactIds extends Criteria {
 
    public Collection<? extends ArtifactId> getIds() {
       return ids;
+   }
+
+   @Override
+   public boolean checkValid(Options options) {
+      return !(hasMultipleIds() && ids.isEmpty());
    }
 
    @Override

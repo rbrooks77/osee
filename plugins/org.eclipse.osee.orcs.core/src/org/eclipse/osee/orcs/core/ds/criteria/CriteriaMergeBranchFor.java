@@ -19,12 +19,10 @@ import org.eclipse.osee.orcs.core.ds.Options;
  * @author John Misinco
  */
 public class CriteriaMergeBranchFor extends Criteria implements BranchCriteria {
-
    private final BranchId source;
    private final BranchId destination;
 
    public CriteriaMergeBranchFor(BranchId source, BranchId destination) {
-      super();
       this.source = source;
       this.destination = destination;
    }
@@ -38,9 +36,10 @@ public class CriteriaMergeBranchFor extends Criteria implements BranchCriteria {
    }
 
    @Override
-   public void checkValid(Options options) {
+   public boolean checkValid(Options options) {
       Conditions.checkExpressionFailOnTrue(source == null, "Source Uuid cannot be null");
       Conditions.checkExpressionFailOnTrue(destination == null, "Destination Uuid cannot be null");
+      return true;
    }
 
    @Override

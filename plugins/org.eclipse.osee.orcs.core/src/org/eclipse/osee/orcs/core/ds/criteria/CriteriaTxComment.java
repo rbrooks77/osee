@@ -37,13 +37,13 @@ public class CriteriaTxComment extends Criteria implements TxCriteria {
    }
 
    @Override
-   public void checkValid(Options options) {
+   public boolean checkValid(Options options) {
       Conditions.checkNotNullOrEmpty(getValue(), "comment value");
+      return true;
    }
 
    @Override
    public String toString() {
       return "CriteriaTxComment [isPattern=" + isPattern + ", value=" + value + "]";
    }
-
 }

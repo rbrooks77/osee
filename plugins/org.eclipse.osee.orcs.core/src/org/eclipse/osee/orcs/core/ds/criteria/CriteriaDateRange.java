@@ -19,20 +19,19 @@ import org.eclipse.osee.orcs.core.ds.Options;
  * @author Roberto E. Escobar
  */
 public class CriteriaDateRange extends Criteria implements TxCriteria {
-
    private final Timestamp from, to;
 
    public CriteriaDateRange(Timestamp from, Timestamp to) {
-      super();
       this.from = from;
       this.to = to;
    }
 
    @Override
-   public void checkValid(Options options) {
+   public boolean checkValid(Options options) {
       if (from.after(to)) {
          throw new OseeArgumentException("from date must be less than to date");
       }
+      return true;
    }
 
    public Timestamp getTo() {

@@ -26,7 +26,6 @@ import org.eclipse.osee.orcs.data.AttributeTypes;
  * @author Roberto E. Escobar
  */
 public class CriteriaAttributeKeywords extends Criteria {
-
    private final AttributeTypes attributeTypeCache;
    private final Collection<AttributeTypeId> attributeTypes;
    private final Collection<String> values;
@@ -34,7 +33,6 @@ public class CriteriaAttributeKeywords extends Criteria {
    private final boolean includeAllTypes;
 
    public CriteriaAttributeKeywords(boolean includeAllTypes, Collection<AttributeTypeId> attributeTypes, AttributeTypes attributeTypeCache, Collection<String> values, QueryOption... options) {
-      super();
       this.includeAllTypes = includeAllTypes;
       this.attributeTypeCache = attributeTypeCache;
       this.attributeTypes = attributeTypes;
@@ -63,11 +61,12 @@ public class CriteriaAttributeKeywords extends Criteria {
    }
 
    @Override
-   public void checkValid(Options options) {
+   public boolean checkValid(Options options) {
       Conditions.checkNotNullOrEmpty(getValues(), "search value");
       Conditions.checkNotNullOrEmpty(getTypes(), "attribute types");
       checkMultipleValues();
       checkNotTaggable();
+      return true;
    }
 
    @Override
