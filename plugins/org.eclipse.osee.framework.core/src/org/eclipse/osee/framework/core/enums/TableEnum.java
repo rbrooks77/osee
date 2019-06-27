@@ -25,9 +25,9 @@ public enum TableEnum {
    SEARCH_TAGS_TABLE("osee_search_tags", "tag"),
    TX_DETAILS_TABLE("osee_tx_details", "txd", ObjectType.TX),
    TXS_TABLE("osee_txs", "txs"),
-   TUPLE2("osee_tuple2", "tp2"),
-   TUPLE3("osee_tuple3", "tp3"),
-   TUPLE4("osee_tuple4", "tp4");
+   TUPLE2("osee_tuple2", "tp2", ObjectType.TUPLE),
+   TUPLE3("osee_tuple3", "tp3", ObjectType.TUPLE),
+   TUPLE4("osee_tuple4", "tp4", ObjectType.TUPLE);
 
    private final String tableName;
    private final String aliasPrefix;

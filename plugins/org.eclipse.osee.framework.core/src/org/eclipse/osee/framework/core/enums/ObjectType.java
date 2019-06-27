@@ -14,11 +14,21 @@ package org.eclipse.osee.framework.core.enums;
  * @author Roberto E. Escobar
  */
 public enum ObjectType {
-   UNKNOWN,
-   BRANCH,
-   TX,
-   ARTIFACT,
-   ATTRIBUTE,
-   RELATION,
-   TUPLE;
+   UNKNOWN(""),
+   BRANCH(""),
+   TX(""),
+   ARTIFACT("Art"),
+   ATTRIBUTE("Att"),
+   RELATION("Rel"),
+   TUPLE("Tp");
+
+   private final String prefix;
+
+   private ObjectType(String prefix) {
+      this.prefix = prefix;
+   }
+
+   public String getPrefix() {
+      return prefix;
+   }
 }

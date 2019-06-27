@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import org.eclipse.osee.framework.core.data.AttributeTypeId;
+import org.eclipse.osee.framework.core.enums.ObjectType;
 import org.eclipse.osee.framework.core.enums.TableEnum;
 import org.eclipse.osee.framework.jdk.core.type.Id;
 import org.eclipse.osee.framework.jdk.core.util.Collections;
@@ -268,6 +269,18 @@ public class SelectiveArtifactSqlWriter extends AbstractSqlWriter {
    }
 
    @Override
+   }
+
+   @Override
+   public String addTable(TableEnum table, ObjectType objectType) {
+      String prefix;
+      if (table.equals(TableEnum.TXS_TABLE)) {
+         prefix = table.getPrefix() + objectType.getPrefix();
+      } else {
+         prefix = table.getPrefix();
+      }
+      String alias = getNextAlias(prefix, objectType);
+      return addTable(table, alias);
    protected void reset() {
       super.reset();
       parameters.clear();
