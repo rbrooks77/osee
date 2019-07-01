@@ -177,8 +177,9 @@ public class QueryEngineImpl implements QueryEngine {
 
          ArtifactReadableImpl artifact = (ArtifactReadableImpl) artifactMap.get(ArtifactId.valueOf(artId));
          if (artifact == null) {
-            artifact = new ArtifactReadableImpl(artId, artifactTypes.get(stmt.getLong("art_type_id")),
-               queryData.getBranch(), ApplicabilityId.valueOf(stmt.getLong("app_id")), queryFactory, artifactTypes);
+            artifact =
+               new ArtifactReadableImpl(artId, artifactTypes.get(stmt.getLong("art_type_id")), queryData.getBranch(),
+                  queryData.getView(), ApplicabilityId.valueOf(stmt.getLong("app_id")), queryFactory, artifactTypes);
             artifactMap.put(artifact, artifact);
             if (stmt.getLong("top") == 1) {
                artifactConsumer.accept(artifact);
@@ -196,8 +197,9 @@ public class QueryEngineImpl implements QueryEngine {
 
             ArtifactReadableImpl otherArtifact = (ArtifactReadableImpl) artifactMap.get(ArtifactId.valueOf(otherArtId));
             if (otherArtifact == null) {
-               otherArtifact = new ArtifactReadableImpl(otherArtId, artifactTypes.get(otherArtType),
-                  queryData.getBranch(), ApplicabilityId.valueOf(stmt.getLong("app_id")), queryFactory, artifactTypes);
+               otherArtifact =
+                  new ArtifactReadableImpl(otherArtId, artifactTypes.get(otherArtType), queryData.getBranch(),
+                     queryData.getView(), ApplicabilityId.valueOf(stmt.getLong("app_id")), queryFactory, artifactTypes);
                artifactMap.put(otherArtifact, otherArtifact);
             }
 
