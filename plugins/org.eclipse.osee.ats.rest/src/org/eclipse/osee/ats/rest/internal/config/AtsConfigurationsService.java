@@ -105,8 +105,7 @@ public class AtsConfigurationsService extends AbstractAtsConfigurationService {
          aiIds.add(art.getId());
       }
 
-      Collection<ArtifactReadable> artifacts =
-         Collections.castAll(atsApi.getQueryService().getArtifacts(Configuration));
+      Collection<ArtifactReadable> artifacts = query.andTypeEquals(Configuration).asArtifacts();
       // load ats branch configurations
       AtsConfigurations configs = new AtsConfigurations();
       for (ArtifactReadable art : artifacts) {
