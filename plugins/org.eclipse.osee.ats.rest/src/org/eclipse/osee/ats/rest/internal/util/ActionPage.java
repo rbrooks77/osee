@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.osee.ats.rest.internal.util;
 
+import static org.eclipse.osee.framework.core.enums.CoreBranches.COMMON;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -40,6 +41,7 @@ import org.eclipse.osee.framework.jdk.core.util.Conditions;
 import org.eclipse.osee.framework.jdk.core.util.DateUtil;
 import org.eclipse.osee.framework.jdk.core.util.Strings;
 import org.eclipse.osee.logger.Log;
+import org.eclipse.osee.orcs.OrcsApi;
 import org.eclipse.osee.orcs.data.ArtifactReadable;
 import org.eclipse.osee.orcs.data.AttributeReadable;
 
@@ -59,6 +61,7 @@ public class ActionPage {
    private IAtsWorkItem workItem;
    private final ArtifactReadable action;
    private final AtsApi atsApi;
+   private final OrcsApi orcsApi;
    private final Log logger;
    private boolean addTransition = false;
    private static final List<String> roleKeys = Arrays.asList("role", "userId", "completed", "hoursSpent");
@@ -67,14 +70,15 @@ public class ActionPage {
    private static List<String> ignoredWidgets;
    private final boolean details;
 
-   public ActionPage(Log logger, AtsApi atsApi, IAtsWorkItem workItem, boolean details) {
-      this(logger, atsApi, (ArtifactReadable) workItem.getStoreObject(), details);
+   public ActionPage(Log logger, AtsApi atsApi, OrcsApi orcsApi, IAtsWorkItem workItem, boolean details) {
+      this(logger, atsApi, orcsApi, (ArtifactReadable) workItem.getStoreObject(), details);
       this.workItem = workItem;
    }
 
-   public ActionPage(Log logger, AtsApi atsApi, ArtifactReadable action, boolean details) {
+   public ActionPage(Log logger, AtsApi atsApi, OrcsApi orcsApi, ArtifactReadable action, boolean details) {
       this.logger = logger;
       this.atsApi = atsApi;
+      this.orcsApi = orcsApi;
       this.action = action;
       this.details = details;
    }
@@ -92,7 +96,7 @@ public class ActionPage {
 
       ViewModel page = new ViewModel("action.html");
       page.param("title", action.getSoleAttributeAsString(AtsAttributeTypes.Title, ""));
-      page.param("team", getTeamStr(atsApi, action));
+      page.param("team", getTeamStr(atsApi, orcsApi, action));
       page.param("ais", getAIStr(action));
       page.param("state", workItem.getStateMgr().getCurrentStateName());
       page.param("assignees", getAssigneesStr(workItem, action));
@@ -126,16 +130,16 @@ public class ActionPage {
       return workItem.getStateMgr().getAssigneesStr();
    }
 
-   public static String getTeamStr(AtsApi atsApi, ArtifactReadable action) {
+   public static String getTeamStr(AtsApi atsApi, OrcsApi orcsApi, ArtifactReadable action) {
       String results = "";
       ArtifactId artId = atsApi.getAttributeResolver().getSoleArtifactIdReference(action,
          AtsAttributeTypes.TeamDefinitionReference, ArtifactId.SENTINEL);
       if (artId.isValid()) {
-         results = atsApi.getQueryService().getArtifact(artId).getName();
+         results = orcsApi.getQueryFactory().fromBranch(COMMON).andId(artId).asArtifactToken().getName();
       } else {
          ArtifactReadable teamWf = getParentTeamWf(action);
          if (teamWf.isValid() && teamWf.notEqual(action)) {
-            results = getTeamStr(atsApi, teamWf);
+            results = getTeamStr(atsApi, orcsApi, teamWf);
          }
       }
       return results;

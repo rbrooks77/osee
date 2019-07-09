@@ -98,9 +98,10 @@ import org.eclipse.osee.ats.rest.internal.query.TokenSearchOperations;
 import org.eclipse.osee.ats.rest.internal.world.WorldResource;
 import org.eclipse.osee.framework.core.data.ArtifactId;
 import org.eclipse.osee.framework.core.data.ArtifactToken;
-import org.eclipse.osee.framework.core.data.AttributeTypeToken;
 import org.eclipse.osee.framework.core.data.ArtifactTypeToken;
+import org.eclipse.osee.framework.core.data.AttributeTypeToken;
 import org.eclipse.osee.framework.core.enums.CoreAttributeTypes;
+import org.eclipse.osee.framework.core.enums.CoreBranches;
 import org.eclipse.osee.framework.core.enums.CoreRelationTypes;
 import org.eclipse.osee.framework.core.util.JsonUtil;
 import org.eclipse.osee.framework.core.util.OseeInf;
@@ -329,7 +330,9 @@ public class AgileEndpointImpl implements AgileEndpointApi {
          featureItem.getResults().errorf("Program Id %s not found", programId);
          return featureItem;
       }
-      ArtifactToken parentBacklogItem = atsApi.getQueryService().getArtifact(featureItem.getSelectedId());
+      ArtifactToken parentBacklogItem =
+         orcsApi.getQueryFactory().fromBranch(CoreBranches.COMMON).andId(featureItem.getSelectedId()).asArtifactToken();
+
       if (atsApi.getStoreService().isOfType(parentBacklogItem, AtsArtifactTypes.AgileProgramFeature)) {
          parentBacklogItem = atsApi.getRelationResolver().getParent(parentBacklogItem);
       }
@@ -934,7 +937,8 @@ public class AgileEndpointImpl implements AgileEndpointApi {
       if (id == null || id <= 0) {
          id = Lib.generateArtifactIdAsInt();
       }
-      ArtifactToken teamArt = atsApi.getQueryService().getArtifact(newBacklog.getTeamId());
+      ArtifactToken teamArt =
+         orcsApi.getQueryFactory().fromBranch(CoreBranches.COMMON).andId(newBacklog.getTeamId()).asArtifactToken();
       if (!atsApi.getRelationResolver().getRelated(teamArt, AtsRelationTypes.AgileTeamToBacklog_Backlog).isEmpty()) {
          throw new OseeWebApplicationException(Status.BAD_REQUEST, "Backlog already set for team %s",
             teamArt.toStringWithId());

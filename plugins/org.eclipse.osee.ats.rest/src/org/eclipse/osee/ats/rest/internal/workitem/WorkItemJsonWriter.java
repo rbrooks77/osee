@@ -131,7 +131,7 @@ public class WorkItemJsonWriter implements MessageBodyWriter<IAtsWorkItem> {
       writer.writeStringField("actionLocation", actionUrl);
       if (!identityView) {
          ConfigJsonWriter.addAttributeData(writer, attributeTypes, workItemArt, options, atsApi, orcsApi);
-         writer.writeStringField("TeamName", ActionPage.getTeamStr(atsApi, workItemArt));
+         writer.writeStringField("TeamName", ActionPage.getTeamStr(atsApi, orcsApi, workItemArt));
          writer.writeStringField("Assignees", workItem.getStateMgr().getAssigneesStr());
          if (options.contains(WorkItemWriterOptions.WriteRelatedAsTokens)) {
             writer.writeArrayFieldStart("AssigneesTokens");
@@ -180,7 +180,7 @@ public class WorkItemJsonWriter implements MessageBodyWriter<IAtsWorkItem> {
       writer.writeStringField("actionLocation", actionUrl);
       if (!identityView) {
          ConfigJsonWriter.addAttributeDataWithIds(writer, workItemArt, options, atsApi, orcsApi);
-         writer.writeStringField("TeamName", ActionPage.getTeamStr(atsApi, workItemArt));
+         writer.writeStringField("TeamName", ActionPage.getTeamStr(atsApi, orcsApi, workItemArt));
          writeAssignees(writer, workItemArt, workItem);
          writeType(writer, workItemArt, workItem, "ChangeType", AtsAttributeTypes.ChangeType);
          writeType(writer, workItemArt, workItem, "Priority", AtsAttributeTypes.PriorityType);

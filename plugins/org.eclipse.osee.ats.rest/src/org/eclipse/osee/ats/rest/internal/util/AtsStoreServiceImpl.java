@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.osee.ats.rest.internal.util;
 
+import static org.eclipse.osee.framework.core.enums.CoreBranches.COMMON;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -57,7 +58,6 @@ public class AtsStoreServiceImpl implements IAtsStoreService {
    private final IAtsLogFactory logFactory;
    private final IAtsNotifier notifier;
    private final AtsApi atsApi;
-
    private final JdbcService jdbcService;
 
    public AtsStoreServiceImpl(IAttributeResolver attributeResolver, AtsApi atsApi, OrcsApi orcsApi, IAtsStateFactory stateFactory, IAtsLogFactory logFactory, IAtsNotifier notifier, JdbcService jdbcService) {
@@ -141,7 +141,10 @@ public class AtsStoreServiceImpl implements IAtsStoreService {
 
    @Override
    public boolean isOfType(ArtifactId artifact, ArtifactTypeId... artifactType) {
-      return ((ArtifactReadable) atsApi.getQueryService().getArtifact(artifact)).isOfType(artifactType);
+      if (artifact instanceof ArtifactReadable) {
+         return ((ArtifactReadable) artifact).isOfType(artifactType);
+      }
+      return orcsApi.getQueryFactory().fromBranch(COMMON).andId(artifact).asArtifact().isOfType(artifactType);
    }
 
    @Override

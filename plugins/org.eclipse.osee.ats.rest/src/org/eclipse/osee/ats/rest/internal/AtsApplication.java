@@ -126,7 +126,7 @@ public class AtsApplication extends Application {
       singletons.add(new InsertionActivityResource(atsServer, orcsApi));
 
       singletons.add(new AtsActionEndpointImpl(atsServer, orcsApi, jsonFactory));
-      singletons.add(new AtsRuleEndpointImpl(atsServer));
+      singletons.add(new AtsRuleEndpointImpl(atsServer, orcsApi));
       singletons.add(new StateResource(atsServer));
       singletons.add(new ConvertResource(atsServer));
       singletons.add(new CpaResource(orcsApi, atsServer, cpaRegistry));
@@ -149,7 +149,7 @@ public class AtsApplication extends Application {
       singletons.add(new AtsAttributeEndpointImpl(atsServer, orcsApi));
 
       // UIs
-      singletons.add(new ActionUiResource(atsServer, logger));
+      singletons.add(new ActionUiResource(atsServer, orcsApi, logger));
       singletons.add(new ReportResource(orcsApi, atsServer));
 
       logger.warn("ATS Application Started - %s", System.getProperty("OseeApplicationServer"));

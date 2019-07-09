@@ -28,6 +28,7 @@ import org.eclipse.osee.ats.rest.internal.util.RestUtil;
 import org.eclipse.osee.framework.core.data.ArtifactToken;
 import org.eclipse.osee.framework.jdk.core.type.ViewModel;
 import org.eclipse.osee.logger.Log;
+import org.eclipse.osee.orcs.OrcsApi;
 import org.eclipse.osee.orcs.data.ArtifactReadable;
 
 /**
@@ -37,11 +38,13 @@ import org.eclipse.osee.orcs.data.ArtifactReadable;
 public final class ActionUiResource {
 
    private final AtsApi atsApi;
+   private final OrcsApi orcsApi;
    private final Log logger;
 
-   public ActionUiResource(AtsApi atsApi, Log logger) {
+   public ActionUiResource(AtsApi atsApi, OrcsApi orcsApi, Log logger) {
       this.atsApi = atsApi;
       this.logger = logger;
+      this.orcsApi = orcsApi;
    }
 
    /**
@@ -66,8 +69,8 @@ public final class ActionUiResource {
          return RestUtil.simplePage(String.format("Action with id(s) [%s] can not be found", ids));
       }
       if (workItems.size() == 1) {
-         ActionPage page =
-            new ActionPage(logger, atsApi, (ArtifactReadable) workItems.iterator().next().getStoreObject(), false);
+         ActionPage page = new ActionPage(logger, atsApi, orcsApi,
+            (ArtifactReadable) workItems.iterator().next().getStoreObject(), false);
          return page.generate();
       } else {
          String idStr = "";
@@ -95,7 +98,7 @@ public final class ActionUiResource {
       if (action == null) {
          return RestUtil.simplePage(String.format("Action with id [%s] can not be found", id));
       }
-      ActionPage page = new ActionPage(logger, atsApi, action, true);
+      ActionPage page = new ActionPage(logger, atsApi, orcsApi, action, true);
       return page.generate();
    }
 
@@ -161,7 +164,7 @@ public final class ActionUiResource {
          return RestUtil.simplePage(String.format("Action with id [%s] can not be found", id));
       }
       IAtsWorkItem workItem = atsApi.getWorkItemService().getWorkItem(action);
-      ActionPage page = new ActionPage(logger, atsApi, workItem, false);
+      ActionPage page = new ActionPage(logger, atsApi, orcsApi, workItem, false);
       page.setAddTransition(true);
       return page.generate();
    }

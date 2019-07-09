@@ -30,7 +30,9 @@ import org.eclipse.osee.ats.api.workdef.RunRuleData;
 import org.eclipse.osee.ats.api.workdef.RunRuleResults;
 import org.eclipse.osee.ats.api.workflow.AtsRuleEndpointApi;
 import org.eclipse.osee.ats.rest.internal.util.WorkflowRuleRunner;
+import org.eclipse.osee.framework.core.enums.CoreBranches;
 import org.eclipse.osee.framework.jdk.core.type.OseeArgumentException;
+import org.eclipse.osee.orcs.OrcsApi;
 import org.eclipse.osee.orcs.data.ArtifactReadable;
 
 /**
@@ -38,9 +40,11 @@ import org.eclipse.osee.orcs.data.ArtifactReadable;
  */
 public class AtsRuleEndpointImpl implements AtsRuleEndpointApi {
    private final AtsApi atsApi;
+   private final OrcsApi orcsApi;
 
-   public AtsRuleEndpointImpl(AtsApi atsApi) {
+   public AtsRuleEndpointImpl(AtsApi atsApi, OrcsApi orcsApi) {
       this.atsApi = atsApi;
+      this.orcsApi = orcsApi;
    }
 
    @GET
@@ -86,7 +90,7 @@ public class AtsRuleEndpointImpl implements AtsRuleEndpointApi {
    @Override
    public Response addRuleToConfig(AddRuleData setRuleData) {
       ArtifactReadable artifact =
-         (ArtifactReadable) atsApi.getQueryService().getArtifact(setRuleData.getConfigItemId());
+         orcsApi.getQueryFactory().fromBranch(CoreBranches.COMMON).andId(setRuleData.getConfigItemId()).asArtifact();
       List<String> ruleList = artifact.getAttributeValues(AtsAttributeTypes.RuleDefinition);
       if (!ruleList.contains(setRuleData.getRuleName())) {
          IAtsChangeSet changes =
@@ -96,5 +100,4 @@ public class AtsRuleEndpointImpl implements AtsRuleEndpointApi {
       }
       return Response.ok().build();
    }
-
 }
