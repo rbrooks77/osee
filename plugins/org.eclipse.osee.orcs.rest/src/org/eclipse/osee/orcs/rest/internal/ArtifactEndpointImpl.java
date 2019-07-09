@@ -133,7 +133,7 @@ public class ArtifactEndpointImpl implements ArtifactEndpoint {
 
    @Override
    public ArtifactToken getArtifactToken(ArtifactId artifactId) {
-      return query.andId(artifactId).loadArtifactToken();
+      return query.andId(artifactId).asArtifactToken();
    }
 
    @Override
@@ -162,7 +162,7 @@ public class ArtifactEndpointImpl implements ArtifactEndpoint {
     */
    @Override
    public List<ArtifactToken> getArtifactTokensByAttribute(AttributeTypeId attributeType, String value, boolean exists, ArtifactTypeId artifactType) {
-      return getArtifactXByAttribute(attributeType, value, exists, artifactType, query::loadArtifactTokens);
+      return getArtifactXByAttribute(attributeType, value, exists, artifactType, query::asArtifactTokens);
    }
 
    /**
@@ -172,7 +172,7 @@ public class ArtifactEndpointImpl implements ArtifactEndpoint {
     */
    @Override
    public List<ArtifactId> getArtifactIdsByAttribute(AttributeTypeId attributeType, String value, boolean exists, ArtifactTypeId artifactType) {
-      return getArtifactXByAttribute(attributeType, value, exists, artifactType, query::loadArtifactIds);
+      return getArtifactXByAttribute(attributeType, value, exists, artifactType, query::asArtifactIds);
    }
 
    /**
@@ -187,12 +187,12 @@ public class ArtifactEndpointImpl implements ArtifactEndpoint {
 
    @Override
    public List<ArtifactToken> getArtifactTokensByType(ArtifactTypeId artifactType) {
-      return query.andTypeEquals(artifactType).loadArtifactTokens();
+      return query.andTypeEquals(artifactType).asArtifactTokens();
    }
 
    @Override
    public List<ArtifactId> getArtifactIdsByType(ArtifactTypeId artifactType) {
-      return query.andTypeEquals(artifactType).loadArtifactIds();
+      return query.andTypeEquals(artifactType).asArtifactIds();
    }
 
    @Override

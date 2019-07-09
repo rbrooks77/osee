@@ -148,7 +148,7 @@ public class QueryEngineImpl implements QueryEngine {
    }
 
    @Override
-   public List<ArtifactToken> loadArtifactTokens(QueryData queryData) {
+   public List<ArtifactToken> asArtifactTokens(QueryData queryData) {
       List<ArtifactToken> tokens = new ArrayList<>(100);
       selectiveArtifactLoad(queryData, stmt -> tokens.add(ArtifactToken.valueOf(stmt.getLong("art_id"),
          stmt.getString("value"), queryData.getBranch(), artifactTypes.get(stmt.getLong("art_type_id")))));
@@ -255,7 +255,7 @@ public class QueryEngineImpl implements QueryEngine {
    }
 
    @Override
-   public Map<ArtifactId, ArtifactToken> loadArtifactTokenMap(QueryData queryData) {
+   public Map<ArtifactId, ArtifactToken> asArtifactTokenMap(QueryData queryData) {
       Map<ArtifactId, ArtifactToken> tokens = new HashMap<>(10000);
       Consumer<JdbcStatement> consumer = stmt -> {
          ArtifactToken token = ArtifactToken.valueOf(stmt.getLong("art_id"), stmt.getString("value"),
@@ -268,7 +268,7 @@ public class QueryEngineImpl implements QueryEngine {
    }
 
    @Override
-   public List<ArtifactId> loadArtifactIds(QueryData queryData) {
+   public List<ArtifactId> asArtifactIds(QueryData queryData) {
       List<ArtifactId> ids = new ArrayList<>(100);
       selectiveArtifactLoad(queryData, stmt -> ids.add(ArtifactId.valueOf(stmt.getLong("art_id"))));
       return ids;
