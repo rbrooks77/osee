@@ -134,7 +134,7 @@ public class OrcsScriptSqlWriter extends AbstractSqlWriter {
       if (OptionsUtil.isHistorical(getOptions())) {
          throw new UnsupportedOperationException("Historical dynamic query not supported");
       }
-      if (!queryData.isCountQueryType()) {
+      if (!rootQueryData.isCountQueryType()) {
          boolean isFirst = true;
          for (String value : fieldResolver.getSortFields()) {
             if (isFirst) {
