@@ -211,8 +211,8 @@ public class SelectiveArtifactSqlWriter extends AbstractSqlWriter {
       String attAlias = "att";
       String attTxsAlias = "txs";
 
-      writeSelectFields(artWithAlias, "art_id", artWithAlias, "art_type_id", artWithAlias, "app_id", attAlias,
-         "attr_type_id AS type_id", attAlias, "value");
+      writeSelectFields(artWithAlias, "art_id", artWithAlias, "art_type_id", artWithAlias, "app_id", artWithAlias,
+         "top", attAlias, "attr_type_id AS type_id", attAlias, "value");
       write(", 0 AS other_art_id");
       write("\n FROM %s, osee_attribute att, osee_txs txs", artWithAlias);
       write("\n WHERE ");
